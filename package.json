@@ -7,7 +7,7 @@
     "start": "next start",
     "export": "next export",
     "deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll && git add out/ && git commit -m \"Deploy Next.js to gh-pages\" && git subtree push --prefix out origin gh-pages",
-    "deploy:window": "rimraf node_modules/.cache && next build && next export && mkdir out/.nojekyll && git add out/ && git commit -m \"Deploy Next.js to gh-pages\" && git subtree push --prefix out origin gh-pages"
+    "deploy:window": "rimraf node_modules/.cache && next build && next export && fsutil file createnew out/.nojekyll 0 && git add out/ && git commit -m \"Deploy Next.js to gh-pages\" && git subtree push --prefix out origin gh-pages"
   },
   "dependencies": {
     "next": "latest",
