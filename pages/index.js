@@ -1,4 +1,6 @@
-import { Link } from './utils'
+import React from 'react'
+import { Link } from '../lib/utils'
+
 export default function Home() {
   return (
     <div>
@@ -23,7 +25,7 @@ export default function Home() {
           <Link to="/icemonk1202">김찬중</Link>
         </li>
         <li>
-          <Link to="/4221jiwon">황지원</Link>
+          <Link to="/jiwon">황지원</Link>
         </li>
       </ul>
       <small>이렇게 밖에 못 만들어서 미안합니다.ㅠㅠ 나중에 스타일을 개선하도록 할게요!</small>
