@@ -1,64 +1,45 @@
-# gh-pages Hello World example
+# 보드게임 스터디
 
-This example shows the most basic idea behind Next. We have 2 pages: `pages/index.js` and `pages/about.js`. The former responds to `/` requests and the latter to `/about`. Using `next/link` you can add hyperlinks between them with universal routing capabilities.
+[링크](https://kimkyeseung.github.io/boardgame-study/)
 
-## How to use
+각자 브랜치 생성 후 각자 라우트에서 각자의 스타일대로 진행합니다.
+매주 각 진행상황 master 브랜치에 병합하고 배포합니다.
+언제든 다른 사람의 브랜치를 `checkout`해서 참고할 수 있습니다.
 
-### Using `create-next-app`
+## 보일러플레이트
+https://github.com/zeit/next.js/tree/canary/examples/gh-pages
 
-Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
+## 시작하기
+다운로드
 ```bash
-npm init next-app --example gh-pages gh-pages-app
-# or
-yarn create next-app --example gh-pages gh-pages-app
+git clone https://github.com/kimkyeseung/boardgame-study
 ```
-
-### Download manually
-
-Download the example:
-
-```bash
-curl https://codeload.github.com/zeit/next.js/tar.gz/master | tar -xz --strip=2 next.js-master/examples/gh-pages
-cd gh-pages
-```
-
-Install it and run:
-
+실행
 ```bash
 npm install
 npm run dev
-# or
-yarn
-yarn dev
 ```
+http://localhost:4000/로 접속합니다.
 
-### Deploy it to github
+*회사에서 몰래 작업하느라 포트를 4000으로 옮겨두었습니다.*
 
-Edit `env-config.js` and replace `'Next-gh-page-example'` by your project name.
+## defendencies 
+자유롭게 설치하시고 여기에 기재헤주세요.
+*추가바랍니다.*
+- [boardgame.io](https://boardgame.io/)
+- next
+- [styled-components](https://styled-components.com/)
 
-Edit `next.config.js` and replace `'Next-gh-page-example'` by your project name.
+## 배포하기
+깃헙 페이지이용하여 배포하였습니다.
 
-1.  Create repository.
-2.  Link it to your github account.
-3.  Publish your master branch.
-
-```bash
+윈도우일 경우
+```
+npm run deploy:window
+```
+맥인 경우
+```
 npm run deploy
 ```
-
-Test it:
-
-Replace `<github-user-name>` and `<github-project-name>`
-
-```bash
-https://<github-user-name>.github.io/<github-project-name>/
-```
-
-Example:
-
-```bash
-https://github.com/thierryc/Next-gh-page-example/
-
-https://thierryc.github.io/Next-gh-page-example/
-```
+---
+각자 디렉토리의 README 잘 써주세요!
