@@ -17,7 +17,7 @@ export default function Home() {
           <Link to="/azanghs">장형석</Link>
         </li>
         <li>
-          <Link to="/realisyoursman">윤충환</Link>
+          <Link to="/ycfana">윤충환</Link>
         </li>
         <li>
           <Link to="/icemonk1202">김찬중</Link>
