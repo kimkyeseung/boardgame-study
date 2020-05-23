@@ -77,10 +77,11 @@ class Board extends Component {
 
     return (
       <div>
-        <table id="board">
-          <tbody>{tbody}</tbody>
-        </table>
-        {winner}
+        {/*<table id="board">*/}
+          {/*<tbody>{tbody}</tbody>*/}
+        {/*</table>*/}
+        {/*{winner}*/}
+        <div>TEST</div>
       </div>
     )
   }
