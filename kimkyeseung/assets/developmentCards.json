@@ -1,0 +1,1127 @@
+[
+  {
+    "grade": 1,
+    "id": "101B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {},
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "102K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "103G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "blue": 1,
+      "white": 1,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "104W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 1,
+      "blue": 1,
+      "white": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "105K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 2,
+      "white": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "106G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 2,
+      "blue": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "107R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 1,
+      "blue": 1,
+      "white": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "108W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 2,
+      "blue": 2,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "109R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 2,
+      "white": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "110W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "blue": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "111G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 1,
+      "blue": 3,
+      "white": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "112B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 3,
+      "blue": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "113R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 1,
+      "blue": 1,
+      "white": 2,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "114K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 1,
+      "blue": 2,
+      "white": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "115R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 1,
+      "blue": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "116G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "blue": 1,
+      "white": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "117G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 2,
+      "blue": 1,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "118K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "blue": 4
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "119W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "blue": 2,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "120K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "blue": 2,
+      "white": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "121G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "122R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "white": 1,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "123R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 1,
+      "white": 2,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "124W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 1,
+      "blue": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "125K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 3,
+      "green": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "126B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 2,
+      "green": 1,
+      "white": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "127K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "128K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "129B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 1,
+      "white": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "130W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 2,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "131G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "black": 4
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "132W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "green": 4
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "133B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 2,
+      "green": 2,
+      "white": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "134B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "green": 2,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "135R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "white": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "136R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "white": 4
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "137W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 2,
+      "blue": 1,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "138K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 1,
+      "blue": 1,
+      "white": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "139B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 4
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "140B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "white": 1,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 1,
+    "id": "141G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "blue": 1,
+      "white": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "201W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 3,
+      "blue": 3,
+      "white": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "202K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "red": 2,
+      "green": 4,
+      "blue": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "203W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 2,
+      "green": 3,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "204B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 3,
+      "green": 2,
+      "blue": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "205W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "red": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "206B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "blue": 3,
+      "white": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "207R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "green": 2,
+      "blue": 4,
+      "white": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "208G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 3,
+      "green": 2,
+      "white": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "209G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "green": 3,
+      "blue": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "210W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "red": 5,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "211B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "green": 3,
+      "blue": 2,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "212K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "white": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "213R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 2,
+      "white": 2,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "214R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "white": 3,
+      "black": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "215K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "green": 2,
+      "blue": 2,
+      "white": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "216B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "blue": 6
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "217W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "red": 4,
+      "green": 1,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "218G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "blue": 3,
+      "white": 2,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "219K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "red": 3,
+      "green": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "220R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "red": 2,
+      "blue": 3,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "221R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "red": 6
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "222G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "blue": 2,
+      "white": 4,
+      "black": 1
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "223W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "white": 6
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "224R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "black": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "225G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "green": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "226B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "red": 1,
+      "white": 2,
+      "black": 4
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "227G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "green": 6
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "228K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 1,
+    "cost": {
+      "green": 3,
+      "white": 3,
+      "black": 2
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "229B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 2,
+    "cost": {
+      "blue": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 2,
+    "id": "230K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "black": 6
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "301R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "green": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "302W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "black": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "303R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 5,
+    "cost": {
+      "red": 3,
+      "green": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "304G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "blue": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "305B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "blue": 3,
+      "white": 6,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "306R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "green": 3,
+      "blue": 5,
+      "white": 3,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "307W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "red": 3,
+      "white": 3,
+      "black": 6
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "308K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 5,
+    "cost": {
+      "red": 7,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "309K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "red": 3,
+      "green": 5,
+      "blue": 3,
+      "white": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "310G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 5,
+    "cost": {
+      "green": 3,
+      "blue": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "311G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "red": 3,
+      "blue": 3,
+      "white": 5,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "312G",
+    "value": "green",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "green": 3,
+      "blue": 6,
+      "white": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "313W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 5,
+    "cost": {
+      "white": 3,
+      "black": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "314K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "red": 6,
+      "green": 3,
+      "black": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "315B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "red": 3,
+      "green": 3,
+      "white": 3,
+      "black": 5
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "316K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "red": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "317B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 5,
+    "cost": {
+      "blue": 3,
+      "white": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "318R",
+    "value": "red",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "red": 3,
+      "green": 6,
+      "blue": 3
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "319B",
+    "value": "blue",
+    "valueAmount": 1,
+    "victoryPoint": 4,
+    "cost": {
+      "white": 7
+    },
+    "set": "original"
+  },
+  {
+    "grade": 3,
+    "id": "320W",
+    "value": "white",
+    "valueAmount": 1,
+    "victoryPoint": 3,
+    "cost": {
+      "red": 5,
+      "green": 3,
+      "blue": 3,
+      "black": 3
+    },
+    "set": "original"
+  }
+]

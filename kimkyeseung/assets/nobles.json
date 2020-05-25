@@ -1,0 +1,87 @@
+[
+  {
+    "id": "NB01",
+    "victoryPoint": 3,
+    "condition": {
+      "red": 3,
+      "white": 3,
+      "black": 3
+    }
+  },
+  {
+    "id": "NB02",
+    "victoryPoint": 3,
+    "condition": {
+      "red": 3,
+      "green": 3,
+      "blue": 3
+    }
+  },
+  {
+    "id": "NB03",
+    "victoryPoint": 3,
+    "condition": {
+      "green": 4,
+      "blue": 4
+    }
+  },
+  {
+    "id": "NB04",
+    "victoryPoint": 3,
+    "condition": {
+      "white": 4,
+      "black": 4
+    }
+  },
+  {
+    "id": "NB05",
+    "victoryPoint": 3,
+    "condition": {
+      "blue": 4,
+      "white": 4
+    }
+  },
+  {
+    "id": "NB06",
+    "victoryPoint": 3,
+    "condition": {
+      "red": 4,
+      "green": 4
+    }
+  },
+  {
+    "id": "NB07",
+    "victoryPoint": 3,
+    "condition": {
+      "blue": 3,
+      "white": 3,
+      "black": 3
+    }
+  },
+  {
+    "id": "NB08",
+    "victoryPoint": 3,
+    "condition": {
+      "green": 3,
+      "blue": 3,
+      "white": 3
+    }
+  },
+  {
+    "id": "NB09",
+    "victoryPoint": 3,
+    "condition": {
+      "red": 4,
+      "black": 4
+    }
+  },
+  {
+    "id": "NB10",
+    "victoryPoint": 3,
+    "condition": {
+      "red": 3,
+      "green": 3,
+      "black": 3
+    }
+  }
+]
