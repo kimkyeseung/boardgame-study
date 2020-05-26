@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Space from './Space'
+import developmentCards from '../../assets/developmentCards.json'
 
 const Winner = styled.div`
   margin-top: 25px;
@@ -36,6 +38,28 @@ class Board extends Component {
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   }
+  constructor(props) {
+    super(props)
+    this.state = {
+      boards: {
+        developmentOne: [],
+        developmentTwo: [],
+        developmentThree: []
+      },
+      tokens: {
+        red: 0,
+        green: 0,
+        blue: 0,
+        white: 0,
+        black: 0,
+        yellow: 0
+      }
+    }
+  }
+
+  componentDidMount() {
+
+  }
 
   onClick = id => {
     if (this.isActive(id)) {
@@ -51,7 +75,7 @@ class Board extends Component {
 
   render() {
     let tbody = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       let cells = [];
       for (let j = 0; j < 3; j++) {
         const id = 3 * i + j;
@@ -77,9 +101,7 @@ class Board extends Component {
 
     return (
       <div>
-        <table id="board">
-          <tbody>{tbody}</tbody>
-        </table>
+        {}
         {winner}
       </div>
     )
