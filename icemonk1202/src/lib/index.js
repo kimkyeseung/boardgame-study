@@ -1,3 +1,4 @@
-import TicTacToe from './game'
+import Splendor from "./splendor/game"
+import TicTacToe from "./tictactoe/game"
 
-export { TicTacToe }
+export { Splendor, TicTacToe }
