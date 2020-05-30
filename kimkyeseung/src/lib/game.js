@@ -1,3 +1,5 @@
+import developmentCards from '../../assets/developmentCards.json'
+
 function IsVictory(cells) {
   const positions = [
     [0, 1, 2],
@@ -11,21 +13,36 @@ function IsVictory(cells) {
   ]
 
   const isRowComplete = row => {
-    const symbols = row.map(i => cells[i]);
-    return symbols.every(i => i !== null && i === symbols[0])
+    return false
   }
 
   return positions.map(isRowComplete).some(i => i === true)
 }
 
-const TicTacToe = {
-  name: "tic-tac-toe",
+const Splendor = {
+  name: "splendor",
 
-  setup: () => ({
-    cells: Array(9).fill(null)
-  }),
+  setup: () => {
+    const developOneDeck = developmentCards.filter(({ grade }) => grade === 1)
+    const developTwoDeck = developmentCards.filter(({ grade }) => grade === 2)
+    const developThreeDeck = developmentCards.filter(({ grade }) => grade === 3)
+    const board = {}
+    board.developmentOne = developOneDeck.splice(0, 4)
+    board.developmentTwo = developTwoDeck.splice(0, 4)
+    board.developmentThree = developThreeDeck.splice(0, 4)
+    return {
+      developOneDeck,
+      developTwoDeck,
+      developThreeDeck,
+      board,
+      hand: [],
+    }
+  },
 
   moves: {
+    buyDevelopment(G, ctx, id) {
+      console.log({ G, ctx, id })
+    },
     clickCell(G, ctx, id) {
       if (G.cells[id] === null) {
         G.cells[id] = ctx.currentPlayer
@@ -36,12 +53,13 @@ const TicTacToe = {
   turn: { moveLimit: 1 },
 
   endIf: (G, ctx) => {
-    if (IsVictory(G.cells)) {
-      return { winner: ctx.currentPlayer }
-    }
-    if (G.cells.filter(c => c === null).length === 0) {
-      return { draw: true }
-    }
+    return false
+    // if (IsVictory(G.cells)) {
+    //   return { winner: ctx.currentPlayer }
+    // }
+    // if (G.cells.filter(c => c === null).length === 0) {
+    //   return { draw: true }
+    // }
   },
 
   ai: {
@@ -57,4 +75,4 @@ const TicTacToe = {
   }
 }
 
-export default TicTacToe
+export default Splendor

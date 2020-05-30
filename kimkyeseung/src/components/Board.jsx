@@ -28,6 +28,14 @@ const Cell = styled.td`
     }
   }
 `
+const Row = styled.section`
+  display: flex;
+  justify-content: space-between;
+  max-width: 900px;
+  & > * {
+    margin: 0.4rem;
+  }
+`
 
 class Board extends Component {
   static propTypes = {
@@ -62,9 +70,7 @@ class Board extends Component {
   }
 
   onClick = id => {
-    if (this.isActive(id)) {
-      this.props.moves.clickCell(id)
-    }
+    this.props.moves.buyDevelopment(id)
   }
 
   isActive(id) {
@@ -74,35 +80,28 @@ class Board extends Component {
   }
 
   render() {
-    let tbody = [];
-    for (let i = 0; i < 4; i++) {
-      let cells = [];
-      for (let j = 0; j < 3; j++) {
-        const id = 3 * i + j;
-        cells.push(
-          <Cell
-            key={id}
-            className={this.isActive(id) ? 'active' : ''}
-            onClick={() => this.onClick(id)}
-          >
-            {this.props.G.cells[id]}
-          </Cell>
-        )
-      }
-      tbody.push(<tr key={i}>{cells}</tr>)
-    }
 
-    let winner = null
-    if (this.props.ctx.gameover) {
-      winner = this.props.ctx.gameover.winner !== undefined
-        ? <Winner>Winner: {this.props.ctx.gameover.winner}</Winner>
-        : <Winner>Draw!</Winner>
-    }
-
+    // let winner = null
+    // if (this.props.ctx.gameover) {
+    //   winner = this.props.ctx.gameover.winner !== undefined
+    //     ? <Winner>Winner: {this.props.ctx.gameover.winner}</Winner>
+    //     : <Winner>Draw!</Winner>
+    // }
+    const { G, moves, ctx } = this.props
+    const { developmentOne, developmentTwo, developmentThree } = G.board
     return (
       <div>
-        {}
-        {winner}
+        <Row>
+          {developmentThree.map(dev => <Space key={dev.id} onClick={ev => {
+            moves.buyDevelopment(dev.id)
+          }} grade={3} development={dev} />)}
+        </Row>
+        <Row>
+          {developmentTwo.map(dev => <Space key={dev.id}  grade={2} development={dev} />)}
+        </Row>
+        <Row>
+          {developmentOne.map(dev => <Space key={dev.id}  grade={1} development={dev} />)}
+        </Row>
       </div>
     )
   }
