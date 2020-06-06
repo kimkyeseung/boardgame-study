@@ -18,6 +18,12 @@ export default function Home() {
         <li>
           <Link to="/icemonk1202">김찬중</Link>
         </li>
+        <li>
+          <Link to="/icemonk1202">김희석</Link>
+        </li>
+        <li>
+          <Link to="/zxcasd">안승엽</Link>
+        </li>
       </ul>
     </div>
   )
