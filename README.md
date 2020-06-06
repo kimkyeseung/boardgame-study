@@ -19,7 +19,7 @@ git clone https://github.com/kimkyeseung/boardgame-study
 npm install
 npm run dev
 ```
-http://localhost:4000/로 접속합니다.
+http://localhost:4000/ 로 접속합니다.
 
 *회사에서 몰래 작업하느라 포트를 4000으로 옮겨두었습니다.*
 

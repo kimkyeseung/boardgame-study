@@ -1,51 +1,58 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Value from './Value'
+import Cost from './Cost'
 
 const Space = styled.div`
   height: 200px;
   width: 150px;
-  border: 1px solid red;
+  border-radius: 12px;
   margin: 0.4rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-image: url(${({ backgroundUrl }) => backgroundUrl});
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  & > div {
-    height: 20px;
+  & > header {
+    height: 50px;
+    box-sizing: border-box;
     background: rgba(255, 255, 255, 0.8);
-    padding: 0;
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem;
     & > .vp {
       color: white;
-      font-size: 4em;
+      font-size: 2.6em;
+      margin: 0;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: black;
     }
   }
 `
 
-const Cost = ({ token, value }) => {
-  return (
-    <div>
-      <div>{token}</div>
-      <div>{value}</div>
-    </div>
-  )
-}
+// const Cost = ({ token, value }) => {
+//   return (
+//     <div>
+//       <div>{token}</div>
+//       <div>{value}</div>
+//     </div>
+//   )
+// }
 
 export default ({ development, onClick }) => {
   const { grade, cost, value, victoryPoint } = development
-
   return (
     <Space onClick={onClick} backgroundUrl={`kimkyeseung/image/${value + grade}.jpg`}>
-      <div>
+      <header>
         <p className="vp">{victoryPoint ? victoryPoint : ''}</p>
-      </div>
+        <Value value={value} />
+      </header>
       <div className="cost">
-        {Object.keys(cost).map(token => {
-          return <Cost token={token} value={cost[token]} />
-        })}
+        {Object.keys(cost).map((token, i) => <Cost key={i} value={token} amount={cost[token]} />)}
       </div>
     </Space>
   )

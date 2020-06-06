@@ -10,25 +10,7 @@ const Winner = styled.div`
   text-align: center;
 `
 
-const Cell = styled.td`
-  text-align: center;
-  font-weight: bold;
-  font-size: 25px;
-  color: #555;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  border: 3px solid #aaa;
-  background: #fff;
-  &.active {
-    cursor: pointer;
-    background: #eeffe9;
-    &:hover {
-      background: #eeffff;
-    }
-  }
-`
-const Row = styled.section`
+const Row = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 900px;
