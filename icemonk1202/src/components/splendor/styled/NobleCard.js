@@ -4,6 +4,7 @@ import { COLOR_CODE } from "../../../lib/splendor/constant"
 const card = {
   width: 132,
   height: 132,
+  margin: 8,
 }
 const Card = styled("span")`
   display: flex;
@@ -14,6 +15,15 @@ const Card = styled("span")`
   background: #ddd;
   box-shadow: 1px 1px 6px 2px grey;
   overflow: hidden;
+  margin: ${card.margin}px 0;
+  user-select: none;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.05);
+    box-shadow: 1px 1px 12px 4px grey;
+  }
 `
 
 const Nav = styled("div")`

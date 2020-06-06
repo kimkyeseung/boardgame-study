@@ -15,6 +15,14 @@ const Card = styled("span")`
   background: #ddd;
   box-shadow: 1px 1px 6px 2px grey;
   overflow: hidden;
+  user-select: none;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.05);
+    box-shadow: 1px 1px 12px 4px grey;
+  }
 `
 
 const Header = styled("div")`
