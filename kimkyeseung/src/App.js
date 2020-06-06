@@ -4,7 +4,8 @@ import Board from './components/Board'
 
 const App = Client({
   game: Splendor,
-  board: Board
+  board: Board,
+  numPlayers: 4,
 })
 
 export default App

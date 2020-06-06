@@ -22,32 +22,38 @@ function IsVictory(cells) {
 const Splendor = {
   name: "splendor",
 
-  setup: () => {
-    const developOneDeck = developmentCards.filter(({ grade }) => grade === 1)
-    const developTwoDeck = developmentCards.filter(({ grade }) => grade === 2)
-    const developThreeDeck = developmentCards.filter(({ grade }) => grade === 3)
+  setup: ({ numPlayers, random, ...G }) => {
+    // console.log(G)
+    const developOneDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 1))
+    const developTwoDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 2))
+    const developThreeDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 3))
     const board = {}
     board.developmentOne = developOneDeck.splice(0, 4)
     board.developmentTwo = developTwoDeck.splice(0, 4)
     board.developmentThree = developThreeDeck.splice(0, 4)
+    const fields = {}
+    Array(numPlayers).fill(1).forEach((a, i) => {
+      fields[`player${i}`] = { field: {} }
+    })
     return {
       developOneDeck,
       developTwoDeck,
       developThreeDeck,
       board,
-      hand: [],
+      fields
     }
   },
 
   moves: {
     buyDevelopment(G, ctx, id) {
       console.log({ G, ctx, id })
+      console.log(ctx.currentPlayer)
+      console.log(G.fields[`player${ctx.currentPlayer}`])
     },
-    clickCell(G, ctx, id) {
-      if (G.cells[id] === null) {
-        G.cells[id] = ctx.currentPlayer
-      }
-    }
+    getToken() {
+
+    },
+    
   },
 
   turn: { moveLimit: 1 },

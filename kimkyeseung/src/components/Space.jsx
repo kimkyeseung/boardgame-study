@@ -34,15 +34,6 @@ const Space = styled.div`
   }
 `
 
-// const Cost = ({ token, value }) => {
-//   return (
-//     <div>
-//       <div>{token}</div>
-//       <div>{value}</div>
-//     </div>
-//   )
-// }
-
 export default ({ development, onClick }) => {
   const { grade, cost, value, victoryPoint } = development
   return (

@@ -27,21 +27,7 @@ class Board extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {
-      boards: {
-        developmentOne: [],
-        developmentTwo: [],
-        developmentThree: []
-      },
-      tokens: {
-        red: 0,
-        green: 0,
-        blue: 0,
-        white: 0,
-        black: 0,
-        yellow: 0
-      }
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -68,10 +54,12 @@ class Board extends Component {
     // }
     const { G, moves, ctx } = this.props
     const { developmentOne, developmentTwo, developmentThree } = G.board
+    const turn = ctx.currentPlayer
     return (
       <div>
         <Row>
           {developmentThree.map(dev => <Space key={dev.id} onClick={ev => {
+            console.table(ctx)
             moves.buyDevelopment(dev.id)
           }} grade={3} development={dev} />)}
         </Row>
@@ -81,6 +69,9 @@ class Board extends Component {
         <Row>
           {developmentOne.map(dev => <Space key={dev.id}  grade={1} development={dev} />)}
         </Row>
+        <div>
+
+        </div>
       </div>
     )
   }
