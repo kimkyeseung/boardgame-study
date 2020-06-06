@@ -1,9 +1,9 @@
 import { Client } from 'boardgame.io/react'
-import { TicTacToe } from './lib'
+import { Splendor } from './lib'
 import Board from './components/Board'
 
 const App = Client({
-  game: TicTacToe,
+  game: Splendor,
   board: Board
 })
 

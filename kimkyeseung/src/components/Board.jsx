@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Space from './Space'
+import developmentCards from '../../assets/developmentCards.json'
 
 const Winner = styled.div`
   margin-top: 25px;
@@ -26,6 +28,14 @@ const Cell = styled.td`
     }
   }
 `
+const Row = styled.section`
+  display: flex;
+  justify-content: space-between;
+  max-width: 900px;
+  & > * {
+    margin: 0.4rem;
+  }
+`
 
 class Board extends Component {
   static propTypes = {
@@ -36,11 +46,31 @@ class Board extends Component {
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   }
+  constructor(props) {
+    super(props)
+    this.state = {
+      boards: {
+        developmentOne: [],
+        developmentTwo: [],
+        developmentThree: []
+      },
+      tokens: {
+        red: 0,
+        green: 0,
+        blue: 0,
+        white: 0,
+        black: 0,
+        yellow: 0
+      }
+    }
+  }
+
+  componentDidMount() {
+
+  }
 
   onClick = id => {
-    if (this.isActive(id)) {
-      this.props.moves.clickCell(id)
-    }
+    this.props.moves.buyDevelopment(id)
   }
 
   isActive(id) {
@@ -50,37 +80,28 @@ class Board extends Component {
   }
 
   render() {
-    let tbody = [];
-    for (let i = 0; i < 3; i++) {
-      let cells = [];
-      for (let j = 0; j < 3; j++) {
-        const id = 3 * i + j;
-        cells.push(
-          <Cell
-            key={id}
-            className={this.isActive(id) ? 'active' : ''}
-            onClick={() => this.onClick(id)}
-          >
-            {this.props.G.cells[id]}
-          </Cell>
-        )
-      }
-      tbody.push(<tr key={i}>{cells}</tr>)
-    }
 
-    let winner = null
-    if (this.props.ctx.gameover) {
-      winner = this.props.ctx.gameover.winner !== undefined
-        ? <Winner>Winner: {this.props.ctx.gameover.winner}</Winner>
-        : <Winner>Draw!</Winner>
-    }
-
+    // let winner = null
+    // if (this.props.ctx.gameover) {
+    //   winner = this.props.ctx.gameover.winner !== undefined
+    //     ? <Winner>Winner: {this.props.ctx.gameover.winner}</Winner>
+    //     : <Winner>Draw!</Winner>
+    // }
+    const { G, moves, ctx } = this.props
+    const { developmentOne, developmentTwo, developmentThree } = G.board
     return (
       <div>
-        <table id="board">
-          <tbody>{tbody}</tbody>
-        </table>
-        {winner}
+        <Row>
+          {developmentThree.map(dev => <Space key={dev.id} onClick={ev => {
+            moves.buyDevelopment(dev.id)
+          }} grade={3} development={dev} />)}
+        </Row>
+        <Row>
+          {developmentTwo.map(dev => <Space key={dev.id}  grade={2} development={dev} />)}
+        </Row>
+        <Row>
+          {developmentOne.map(dev => <Space key={dev.id}  grade={1} development={dev} />)}
+        </Row>
       </div>
     )
   }
