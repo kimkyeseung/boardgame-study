@@ -6,9 +6,10 @@ export default class Deck {
     this.level = level
     this.cards = cards
   }
-  suffle() {
-    /**
-     * @TODO cards suffle구현
-     */
+  shuffle() {
+    this.cards.sort(() => Math.random() - 0.5)
+  }
+  draw(count = 1) {
+    return this.cards.splice(this.cards.length - count - 1, count)
   }
 }
