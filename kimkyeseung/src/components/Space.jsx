@@ -6,11 +6,12 @@ const Space = styled.div`
   height: 200px;
   width: 150px;
   border: 1px solid red;
+  margin: 0.4rem;
   background-image: url(${({ backgroundUrl }) => backgroundUrl});
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  & > header {
+  & > div {
     height: 20px;
     background: rgba(255, 255, 255, 0.8);
     padding: 0;
@@ -24,14 +25,28 @@ const Space = styled.div`
   }
 `
 
+const Cost = ({ token, value }) => {
+  return (
+    <div>
+      <div>{token}</div>
+      <div>{value}</div>
+    </div>
+  )
+}
+
 export default ({ development, onClick }) => {
   const { grade, cost, value, victoryPoint } = development
 
   return (
     <Space onClick={onClick} backgroundUrl={`kimkyeseung/image/${value + grade}.jpg`}>
-      <header>
+      <div>
         <p className="vp">{victoryPoint ? victoryPoint : ''}</p>
-      </header>
+      </div>
+      <div className="cost">
+        {Object.keys(cost).map(token => {
+          return <Cost token={token} value={cost[token]} />
+        })}
+      </div>
     </Space>
   )
 }

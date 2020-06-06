@@ -32,9 +32,6 @@ const Row = styled.section`
   display: flex;
   justify-content: space-between;
   max-width: 900px;
-  & > * {
-    margin: 0.4rem;
-  }
 `
 
 class Board extends Component {

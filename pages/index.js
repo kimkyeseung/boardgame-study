@@ -19,7 +19,6 @@ export default function Home() {
           <Link to="/icemonk1202">김찬중</Link>
         </li>
       </ul>
-      <small>이렇게 밖에 못 만들어서 미안합니다.ㅠㅠ 나중에 스타일을 개선하도록 할게요!</small>
     </div>
   )
 }
