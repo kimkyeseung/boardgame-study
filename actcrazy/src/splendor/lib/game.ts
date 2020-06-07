@@ -13,26 +13,37 @@ interface Gold {
 
 export type Tokens = Gems & Gold;
 
-export const createTokens = (emerald: number, diamond: number, sapphire: number, onyx: number, gold: number) => ({
+export const createGems = (emerald: number, diamond: number, sapphire: number, onyx: number): Gems => ({
+  emerald, diamond, sapphire, onyx,
+});
+
+export const createTokens = (emerald: number, diamond: number, sapphire: number, onyx: number, gold: number): Tokens => ({
   emerald, diamond, sapphire, onyx, gold,
 })
 
 type F = <T>(x: T, y: T) => T;
 export const evalTokens = (f: F) => (x: Tokens, y: Tokens): Tokens => R.mapObjIndexed((v, k) => f(v, y[k]), x)
 
+type Level = 1 | 2 | 3;
 interface Development {
-  level: 1 | 2 | 3
+  level: Level;
   score: number;
-  cost: Gems;
-  discount: Gems;
+  cost: Readonly<Gems>;
+  discount: Readonly<Gems>;
 }
+
+export const createDevelopment = (
+  level: Level, score: number, cost: Readonly<Gems>, discount: Readonly<Gems>,
+): Development => ({
+  level, score, cost: { ...cost }, discount: { ...discount },
+});
 
 interface Noble {
   score: number;
   cost: Gems;
 }
 
-interface GameSet {
+interface Hand {
   tokens: Tokens;
   development: readonly Development[];
   noble: readonly Noble[];
@@ -42,8 +53,11 @@ type Player = string | number;
 
 export interface Board {
   players: readonly Player[];
-  deck: GameSet;
-  hands: readonly GameSet[];
+  tokens: Tokens;
+  noble: readonly Noble[];
+  deck: readonly [readonly Development[], readonly Development[], readonly Development[]];
+  matt: readonly [readonly Development[], readonly Development[], readonly Development[]];
+  hands: readonly Hand[];
 }
 
 export const validateGetTokens = (b: Board, _p: Player, tokens: Tokens): boolean => {
@@ -61,7 +75,7 @@ export const validateGetTokens = (b: Board, _p: Player, tokens: Tokens): boolean
   }
 
   if (sum === 3) {
-    const c = evalTokens(R.subtract)(b.deck.tokens, tokens)
+    const c = evalTokens(R.subtract)(b.tokens, tokens)
     if (R.any(x => x < 0, R.values(c))) {
       return false;
     }
@@ -71,7 +85,7 @@ export const validateGetTokens = (b: Board, _p: Player, tokens: Tokens): boolean
 
   if (sum === 2 && sameIndex !== -1) {
     const key = R.keys(tokens)[sameIndex] as (keyof Tokens)
-    if (b.deck.tokens[key] < 4) {
+    if (b.tokens[key] < 4) {
       return false
     }
 
