@@ -52,12 +52,13 @@ interface Hand {
 type Player = string | number;
 
 export interface Board {
-  players: readonly Player[];
   tokens: Tokens;
   noble: readonly Noble[];
   deck: readonly [readonly Development[], readonly Development[], readonly Development[]];
   matt: readonly [readonly Development[], readonly Development[], readonly Development[]];
-  hands: readonly Hand[];
+  hands: {
+    [key in Player]: Hand;
+  }
 }
 
 export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean => {
