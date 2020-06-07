@@ -60,7 +60,7 @@ export interface Board {
   hands: readonly Hand[];
 }
 
-export const validateGetTokens = (b: Board, _p: Player, tokens: Tokens): boolean => {
+export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean => {
   const t = R.values(tokens);
   const sum = R.sum(t);
 
@@ -75,7 +75,7 @@ export const validateGetTokens = (b: Board, _p: Player, tokens: Tokens): boolean
   }
 
   if (sum === 3) {
-    const c = evalTokens(R.subtract)(b.tokens, tokens)
+    const c = evalTokens(R.subtract)(boardTokens, tokens)
     if (R.any(x => x < 0, R.values(c))) {
       return false;
     }
@@ -85,7 +85,7 @@ export const validateGetTokens = (b: Board, _p: Player, tokens: Tokens): boolean
 
   if (sum === 2 && sameIndex !== -1) {
     const key = R.keys(tokens)[sameIndex] as (keyof Tokens)
-    if (b.tokens[key] < 4) {
+    if (boardTokens[key] < 4) {
       return false
     }
 
