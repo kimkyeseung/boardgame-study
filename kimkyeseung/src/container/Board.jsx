@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Card from './Card'
+import Card from '../components/Card'
+import Token from '../components/Token'
 
 const Winner = styled.div`
   margin-top: 25px;
@@ -13,6 +14,10 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 900px;
+`
+
+const Wrapper = styled.div`
+  display: flex;
 `
 
 class Board extends Component {
@@ -52,32 +57,36 @@ class Board extends Component {
     const developmentThree = [dev30, dev31, dev32, dev33]
     const turn = ctx.currentPlayer
     return (
-      <div>
-        <Row>
-          {developmentThree.map((dev, index) => (
-            <Card key={dev ? dev.id : index} onClick={ev => {
-              this.handleSpaceClick(dev, index, 3)
-            }} grade={3} development={dev} />
-          ))}
-        </Row>
-        <Row>
-          {developmentTwo.map((dev, index) => (
-            <Card key={dev ? dev.id : index} onClick={ev => {
-              this.handleSpaceClick(dev, index, 2)
-            }} grade={2} development={dev} />
-          ))}
-        </Row>
-        <Row>
-          {developmentOne.map((dev, index) => (
-            <Card key={dev ? dev.id : index} onClick={ev => {
-              this.handleSpaceClick(dev, index, 1)
-            }} grade={1} development={dev} />
-          ))}
-        </Row>
+      <Wrapper>
         <div>
-
+          <Row>
+            {developmentThree.map((dev, index) => (
+              <Card key={dev ? dev.id : index} onClick={ev => {
+                this.handleSpaceClick(dev, index, 3)
+              }} grade={3} development={dev} />
+            ))}
+          </Row>
+          <Row>
+            {developmentTwo.map((dev, index) => (
+              <Card key={dev ? dev.id : index} onClick={ev => {
+                this.handleSpaceClick(dev, index, 2)
+              }} grade={2} development={dev} />
+            ))}
+          </Row>
+          <Row>
+            {developmentOne.map((dev, index) => (
+              <Card key={dev ? dev.id : index} onClick={ev => {
+                this.handleSpaceClick(dev, index, 1)
+              }} grade={1} development={dev} />
+            ))}
+          </Row>
         </div>
-      </div>
+        <Token.Wrapper>
+          {Object.keys(G.tokens).map(token => (
+            <Token color={token} count={G.tokens[token]} />
+          ))}
+        </Token.Wrapper>
+      </Wrapper>
     )
   }
 }

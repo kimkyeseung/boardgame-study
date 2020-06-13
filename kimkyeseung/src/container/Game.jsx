@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Client } from 'boardgame.io/react'
 
-import Board from '../components/Board'
+import Board from './Board'
 import { Splendor } from '../lib'
 
 class Game extends Component {
