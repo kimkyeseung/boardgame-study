@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Space from './Card'
+import Card from './Card'
 
 const Winner = styled.div`
   margin-top: 25px;
@@ -27,61 +27,50 @@ class Board extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.buyDevelopment = this.buyDevelopment.bind(this)
+    this.handleSpaceClick = this.handleSpaceClick.bind(this)
   }
 
   componentDidMount() {
 
   }
 
-  buyDevelopment(id) {
-    this.props.moves.buyDevelopment(id)
-  }
-
-  isActive(id) {
-    if (!this.props.isActive) return false;
-    if (this.props.G.cells[id] !== null) return false;
-    return true;
+  handleSpaceClick(dev, index, grade) {
+    console.log(this.props)
+    this.props.moves.replaceDevelopmentSpace({ index, grade })
+    this.props.moves.buyDevelopment(dev)
   }
 
   render() {
-
-    // let winner = null
-    // if (this.props.ctx.gameover) {
-    //   winner = this.props.ctx.gameover.winner !== undefined
-    //     ? <Winner>Winner: {this.props.ctx.gameover.winner}</Winner>
-    //     : <Winner>Draw!</Winner>
-    // }
     const { G, moves, ctx } = this.props
     const {
-      dev1A, dev1B, dev1C, dev1D,
-      dev2A, dev2B, dev2C, dev2D,
-      dev3A, dev3B, dev3C, dev3D
+      dev10, dev11, dev12, dev13,
+      dev20, dev21, dev22, dev23,
+      dev30, dev31, dev32, dev33
     } = G.board
-    const developmentOne = [dev1A, dev1B, dev1C, dev1D]
-    const developmentTwo = [dev2A, dev2B, dev2C, dev2D]
-    const developmentThree = [dev3A, dev3B, dev3C, dev3D]
+    const developmentOne = [dev10, dev11, dev12, dev13]
+    const developmentTwo = [dev20, dev21, dev22, dev23]
+    const developmentThree = [dev30, dev31, dev32, dev33]
     const turn = ctx.currentPlayer
     return (
       <div>
         <Row>
-          {developmentThree.map(dev => (
-            <Space key={dev.id} onClick={ev => {
-              moves.buyDevelopment(dev.id)
+          {developmentThree.map((dev, index) => (
+            <Card key={dev ? dev.id : index} onClick={ev => {
+              this.handleSpaceClick(dev, index, 3)
             }} grade={3} development={dev} />
           ))}
         </Row>
         <Row>
-          {developmentTwo.map(dev => (
-            <Space key={dev.id} onClick={ev => {
-              moves.buyDevelopment(dev.id)
+          {developmentTwo.map((dev, index) => (
+            <Card key={dev ? dev.id : index} onClick={ev => {
+              this.handleSpaceClick(dev, index, 2)
             }} grade={2} development={dev} />
           ))}
         </Row>
         <Row>
-          {developmentOne.map(dev => (
-            <Space key={dev.id} onClick={ev => {
-              moves.buyDevelopment(dev.id)
+          {developmentOne.map((dev, index) => (
+            <Card key={dev ? dev.id : index} onClick={ev => {
+              this.handleSpaceClick(dev, index, 1)
             }} grade={1} development={dev} />
           ))}
         </Row>

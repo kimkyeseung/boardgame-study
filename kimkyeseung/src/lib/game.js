@@ -28,24 +28,29 @@ const Splendor = {
     const developTwoDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 2))
     const developThreeDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 3))
     const board = {}
-    board.dev1A = developOneDeck.pop()
-    board.dev1B = developOneDeck.pop()
-    board.dev1C = developOneDeck.pop()
-    board.dev1D = developOneDeck.pop()
+    board.dev10 = developOneDeck.pop()
+    board.dev11 = developOneDeck.pop()
+    board.dev12 = developOneDeck.pop()
+    board.dev13 = developOneDeck.pop()
 
-    board.dev2A = developTwoDeck.pop()
-    board.dev2B = developTwoDeck.pop()
-    board.dev2C = developTwoDeck.pop()
-    board.dev2D = developTwoDeck.pop()
+    board.dev20 = developTwoDeck.pop()
+    board.dev21 = developTwoDeck.pop()
+    board.dev22 = developTwoDeck.pop()
+    board.dev23 = developTwoDeck.pop()
 
-    board.dev3A = developThreeDeck.pop()
-    board.dev3B = developThreeDeck.pop()
-    board.dev3C = developThreeDeck.pop()
-    board.dev3D = developThreeDeck.pop()
+    board.dev30 = developThreeDeck.pop()
+    board.dev31 = developThreeDeck.pop()
+    board.dev32 = developThreeDeck.pop()
+    board.dev33 = developThreeDeck.pop()
 
     const fields = {}
+    const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0 }
     Array(numPlayers).fill(1).forEach((a, i) => {
-      fields[`player${i}`] = { field: {} }
+      fields[`player${i}`] = {
+        developments: { ...defaultValues },
+        token: { ...defaultValues },
+        victoryPoints: 0
+      }
     })
     return {
       developOneDeck,
@@ -57,18 +62,36 @@ const Splendor = {
   },
 
   moves: {
-    buyDevelopment(G, ctx, id) {
-      console.log({ G, ctx, id })
-      console.log(ctx.currentPlayer)
-      console.log(G.fields[`player${ctx.currentPlayer}`])
+    replaceDevelopmentSpace(G, ctx, { index, grade }) {
+      const deck = {
+        '1': G.developOneDeck,
+        '2': G.developTwoDeck,
+        '3': G.developThreeDeck
+      }
+      G.board[`dev${grade}${index}`] = deck[grade].pop()
     },
-    getToken() {
+    buyDevelopment(G, ctx, development) {
+      console.log({ctx})
+      console.log(development)
+      const { value, valueAmount, victoryPoint } = development
 
+      const { developments, victoryPoints } = G.fields[`player${ctx.currentPlayer}`]
+      developments[value]++
+      G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
+      ctx.events.endTurn()
     },
-    
+    getToken(G, ctx, token) {
+      // if () {
+
+      // }
+      ctx.events.endTurn()
+    },
+
   },
 
-  turn: { moveLimit: 1 },
+  turn: {
+    // endIf: (G, ctx) => ({ next: '3' }),
+  },
 
   endIf: (G, ctx) => {
     return false

@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Value from './Value'
 import Cost from './Cost'
 
-const Space = styled.div`
-  height: 200px;
-  width: 150px;
-  border-radius: 12px;
-  margin: 0.4rem;
-  padding: 0;
+const normalStyle = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -34,7 +29,25 @@ const Space = styled.div`
   }
 `
 
+const emptyStyle = css`
+  border: 2px dotted gray; 
+`
+
+const Space = styled.div`
+  height: 200px;
+  width: 150px;
+  border-radius: 12px;
+  margin: 0.4rem;
+  padding: 0;
+  ${({ empty }) => empty ? emptyStyle : normalStyle};
+`
+
+
+
 export default ({ development, onClick }) => {
+  if (!development) {
+    return <Space empty></Space>
+  }
   const { grade, cost, value, victoryPoint } = development
   return (
     <Space onClick={onClick} backgroundUrl={`kimkyeseung/image/${value + grade}.jpg`}>
