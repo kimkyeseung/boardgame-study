@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Space from './Space'
-import developmentCards from '../../assets/developmentCards.json'
+import Space from './Card'
 
 const Winner = styled.div`
   margin-top: 25px;
@@ -28,13 +27,14 @@ class Board extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.buyDevelopment = this.buyDevelopment.bind(this)
   }
 
   componentDidMount() {
 
   }
 
-  onClick = id => {
+  buyDevelopment(id) {
     this.props.moves.buyDevelopment(id)
   }
 
@@ -53,21 +53,37 @@ class Board extends Component {
     //     : <Winner>Draw!</Winner>
     // }
     const { G, moves, ctx } = this.props
-    const { developmentOne, developmentTwo, developmentThree } = G.board
+    const {
+      dev1A, dev1B, dev1C, dev1D,
+      dev2A, dev2B, dev2C, dev2D,
+      dev3A, dev3B, dev3C, dev3D
+    } = G.board
+    const developmentOne = [dev1A, dev1B, dev1C, dev1D]
+    const developmentTwo = [dev2A, dev2B, dev2C, dev2D]
+    const developmentThree = [dev3A, dev3B, dev3C, dev3D]
     const turn = ctx.currentPlayer
     return (
       <div>
         <Row>
-          {developmentThree.map(dev => <Space key={dev.id} onClick={ev => {
-            console.table(ctx)
-            moves.buyDevelopment(dev.id)
-          }} grade={3} development={dev} />)}
+          {developmentThree.map(dev => (
+            <Space key={dev.id} onClick={ev => {
+              moves.buyDevelopment(dev.id)
+            }} grade={3} development={dev} />
+          ))}
         </Row>
         <Row>
-          {developmentTwo.map(dev => <Space key={dev.id}  grade={2} development={dev} />)}
+          {developmentTwo.map(dev => (
+            <Space key={dev.id} onClick={ev => {
+              moves.buyDevelopment(dev.id)
+            }} grade={2} development={dev} />
+          ))}
         </Row>
         <Row>
-          {developmentOne.map(dev => <Space key={dev.id}  grade={1} development={dev} />)}
+          {developmentOne.map(dev => (
+            <Space key={dev.id} onClick={ev => {
+              moves.buyDevelopment(dev.id)
+            }} grade={1} development={dev} />
+          ))}
         </Row>
         <div>
 

@@ -28,9 +28,21 @@ const Splendor = {
     const developTwoDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 2))
     const developThreeDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 3))
     const board = {}
-    board.developmentOne = developOneDeck.splice(0, 4)
-    board.developmentTwo = developTwoDeck.splice(0, 4)
-    board.developmentThree = developThreeDeck.splice(0, 4)
+    board.dev1A = developOneDeck.pop()
+    board.dev1B = developOneDeck.pop()
+    board.dev1C = developOneDeck.pop()
+    board.dev1D = developOneDeck.pop()
+
+    board.dev2A = developTwoDeck.pop()
+    board.dev2B = developTwoDeck.pop()
+    board.dev2C = developTwoDeck.pop()
+    board.dev2D = developTwoDeck.pop()
+
+    board.dev3A = developThreeDeck.pop()
+    board.dev3B = developThreeDeck.pop()
+    board.dev3C = developThreeDeck.pop()
+    board.dev3D = developThreeDeck.pop()
+
     const fields = {}
     Array(numPlayers).fill(1).forEach((a, i) => {
       fields[`player${i}`] = { field: {} }

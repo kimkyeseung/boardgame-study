@@ -8,15 +8,18 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerNum: 0,
+      playerNum: 4,//0,
       config: {},
-      isStart: false
+      isStart: true //false
     }
     this.setPlayerNum = this.setPlayerNum.bind(this)
     this.setGame = this.setGame.bind(this)
   }
 
   setPlayerNum(num) {
+    if (num < 4 || num > 2) {
+      return alert('최소 2인이상 4인 이하로 입력해주세요.')
+    }
     this.setState({ playerNum: num })
   }
 
