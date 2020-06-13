@@ -1,5 +1,5 @@
 import { Link } from '../lib/utils'
-import App from './src/App'
+import App from './src/tic-tac-toe/App'
 
 export default function Actcrazy() {
   return (
