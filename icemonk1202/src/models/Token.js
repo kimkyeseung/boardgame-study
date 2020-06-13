@@ -1,10 +1,11 @@
+let tokenId = 0
 export default class Token {
   id
   color
   playerId
 
-  constructor({ id, color }) {
-    this.id = id
+  constructor({ color }) {
+    this.id = `token-${tokenId++}`
     this.color = color
   }
 }

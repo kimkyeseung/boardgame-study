@@ -1,6 +1,7 @@
 import { add } from "../lib/splendor/util"
 import { COLOR, CARD } from "../lib/splendor/constant"
 
+let cardId = 0
 export default class Card {
   id
   level
@@ -37,8 +38,8 @@ export default class Card {
     return donation && donation[0]
   }
 
-  constructor({ id, level, costs, donations, score }) {
-    this.id = id
+  constructor({ level, costs, donations, score }) {
+    this.id = `card-${cardId++}`
     this.level = level
     this.costs = costs
     this.donations = donations

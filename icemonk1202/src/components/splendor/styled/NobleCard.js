@@ -4,6 +4,7 @@ import { COLOR_CODE } from "../../../lib/splendor/constant"
 const card = {
   width: 132,
   height: 132,
+  margin: 8,
 }
 const Card = styled("span")`
   display: flex;
@@ -11,9 +12,20 @@ const Card = styled("span")`
   width: ${card.width}px;
   height: ${card.height}px;
   border-radius: 4px;
-  background: #ddd;
+  background: url(https://picsum.photos/${card.width}/${card.height}?random=${(
+      props
+    ) => props.cardId});
   box-shadow: 1px 1px 6px 2px grey;
   overflow: hidden;
+  margin: ${card.margin}px 0;
+  user-select: none;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.05);
+    box-shadow: 1px 1px 12px 4px grey;
+  }
 `
 
 const Nav = styled("div")`

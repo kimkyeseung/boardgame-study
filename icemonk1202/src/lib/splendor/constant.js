@@ -15,7 +15,7 @@ export const LEVEL = {
 }
 export const COLOR_CODE = {
   white: "white",
-  blue: "deepskyblue",
+  blue: "navy",
   green: "green",
   red: "firebrick",
   black: "#400",

@@ -1,3 +1,3 @@
-import Icemonk1202 from '../icemonk1202'
+import App from "../icemonk1202";
 
-export default Icemonk1202
+export default () => <App player={3}></App>;

@@ -28,10 +28,8 @@ export const baseTokenData = {
   },
 }
 
-let cardId = 0
 export const baseCardData = [
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -50,7 +48,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -69,7 +66,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -88,7 +84,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -107,7 +102,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -126,7 +120,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -145,7 +138,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -164,7 +156,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 3,
@@ -183,7 +174,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -202,7 +192,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -221,7 +210,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -240,7 +228,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -259,7 +246,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -278,7 +264,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -297,7 +282,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -316,7 +300,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -335,7 +318,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 2,
@@ -354,7 +336,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -373,7 +354,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -392,7 +372,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -411,7 +390,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -430,7 +408,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -449,7 +426,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -468,7 +444,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -487,7 +462,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -506,7 +480,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 3,
@@ -525,7 +498,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -544,7 +516,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 2,
@@ -563,7 +534,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 4,
@@ -582,7 +552,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 2,
@@ -601,7 +570,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 2,
@@ -620,7 +588,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -639,7 +606,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -658,7 +624,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -677,7 +642,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -696,7 +660,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 2,
@@ -715,7 +678,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -734,7 +696,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 1,
@@ -753,7 +714,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 2,
@@ -772,7 +732,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.I,
     costs: {
       white: 0,
@@ -791,7 +750,6 @@ export const baseCardData = [
     score: 0,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -810,7 +768,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 6,
@@ -829,7 +786,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -848,7 +804,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -867,7 +822,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 2,
@@ -886,7 +840,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -905,7 +858,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -924,7 +876,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -943,7 +894,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -962,7 +912,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 2,
@@ -981,7 +930,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1000,7 +948,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 5,
@@ -1019,7 +966,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1038,7 +984,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1057,7 +1002,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 2,
@@ -1076,7 +1020,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 3,
@@ -1095,7 +1038,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 4,
@@ -1114,7 +1056,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1133,7 +1074,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1152,7 +1092,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1171,7 +1110,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 2,
@@ -1190,7 +1128,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 1,
@@ -1209,7 +1146,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1228,7 +1164,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 3,
@@ -1247,7 +1182,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 5,
@@ -1266,7 +1200,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1285,7 +1218,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 3,
@@ -1304,7 +1236,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1323,7 +1254,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 3,
@@ -1342,7 +1272,6 @@ export const baseCardData = [
     score: 1,
   },
   {
-    id: cardId++,
     level: LEVEL.II,
     costs: {
       white: 0,
@@ -1361,7 +1290,6 @@ export const baseCardData = [
     score: 2,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1380,7 +1308,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 3,
@@ -1399,7 +1326,6 @@ export const baseCardData = [
     score: 5,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 3,
@@ -1418,7 +1344,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1437,7 +1362,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 7,
@@ -1456,7 +1380,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 7,
@@ -1475,7 +1398,6 @@ export const baseCardData = [
     score: 5,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 6,
@@ -1494,7 +1416,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 3,
@@ -1513,7 +1434,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1532,7 +1452,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1551,7 +1470,6 @@ export const baseCardData = [
     score: 5,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 3,
@@ -1570,7 +1488,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 5,
@@ -1589,7 +1506,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1608,7 +1524,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1627,7 +1542,6 @@ export const baseCardData = [
     score: 5,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1646,7 +1560,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 3,
@@ -1665,7 +1578,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1684,7 +1596,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1703,7 +1614,6 @@ export const baseCardData = [
     score: 5,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 0,
@@ -1722,7 +1632,6 @@ export const baseCardData = [
     score: 4,
   },
   {
-    id: cardId++,
     level: LEVEL.III,
     costs: {
       white: 3,
@@ -1741,7 +1650,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 3,
@@ -1760,7 +1668,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 0,
@@ -1779,7 +1686,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 3,
@@ -1798,7 +1704,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 0,
@@ -1817,7 +1722,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 0,
@@ -1836,7 +1740,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 0,
@@ -1855,7 +1758,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 4,
@@ -1874,7 +1776,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 3,
@@ -1893,7 +1794,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 0,
@@ -1912,7 +1812,6 @@ export const baseCardData = [
     score: 3,
   },
   {
-    id: cardId++,
     level: LEVEL.NOBLE,
     costs: {
       white: 4,
