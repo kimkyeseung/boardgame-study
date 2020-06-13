@@ -31,8 +31,11 @@ class Board extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      selectedTokens: []
+    }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
+    this.handleTokenClick = this.handleTokenClick.bind(this)
   }
 
   componentDidMount() {
@@ -40,9 +43,19 @@ class Board extends Component {
   }
 
   handleSpaceClick(dev, index, grade) {
-    console.log(this.props)
-    this.props.moves.replaceDevelopmentSpace({ index, grade })
-    this.props.moves.buyDevelopment(dev)
+    const { replaceDevelopmentSpace, buyDevelopment } = this.props.moves
+    replaceDevelopmentSpace({ index, grade })
+    buyDevelopment(dev)
+  }
+
+  handleTokenClick(token) {
+    const { selectedTokens } = this.state
+    if (selectedTokens.includes(token) || token === 'yellow') {
+      return
+    }
+    this.setState({
+      selectedTokens: [...selectedTokens, token]
+    })
   }
 
   render() {
@@ -55,6 +68,8 @@ class Board extends Component {
     const developmentOne = [dev10, dev11, dev12, dev13]
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
+
+    const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
     const turn = ctx.currentPlayer
     return (
       <Wrapper>
@@ -82,8 +97,14 @@ class Board extends Component {
           </Row>
         </div>
         <Token.Wrapper>
-          {Object.keys(G.tokens).map(token => (
-            <Token color={token} count={G.tokens[token]} />
+          {tokenIndex.map(token => (
+            <Token
+              key={token}
+              color={token}
+              count={G.tokens[token]}
+              onClick={() => {
+                this.handleTokenClick(token)
+              }} />
           ))}
         </Token.Wrapper>
       </Wrapper>
