@@ -8,6 +8,7 @@ const Winner = styled.div`
   text-align: center;
 `
 
+//한칸에 대한 스타일 정의.
 const Cell = styled.td`
   text-align: center;
   font-weight: bold;
@@ -38,12 +39,14 @@ class Board extends Component {
   }
 
   onClick = id => {
+    //
     if (this.isActive(id)) {
       this.props.moves.clickCell(id)
     }
   }
 
   isActive(id) {
+
     if (!this.props.isActive) return false;
     if (this.props.G.cells[id] !== null) return false;
     return true;
