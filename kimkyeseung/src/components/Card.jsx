@@ -39,6 +39,7 @@ const Space = styled.div`
   border-radius: 12px;
   margin: 0.4rem;
   padding: 0;
+  overflow: hidden;
   ${({ empty }) => empty ? emptyStyle : normalStyle};
 `
 
