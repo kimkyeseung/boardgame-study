@@ -50,7 +50,24 @@ const Splendor = {
   },
 
   moves: {
-    getTokens(tokens) {},
+    drawTokens(G, ctx, tokens) {
+      Object.entries(tokens)
+        .filter(([_, count]) => count)
+        .forEach(([color, count]) => {
+          Array(count)
+            .fill()
+            .forEach((_) => {
+              const tokenIndex = G.boardTokens.findIndex(
+                (token) => token.color === color
+              )
+              G.players[ctx.currentPlayer].tokens.push(
+                ...G.boardTokens.splice(tokenIndex, 1)
+              )
+            })
+        })
+
+      console.log(G.players[ctx.currentPlayer].tokens)
+    },
   },
 
   turn: { moveLimit: 1 },

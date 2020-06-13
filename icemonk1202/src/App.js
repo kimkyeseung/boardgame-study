@@ -6,7 +6,7 @@ import SplendorBoard from "./container/Board"
 const SplendorClient = Client({
   game: Splendor,
   board: SplendorBoard,
-  numPlayers: 3,
+  numPlayers: 4,
 })
 
 export default SplendorClient

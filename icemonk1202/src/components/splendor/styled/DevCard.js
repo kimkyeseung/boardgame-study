@@ -12,7 +12,9 @@ const Card = styled("span")`
   width: ${card.width}px;
   height: ${card.height}px;
   border-radius: 4px;
-  background: #ddd;
+  background: url(https://picsum.photos/${card.width}/${card.height}?random=${(
+      props
+    ) => props.cardId});
   box-shadow: 1px 1px 6px 2px grey;
   overflow: hidden;
   user-select: none;
@@ -56,6 +58,7 @@ const Donnation = styled("div")`
   height: ${donation.height}px;
   background: ${(props) => COLOR_CODE[props.color]};
   border-radius: 8px;
+  box-shadow: 1px 1px 4px grey;
 `
 
 const costCover = {

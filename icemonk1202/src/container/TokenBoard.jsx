@@ -17,6 +17,8 @@ const TokenArea = styled.div`
 const TokenInput = styled.input`
   width: 40px;
   height: 20px;
+  font-size: 20px;
+  outline: none;
 `
 
 const DrawTokenButton = styled.div`
@@ -90,7 +92,10 @@ class TokenBoard extends Component {
   onDoubleClickToken = (color) => {
     const {
       state: { selectedTokens },
+      props: { tokens },
     } = this
+    if (tokens.filter((token) => token.color === color).length < 2) return
+    if (tokens.filter((token) => token.color === color).length < 4) return
 
     this.setState({
       selectedTokens: {
@@ -100,11 +105,25 @@ class TokenBoard extends Component {
     })
   }
 
+  resetTokens() {
+    this.setState({
+      selectedTokens: {
+        white: 0,
+        blue: 0,
+        green: 0,
+        red: 0,
+        black: 0,
+      },
+    })
+  }
+
   onClickToken = (color) => {
     const {
       state: { selectedTokens },
+      props: { tokens },
     } = this
     if (selectedTokens[color] === 2) return
+    if (!tokens.find((token) => token.color === color)) return
 
     this.setState({
       selectedTokens: {
@@ -114,15 +133,36 @@ class TokenBoard extends Component {
     })
   }
 
-  onChangeToken = (event) => {
-    console.log(event)
+  onChangeToken = (event, color) => {
+    const {
+      state: { selectedTokens },
+      props: { tokens },
+    } = this
+    if (event.target.value > 2 || event.target.value < 0) return
+    if (
+      tokens.filter((token) => token.color === color).length < 4 &&
+      event.target.value > 1
+    )
+      return
+    if (
+      tokens.filter((token) => token.color === color).length <
+      event.target.value
+    )
+      return
+
+    this.setState({
+      selectedTokens: {
+        ...selectedTokens,
+        [color]: +event.target.value,
+      },
+    })
   }
 
   render() {
     return (
       <>
         <TokenArea>
-          {["white", "blue", "green", "red", "black", "yellow"].map((color) => (
+          {["white", "blue", "green", "red", "black"].map((color) => (
             <div style={{ display: "flex" }}>
               <Token
                 onClick={this.onClickToken}
@@ -136,17 +176,27 @@ class TokenBoard extends Component {
               />
               <TokenInput
                 value={this.state.selectedTokens[color]}
-                onChange={this.onChangeToken}
+                onChange={(event) => this.onChangeToken(event, color)}
                 type="number"
                 min="0"
                 max="2"
               ></TokenInput>
             </div>
           ))}
+          <Token
+            count={
+              this.props.tokens.filter((token) => token.color === "yellow")
+                .length
+            }
+            color="yellow"
+          />
         </TokenArea>
         {this.canDrawTokens ? (
           <DrawTokenButton
-            onClick={() => this.props.drawTokens(this.state.selectedTokens)}
+            onClick={() => {
+              this.props.drawTokens(this.state.selectedTokens)
+              this.resetTokens()
+            }}
           >
             토큰 가져오기
           </DrawTokenButton>

@@ -42,4 +42,13 @@ const Gem = styled("div")`
   border: 1px solid #ddd;
 `
 
-export { Token, Gem }
+const GemCount = styled.div`
+  position: relative;
+  left: -20px;
+  bottom: -20px;
+  font-size: 32px;
+  font-weight: bold;
+  z-index: 10;
+`
+
+export { Token, Gem, GemCount }

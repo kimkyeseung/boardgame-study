@@ -1,11 +1,12 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { Token as TokenCover, Gem } from "./styled/Token"
+import { Token as TokenCover, Gem, GemCount } from "./styled/Token"
 import TokenModel from "../../models/Token"
 
 class Token extends Component {
   static propTypes = {
     color: PropTypes.string.isRequired,
+    count: PropTypes.number,
     selected: PropTypes.number,
     onClick: PropTypes.func,
     onDoubleClick: PropTypes.func,
@@ -16,6 +17,7 @@ class Token extends Component {
     onClick: () => {},
     onDoubleClick: () => {},
     selected: 0,
+    count: 0,
   }
 
   render() {
@@ -28,6 +30,7 @@ class Token extends Component {
         selected={this.props.selected}
       >
         <Gem color={this.props.color}></Gem>
+        <GemCount>{this.props.count}</GemCount>
       </TokenCover>
     )
   }

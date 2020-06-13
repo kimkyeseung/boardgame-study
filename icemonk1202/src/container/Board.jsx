@@ -5,12 +5,13 @@ import DevCard from "../components/splendor/DevCard"
 import NobleCard from "../components/splendor/NobleCard"
 
 import TokenBoard from "./TokenBoard"
+import PlayerBoard from "./PlayerBoard"
 
 import styled from "styled-components"
-
 const BoardCover = styled.div`
   display: flex;
   flex-grow: 0;
+  height: 90vh;
 `
 
 const DevArea = styled.div`
@@ -18,6 +19,7 @@ const DevArea = styled.div`
   flex-grow: 0;
   flex-wrap: wrap;
   flex-direction: column-reverse;
+  justify-content: space-around;
   width: 60%;
 `
 const NobleArea = styled.div`
@@ -75,10 +77,6 @@ class Board extends Component {
 
   state = {}
 
-  drawTokens = (selectedTokens) => {
-    console.log(selectedTokens)
-  }
-
   render() {
     const getDevCards = (cards = []) =>
       cards.map((card) => <DevCard key={card.id} card={card}></DevCard>)
@@ -88,31 +86,35 @@ class Board extends Component {
       token.map((token) => <Token key={token.id} color={token.color}></Token>)
 
     return (
-      <BoardCover>
-        <DevArea>
-          <DevDeckCover1>
-            <DevCard></DevCard>
-            {getDevCards(this.props.G.boardDevDeck1)}
-          </DevDeckCover1>
-          <DevDeckCover2>
-            <DevCard></DevCard>
-            {getDevCards(this.props.G.boardDevDeck2)}
-          </DevDeckCover2>
-          <DevDeckCover3>
-            <DevCard></DevCard>
-            {getDevCards(this.props.G.boardDevDeck3)}
-          </DevDeckCover3>
-        </DevArea>
-        <NobleArea>
-          <NobleDeckCover>
-            {getNobleCards(this.props.G.boardNobleDeck)}
-          </NobleDeckCover>
-        </NobleArea>
-        <TokenBoard
-          tokens={this.props.G.boardTokens}
-          drawTokens={this.drawTokens}
-        ></TokenBoard>
-      </BoardCover>
+      <>
+        <BoardCover>
+          {this.props.ctx.currentPlayer}
+          <DevArea>
+            <DevDeckCover1>
+              <DevCard></DevCard>
+              {getDevCards(this.props.G.boardDevDeck1)}
+            </DevDeckCover1>
+            <DevDeckCover2>
+              <DevCard></DevCard>
+              {getDevCards(this.props.G.boardDevDeck2)}
+            </DevDeckCover2>
+            <DevDeckCover3>
+              <DevCard></DevCard>
+              {getDevCards(this.props.G.boardDevDeck3)}
+            </DevDeckCover3>
+          </DevArea>
+          <NobleArea>
+            <NobleDeckCover>
+              {getNobleCards(this.props.G.boardNobleDeck)}
+            </NobleDeckCover>
+          </NobleArea>
+          <TokenBoard
+            tokens={this.props.G.boardTokens}
+            drawTokens={this.props.moves.drawTokens}
+          ></TokenBoard>
+        </BoardCover>
+        <PlayerBoard G={this.props.G} ctx={this.props.ctx}></PlayerBoard>
+      </>
     )
   }
 }

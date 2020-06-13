@@ -16,7 +16,7 @@ class NobleCard extends Component {
   render() {
     const { card } = this.props
     return (
-      <Card>
+      <Card cardId={this.props.card.id}>
         <Nav>
           <Score>{card.score}</Score>
           <CostCover>{getCosts(card.validCosts)}</CostCover>

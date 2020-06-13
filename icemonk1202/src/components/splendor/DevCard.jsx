@@ -25,7 +25,7 @@ class DevCard extends Component {
     if (!card) return <Card></Card>
 
     return (
-      <Card>
+      <Card cardId={this.props.card.id}>
         <Header>
           <Score>{card.score ? card.score : ""}</Score>
           <Donnation color={card.validDonation}></Donnation>
