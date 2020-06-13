@@ -1,27 +1,59 @@
-import { getCardData } from "./data"
+import { getCardData, getTokenData } from "./data"
 import { LEVEL } from "./constant"
+import DeckModel from "../../models/Deck"
+import PlayerModel from "../../models/Player"
 
 const cards = getCardData()
-const devCards = cards.filter((card) => card.level !== LEVEL.NOBLE)
-const nobleCards = cards.filter((card) => card.level === LEVEL.NOBLE)
+const buildDeckByLevel = (level) =>
+  new DeckModel(
+    level,
+    cards.filter((card) => card.level === level)
+  )
+const buildPlayers = (playOrder) =>
+  playOrder.reduce((acc, playerId) => {
+    acc[playerId] = new PlayerModel()
+    return acc
+  }, {})
+
 const Splendor = {
   name: "splendor",
 
-  setup: () => ({
-    devCards,
-    nobleCards,
-    // tokens: Array(9).fill(null),
-  }),
+  setup(ctx) {
+    console.log(ctx)
+    const devDeck1 = buildDeckByLevel(LEVEL.I)
+    const devDeck2 = buildDeckByLevel(LEVEL.II)
+    const devDeck3 = buildDeckByLevel(LEVEL.III)
+    const nobleDeck = buildDeckByLevel(LEVEL.NOBLE)
 
-  // moves: {
-  //   clickCell(G, ctx, id) {
-  //     if (G.cells[id] === null) {
-  //       G.cells[id] = ctx.currentPlayer
-  //     }
-  //   },
-  // },
+    devDeck1.shuffle()
+    devDeck2.shuffle()
+    devDeck3.shuffle()
+    nobleDeck.shuffle()
 
-  // turn: { moveLimit: 1 },
+    const boardDevDeck1 = devDeck1.draw(4).reverse()
+    const boardDevDeck2 = devDeck2.draw(4).reverse()
+    const boardDevDeck3 = devDeck3.draw(4).reverse()
+    const boardNobleDeck = nobleDeck.draw(ctx.numPlayers + 1).reverse()
+
+    return {
+      devDeck1,
+      devDeck2,
+      devDeck3,
+      nobleDeck,
+      boardDevDeck1,
+      boardDevDeck2,
+      boardDevDeck3,
+      boardNobleDeck,
+      boardTokens: getTokenData(ctx.numPlayers),
+      players: buildPlayers(ctx.playOrder),
+    }
+  },
+
+  moves: {
+    getTokens(tokens) {},
+  },
+
+  turn: { moveLimit: 1 },
 
   // endIf: (G, ctx) => {
   //   if (IsVictory(G.cells)) {
@@ -30,18 +62,6 @@ const Splendor = {
   //   if (G.cells.filter((c) => c === null).length === 0) {
   //     return { draw: true }
   //   }
-  // },
-
-  // ai: {
-  //   enumerate: (G) => {
-  //     let moves = []
-  //     for (let i = 0; i < 9; i++) {
-  //       if (G.cells[i] === null) {
-  //         moves.push({ move: "clickCell", args: [i] })
-  //       }
-  //     }
-  //     return moves
-  //   },
   // },
 }
 

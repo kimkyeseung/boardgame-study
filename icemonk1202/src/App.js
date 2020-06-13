@@ -1,10 +1,12 @@
 import { Client } from "boardgame.io/react"
+import { Local } from "boardgame.io/multiplayer"
 import { Splendor } from "./lib"
-import Board from "./container/Board"
+import SplendorBoard from "./container/Board"
 
-const App = Client({
+const SplendorClient = Client({
   game: Splendor,
-  board: Board,
+  board: SplendorBoard,
+  numPlayers: 3,
 })
 
-export default App
+export default SplendorClient

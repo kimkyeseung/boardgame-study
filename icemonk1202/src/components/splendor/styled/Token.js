@@ -12,7 +12,8 @@ const Token = styled("div")`
   height: ${token.radius * 2}px;
   border: ${token.borderSize}px solid ${(props) => COLOR_CODE[props.color]};
   border-radius: ${token.radius}px;
-  box-shadow: 2px 2px 4px grey;
+  box-shadow: ${(props) =>
+    props.selected ? `0 0 0 8px gold` : `2px 2px 4px grey`};
   user-select: none;
   transition: all 0.3s;
   cursor: pointer;
@@ -20,7 +21,8 @@ const Token = styled("div")`
 
   &:hover {
     filter: brightness(1.05);
-    box-shadow: 2px 2px 8px grey;
+    box-shadow: ${(props) =>
+      props.selected ? `0 0 0 12px gold` : `2px 2px 8px grey`};
   }
 `
 

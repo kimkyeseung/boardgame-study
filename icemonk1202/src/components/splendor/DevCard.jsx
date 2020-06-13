@@ -22,10 +22,12 @@ class DevCard extends Component {
 
   render() {
     const { card } = this.props
+    if (!card) return <Card></Card>
+
     return (
       <Card>
         <Header>
-          <Score>{card.score}</Score>
+          <Score>{card.score ? card.score : ""}</Score>
           <Donnation color={card.validDonation}></Donnation>
         </Header>
         <CostCover>{getCosts(card.validCosts)}</CostCover>

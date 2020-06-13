@@ -1,4 +1,10 @@
+let playerId = 0
 export default class Player {
+  constructor(name) {
+    this.id = `player-${playerId++}`
+    this.name = name || `player${playerId}`
+  }
+
   id = null
   name = ""
   keptCards = []
@@ -17,12 +23,6 @@ export default class Player {
      * @TODO 보유 카드로 기부량 계산
      */
     return boughtCards
-  }
-
-  constructor({ id, name, tokens }) {
-    this.id = id
-    this.name = name || `player${id}`
-    this.tokens = tokens
   }
 
   keepCard(card, yelloToken) {
