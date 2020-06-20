@@ -6,6 +6,7 @@ import Token from '../components/Token'
 import SelectedTokens from './SelectedTokens'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
+import FieldSummary from '../components/FieldSummary'
 import { Link } from '../../../lib/utils'
 
 const Winner = styled.div`
@@ -66,18 +67,18 @@ class Board extends Component {
 
   render() {
     const { G, moves, ctx } = this.props
+    const { currentPlayer } = ctx
     const {
       dev10, dev11, dev12, dev13,
       dev20, dev21, dev22, dev23,
       dev30, dev31, dev32, dev33
     } = G.board
+    console.log(G.fields)
     const developmentOne = [dev10, dev11, dev12, dev13]
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const turn = ctx.currentPlayer
-
     const { selectedTokens } = this.state
     return (
       <>
@@ -87,7 +88,15 @@ class Board extends Component {
               <Link to="/">HOME</Link>
             </Header>
           }
-          LeftPanel={<div>left</div>}
+          LeftPanel={
+            <div>
+              {Object.keys(G.fields).map(player => (
+                <FieldSummary
+                  active={player === `player${currentPlayer}`}
+                  field={G.fields[player]} />
+              ))}
+            </div>
+          }
           Main={
             <BoardLayout
               Developments={

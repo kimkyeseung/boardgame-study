@@ -5,6 +5,8 @@ const Box = styled.div(
   {
     boxSizing: 'border-box',
     minWidth: 0,
+    border: '1px solid',
+    padding: '0.1rem'
   },
   space,
   color,
