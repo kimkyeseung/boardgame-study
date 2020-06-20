@@ -11,14 +11,13 @@
   },
   "dependencies": {
     "boardgame.io": "^0.39.11",
-    "carbon-components": "^10.14.0",
-    "carbon-components-react": "^7.14.0",
     "next": "^9.4.4",
     "prop-types": "^15.7.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "redux": "^4.0.5",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "styled-system": "^5.1.5"
   },
   "license": "ISC",
   "devDependencies": {

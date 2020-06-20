@@ -4,12 +4,17 @@ import styled from 'styled-components'
 import Card from '../components/Card'
 import Token from '../components/Token'
 import SelectedTokens from './SelectedTokens'
+import Layout from '../components/Layout'
+import BoardLayout from '../components/BoardLayout'
+import { Link } from '../../../lib/utils'
 
 const Winner = styled.div`
   margin-top: 25px;
   width: 168px;
   text-align: center;
 `
+
+const Header = styled.header``
 
 const Row = styled.div`
   display: flex;
@@ -76,45 +81,67 @@ class Board extends Component {
 
     const { selectedTokens } = this.state
     return (
-      <Wrapper>
-        <div>
-          <Row>
-            {developmentThree.map((dev, index) => (
-              <Card key={dev ? dev.id : index} onClick={ev => {
-                this.handleSpaceClick(dev, index, 3)
-              }} grade={3} development={dev} />
-            ))}
-          </Row>
-          <Row>
-            {developmentTwo.map((dev, index) => (
-              <Card key={dev ? dev.id : index} onClick={ev => {
-                this.handleSpaceClick(dev, index, 2)
-              }} grade={2} development={dev} />
-            ))}
-          </Row>
-          <Row>
-            {developmentOne.map((dev, index) => (
-              <Card key={dev ? dev.id : index} onClick={ev => {
-                this.handleSpaceClick(dev, index, 1)
-              }} grade={1} development={dev} />
-            ))}
-          </Row>
-        </div>
-        <Token.Wrapper>
-          {tokenIndex.map(token => (
-            <Token
-              key={token}
-              color={token}
-              count={G.tokens[token]}
-              onClick={() => {
-                this.handleTokenClick(token)
-              }} />
-          ))}
-        </Token.Wrapper>
-        <SelectedTokens tokens={selectedTokens} onClose={() => {
-          this.setState({ selectedTokens: [] })
-        }} />
-      </Wrapper>
+      <>
+        <Layout
+          Header={
+            <Header>
+              <Link to="/">HOME</Link>
+            </Header>
+          }
+          LeftPanel={<div>left</div>}
+          Main={
+            <BoardLayout
+              Developments={
+                <>
+                  <Row>
+                    {developmentThree.map((dev, index) => (
+                      <Card key={dev ? dev.id : index} onClick={ev => {
+                        this.handleSpaceClick(dev, index, 3)
+                      }} grade={3} development={dev} />
+                    ))}
+                  </Row>
+                  <Row>
+                    {developmentTwo.map((dev, index) => (
+                      <Card key={dev ? dev.id : index} onClick={ev => {
+                        this.handleSpaceClick(dev, index, 2)
+                      }} grade={2} development={dev} />
+                    ))}
+                  </Row>
+                  <Row>
+                    {developmentOne.map((dev, index) => (
+                      <Card key={dev ? dev.id : index} onClick={ev => {
+                        this.handleSpaceClick(dev, index, 1)
+                      }} grade={1} development={dev} />
+                    ))}
+                  </Row>
+                </>
+              }
+              Tokens={
+                <Token.Wrapper>
+                  {tokenIndex.map(token => (
+                    <Token
+                      key={token}
+                      color={token}
+                      count={G.tokens[token]}
+                      onClick={() => {
+                        this.handleTokenClick(token)
+                      }} />
+                  ))}
+                </Token.Wrapper>
+              }
+              Nobles={
+                <div>Noble~</div>
+              }
+            />
+          }
+          RightPanel={<div>Right</div>}
+          Footer={<div>Footer</div>} />
+        <Wrapper>
+          <SelectedTokens tokens={selectedTokens} onClose={() => {
+            this.setState({ selectedTokens: [] })
+          }} />
+        </Wrapper>
+      </>
     )
   }
 }

@@ -16,8 +16,7 @@ class SelectedTokens extends Component {
       <div>
         <button onClick={onClose}>close</button>
         {tokens.map(token => {
-          console.log(token)
-          return <div>token</div>
+          return <div>{token}</div>
         })}
         <button disabled={!confirmable} onClick={onClose}>confirm</button>
       </div>

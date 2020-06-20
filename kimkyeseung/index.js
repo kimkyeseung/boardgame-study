@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from '../lib/utils'
 import App from './src/App'
 import styled, { createGlobalStyle } from 'styled-components'
 
@@ -23,7 +22,6 @@ export default function Kimkyeseung() {
     <>
       <GlobalStyle />
       <Main>
-        <Link to="/">HOME</Link>
         <App />
       </Main>
     </>

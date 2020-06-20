@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Lobby from './container/Lobby'
 import Game from './container/Game'
+import Layout from './components/Layout'
 
 class App extends Component {
   constructor(props) {
