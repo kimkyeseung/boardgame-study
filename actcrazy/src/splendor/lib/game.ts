@@ -115,6 +115,23 @@ export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean 
   return false;
 }
 
+export const validateReturnTokens = (handTokens: Tokens, tokens: Tokens): boolean => {
+  if (anyNegative(R.values(tokens))) {
+    return false;
+  }
+
+  const ret = evalTokens(R.subtract)(handTokens, tokens);
+  if (anyNegative(R.values(ret))) {
+    return false;
+  }
+
+  if (R.sum(R.values(ret)) === 10) {
+    return true;
+  }
+
+  return false;
+}
+
 export const validateBuyCard = (b: Board, p: Player, pos: [Level, number] | number) => {
   let card: Development | undefined = undefined;
   if (typeof pos === 'number') {
@@ -140,7 +157,7 @@ export const validateBuyCard = (b: Board, p: Player, pos: [Level, number] | numb
 
   const cost = evalGems(R.subtract)(card.cost, discount);
   const change = evalGems(R.subtract)(tokens, cost);
-  const sumLack = R.sum(R.filter(x => x <= 0, R.values(change)))
+  const sumLack = R.sum(R.filter(isNegative, R.values(change)))
   const isLack = sumLack + tokens.gold < 0;
   if (isLack) {
     return false;

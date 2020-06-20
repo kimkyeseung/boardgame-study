@@ -1,4 +1,4 @@
-import { validateGetTokens, Board, createTokens, createDevelopment, createGems, validateBuyCard, addTokens, addDevelopment } from '../game'
+import { validateGetTokens, Board, createTokens, createDevelopment, createGems, validateBuyCard, addTokens, addDevelopment, validateReturnTokens } from '../game'
 
 describe('가져올 토큰 검증하기', () => {
   const emptyTokens = createTokens(0, 0, 0, 0, 0);
@@ -36,6 +36,32 @@ describe('가져올 토큰 검증하기', () => {
   it('4개 이상인 토큰은 2개를 가지고 올 수 있다.', () => {
     const ret = validateGetTokens(createTokens(4, 0, 1, 1, 0), createTokens(2, 0, 0, 0, 0))
     expect(ret).toBe(true)
+  })
+})
+
+describe('10개가 넘는 토큰 반납 검증하기', () => {
+  it('핸드에 있는 것보다 많은 토큰을 반납할 수 없다.', () => {
+    const ret1 = validateReturnTokens(createTokens(0, 11, 0, 0, 0), createTokens(1, 0, 0, 0, 0))
+    expect(ret1).toBe(false)
+
+    const ret2 = validateReturnTokens(createTokens(1, 11, 0, 0, 0), createTokens(2, 0, 0, 0, 0))
+    expect(ret2).toBe(false)
+  })
+
+  it('반납 토큰을 0개 미만으로 할 수 없다.', () => {
+    const ret = validateReturnTokens(createTokens(0, 9, 0, 0, 0), createTokens(0, -1, 0, 0, 0))
+    expect(ret).toBe(false)
+  })
+
+  it('반납 후 남은 토큰의 합은 10개이다.', () => {
+    const ret1 = validateReturnTokens(createTokens(0, 11, 0, 0, 0), createTokens(0, 1, 0, 0, 0))
+    expect(ret1).toBe(true)
+
+    const ret2 = validateReturnTokens(createTokens(0, 11, 0, 0, 0), createTokens(0, 2, 0, 0, 0))
+    expect(ret2).toBe(false)
+
+    const ret3 = validateReturnTokens(createTokens(0, 12, 0, 0, 0), createTokens(0, 1, 0, 0, 0))
+    expect(ret3).toBe(false)
   })
 })
 
