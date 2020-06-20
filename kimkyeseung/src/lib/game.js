@@ -43,6 +43,16 @@ const Splendor = {
     board.dev32 = developThreeDeck.pop()
     board.dev33 = developThreeDeck.pop()
 
+    const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
+    const tokens = {}
+    tokens.red
+      = tokens.blue
+      = tokens.black
+      = tokens.white
+      = tokens.green
+      = tokenCount
+    tokens.yellow = 5
+
     const fields = {}
     const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0 }
     Array(numPlayers).fill(1).forEach((a, i) => {
@@ -57,6 +67,7 @@ const Splendor = {
       developTwoDeck,
       developThreeDeck,
       board,
+      tokens,
       fields
     }
   },
@@ -71,7 +82,7 @@ const Splendor = {
       G.board[`dev${grade}${index}`] = deck[grade].pop()
     },
     buyDevelopment(G, ctx, development) {
-      console.log({ctx})
+      console.log({ ctx })
       console.log(development)
       const { value, valueAmount, victoryPoint } = development
 

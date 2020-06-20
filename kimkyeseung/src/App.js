@@ -1,43 +1,41 @@
 import React, { Component } from 'react'
-import { Client } from 'boardgame.io/react'
-import { Splendor } from './lib'
-import Board from './components/Board'
 import Lobby from './container/Lobby'
+import Game from './container/Game'
+import Layout from './components/Layout'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerNum: 4,//0,
+      playerNum: 4, //0
       config: {},
       isStart: true //false
     }
     this.setPlayerNum = this.setPlayerNum.bind(this)
-    this.setGame = this.setGame.bind(this)
+    this.startGame = this.startGame.bind(this)
   }
 
   setPlayerNum(num) {
-    if (num < 4 || num > 2) {
-      return alert('최소 2인이상 4인 이하로 입력해주세요.')
-    }
     this.setState({ playerNum: num })
   }
 
-  setGame(playerNum) {
-    return Client({
-      game: Splendor,
-      board: Board,
-      numPlayers: playerNum,
-    })
+  startGame() {
+    const { playerNum } = this.state
+    if (playerNum > 4 || playerNum < 2) {
+      return alert('최소 2인이상 4인 이하로 입력해주세요.')
+    }
+    this.setState({ isStart: true })
   }
 
   render() {
     const { isStart, playerNum } = this.state
-    const Game = this.setGame(playerNum)
     return (
-      isStart ? <Game /> : <Lobby setPlayerNum={this.setPlayerNum} startGame={() => {
-        this.setState({ isStart: true })
-      }} />
+      isStart
+        ? <Game playerNum={playerNum} />
+        : <Lobby
+          playerNum={playerNum}
+          setPlayerNum={this.setPlayerNum}
+          startGame={this.startGame} />
     )
   }
 }

@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 
 class Lobby extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
       <div>
-        <input type="number" onChange={ev => {
-          this.props.setPlayerNum()
+        <input type="number" value={this.props.playerNum} onChange={ev => {
+          const num = Number(ev.target.value)
+          this.props.setPlayerNum(num)
         }} />
         <button onClick={ev => {
           ev.preventDefault()
