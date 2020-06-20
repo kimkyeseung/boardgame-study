@@ -75,6 +75,10 @@ export const addDevelopment = (p: Player, card: Development, b: Board): Board =>
 
 export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean => {
   const t = R.values(tokens);
+  if (R.any(x => x < 0, t)) {
+    return false;
+  }
+
   const sum = R.sum(t);
 
   if (sum > 3) {

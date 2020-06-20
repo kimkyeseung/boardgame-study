@@ -1,6 +1,6 @@
 import { validateGetTokens, Board, createTokens, createDevelopment, createGems, validateBuyCard, addTokens, addDevelopment } from '../game'
 
-describe('토큰 가져오기', () => {
+describe('가져올 토큰 검증하기', () => {
   const emptyTokens = createTokens(0, 0, 0, 0, 0);
 
   it('3개이상의 토큰을 가지고 올 수 없다.', () => {
@@ -10,6 +10,11 @@ describe('토큰 가져오기', () => {
 
   it('같은 색상 토큰 2개를 가지고 올 경우, 다른 색상 토큰을 가지고 올 수 없다.', () => {
     const ret = validateGetTokens(emptyTokens, createTokens(2, 1, 0, 0, 0))
+    expect(ret).toBe(false)
+  })
+
+  it('수량을 0개 미만으로 지정할 수 없다.', () => {
+    const ret = validateGetTokens(createTokens(1, 1, 1, 1, 1), createTokens(1, 1, 1, 1, -1))
     expect(ret).toBe(false)
   })
 
