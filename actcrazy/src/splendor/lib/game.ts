@@ -73,9 +73,12 @@ export const addTokens = (p: Player, tokens: Tokens, b: Board): Board =>
 export const addDevelopment = (p: Player, card: Development, b: Board): Board =>
   R.over(R.lensPath(['hands', p, 'development']), R.append(card), b);
 
+const isNegative = (x: number) => x < 0;
+const anyNegative = R.any(isNegative)
+
 export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean => {
   const t = R.values(tokens);
-  if (R.any(x => x < 0, t)) {
+  if (anyNegative(t)) {
     return false;
   }
 
@@ -93,7 +96,7 @@ export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean 
 
   if (sum === 3) {
     const c = evalTokens(R.subtract)(boardTokens, tokens)
-    if (R.any(x => x < 0, R.values(c))) {
+    if (anyNegative(R.values(c))) {
       return false;
     }
 
