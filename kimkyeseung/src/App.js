@@ -6,9 +6,9 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerNum: 0,
+      playerNum: 4, //0
       config: {},
-      isStart: false
+      isStart: true //false
     }
     this.setPlayerNum = this.setPlayerNum.bind(this)
     this.startGame = this.startGame.bind(this)

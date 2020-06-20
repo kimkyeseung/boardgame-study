@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from '../components/Card'
 import Token from '../components/Token'
+import SelectedTokens from './SelectedTokens'
 
 const Winner = styled.div`
   margin-top: 25px;
@@ -53,6 +54,7 @@ class Board extends Component {
     if (selectedTokens.includes(token) || token === 'yellow') {
       return
     }
+    console.log({ token })
     this.setState({
       selectedTokens: [...selectedTokens, token]
     })
@@ -71,6 +73,8 @@ class Board extends Component {
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
     const turn = ctx.currentPlayer
+
+    const { selectedTokens } = this.state
     return (
       <Wrapper>
         <div>
@@ -107,6 +111,9 @@ class Board extends Component {
               }} />
           ))}
         </Token.Wrapper>
+        <SelectedTokens tokens={selectedTokens} onClose={() => {
+          this.setState({ selectedTokens: [] })
+        }} />
       </Wrapper>
     )
   }

@@ -8,3 +8,6 @@
 - [ ] 보석토큰 가져오기
   - [ ] 보석 토큰 마크업
   - [ ] 보석 가져오는 조건(다른색3개, 같은색2개)에 따른 로직처리
+
+## Dependencies
+- [react-modal](https://github.com/reactjs/react-modal)
