@@ -59,7 +59,6 @@ class Board extends Component {
     if (selectedTokens.includes(token) || token === 'yellow') {
       return
     }
-    console.log({ token })
     this.setState({
       selectedTokens: [...selectedTokens, token]
     })
@@ -137,9 +136,11 @@ class Board extends Component {
           RightPanel={<div>Right</div>}
           Footer={<div>Footer</div>} />
         <Wrapper>
-          <SelectedTokens tokens={selectedTokens} onClose={() => {
-            this.setState({ selectedTokens: [] })
-          }} />
+          <SelectedTokens
+            tokens={selectedTokens}
+            onClose={() => {
+              this.setState({ selectedTokens: [] })
+            }} />
         </Wrapper>
       </>
     )
