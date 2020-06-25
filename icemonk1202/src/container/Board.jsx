@@ -77,9 +77,22 @@ class Board extends Component {
 
   state = {}
 
+  buyCard = (card, index) => {
+    if (!confirm("해당 카드를 구매하시겠습니까?")) return
+
+    this.props.moves.buyCard(card, index)
+  }
+
   render() {
     const getDevCards = (cards = []) =>
-      cards.map((card) => <DevCard key={card.id} card={card}></DevCard>)
+      cards.map((card, index) => (
+        <DevCard
+          key={card.id}
+          card={card}
+          onClick={this.buyCard}
+          index={index}
+        ></DevCard>
+      ))
     const getNobleCards = (cards = []) =>
       cards.map((card) => <NobleCard key={card.id} card={card}></NobleCard>)
     const getTokens = (token) =>

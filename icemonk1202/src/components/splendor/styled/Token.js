@@ -48,7 +48,6 @@ const GemCount = styled.div`
   bottom: -20px;
   font-size: 32px;
   font-weight: bold;
-  z-index: 10;
 `
 
 export { Token, Gem, GemCount }

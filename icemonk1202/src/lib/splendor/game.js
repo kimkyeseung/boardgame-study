@@ -1,5 +1,5 @@
 import { getCardData, getTokenData } from "./data"
-import { LEVEL } from "./constant"
+import { LEVEL, COLOR } from "./constant"
 import DeckModel from "../../models/Deck"
 import PlayerModel from "../../models/Player"
 
@@ -19,7 +19,6 @@ const Splendor = {
   name: "splendor",
 
   setup(ctx) {
-    console.log(ctx)
     const devDeck1 = buildDeckByLevel(LEVEL.I)
     const devDeck2 = buildDeckByLevel(LEVEL.II)
     const devDeck3 = buildDeckByLevel(LEVEL.III)
@@ -60,26 +59,62 @@ const Splendor = {
               const tokenIndex = G.boardTokens.findIndex(
                 (token) => token.color === color
               )
-              G.players[ctx.currentPlayer].tokens.push(
+              G.players[ctx.currentPlayer].tokens[color].push(
                 ...G.boardTokens.splice(tokenIndex, 1)
               )
             })
         })
+    },
+    buyCard(G, ctx, card, index) {
+      const player = G.players[ctx.currentPlayer]
 
-      console.log(G.players[ctx.currentPlayer].tokens)
+      // 토큰 비용 지불
+      Object.keys(COLOR).forEach((color) => {
+        const realCost = card.costs[color] - player[color + "Donation"]
+        const returnTokens = player.tokens[color].splice(0, realCost)
+        G.boardTokens.push(...returnTokens)
+      })
+
+      // 플레이어에게 카드 전달
+      const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
+      const deck = G[`devDeck${level}`]
+      const boardDeck = G[`boardDevDeck${level}`]
+      boardDeck.splice(boardDeck.indexOf(card), 1)
+      player.boughtCards.push(card)
+
+      // 덱에서 카드 1장 꺼내서 빈자리 채움
+      boardDeck.splice(index, 0, ...deck.draw())
+    },
+    keepCard(G, ctx, card, index) {
+      const player = G.players[ctx.currentPlayer]
+
+      // 토큰 비용 지불
+      Object.keys(COLOR).forEach((color) => {
+        const realCost = card.costs[color] - player[color + "Donation"]
+        const returnTokens = player.tokens[color].splice(0, realCost)
+        G.boardTokens.push(...returnTokens)
+      })
+
+      // 플레이어에게 카드 전달
+      const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
+      const deck = G[`devDeck${level}`]
+      const boardDeck = G[`boardDevDeck${level}`]
+      boardDeck.splice(boardDeck.indexOf(card), 1)
+      player.keptCards.push(card)
+
+      // 덱에서 카드 1장 꺼내서 빈자리 채움
+      boardDeck.splice(index, 0, ...deck.draw())
     },
   },
 
   turn: { moveLimit: 1 },
 
-  // endIf: (G, ctx) => {
-  //   if (IsVictory(G.cells)) {
-  //     return { winner: ctx.currentPlayer }
-  //   }
-  //   if (G.cells.filter((c) => c === null).length === 0) {
-  //     return { draw: true }
-  //   }
-  // },
+  endIf: (G, ctx) => {
+    if (G.players[ctx.currentPlayer].score >= 15) {
+      alert("승리", ctx.currentPlayer)
+      return { winner: ctx.currentPlayer }
+    }
+  },
 }
 
 export default Splendor
