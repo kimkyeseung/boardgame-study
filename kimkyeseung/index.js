@@ -1,6 +1,8 @@
 import React from 'react'
 import App from './src/App'
 import styled, { createGlobalStyle } from 'styled-components'
+import { Provider } from 'react-redux'
+import store from './src/store'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -19,11 +21,11 @@ const Main = styled.div`
 
 export default function Kimkyeseung() {
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <Main>
         <App />
       </Main>
-    </>
+    </Provider>
   )
 }

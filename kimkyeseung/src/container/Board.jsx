@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from '../components/Card'
 import Token from '../components/Token'
-import SelectedTokens from './SelectedTokens'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
-import FieldSummary from '../components/FieldSummary'
+import Field from './Field'
 import { Link } from '../../../lib/utils'
 
 const Winner = styled.div`
@@ -73,7 +72,7 @@ class Board extends Component {
       dev20, dev21, dev22, dev23,
       dev30, dev31, dev32, dev33
     } = G.board
-    console.log(G.fields)
+    // console.log(G.fields)
     const developmentOne = [dev10, dev11, dev12, dev13]
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
@@ -91,9 +90,7 @@ class Board extends Component {
           LeftPanel={
             <div>
               {Object.keys(G.fields).map(player => (
-                <FieldSummary
-                  active={player === `player${currentPlayer}`}
-                  field={G.fields[player]} />
+                <Field player={player} key={player} field={G.fields[player]} G={G} ctx={ctx} />
               ))}
             </div>
           }
@@ -144,13 +141,6 @@ class Board extends Component {
           }
           RightPanel={<div>Right</div>}
           Footer={<div>Footer</div>} />
-        <Wrapper>
-          <SelectedTokens
-            tokens={selectedTokens}
-            onClose={() => {
-              this.setState({ selectedTokens: [] })
-            }} />
-        </Wrapper>
       </>
     )
   }
