@@ -3,7 +3,10 @@ import PropTypes from "prop-types"
 
 import Token from "../components/Token"
 
+import { getId } from "../lib/util"
+
 import styled from "styled-components"
+import { COLOR } from "../lib/constant"
 
 const TokenArea = styled.div`
   display: flex;
@@ -162,8 +165,8 @@ class TokenBoard extends Component {
     return (
       <>
         <TokenArea>
-          {["white", "blue", "green", "red", "black"].map((color) => (
-            <div style={{ display: "flex" }}>
+          {Object.values(COLOR).map((color) => (
+            <div key={`token-${getId()}`} style={{ display: "flex" }}>
               <Token
                 onClick={this.onClickToken}
                 onDoubleClick={this.onDoubleClickToken}

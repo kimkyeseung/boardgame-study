@@ -175,15 +175,15 @@ class Board extends Component {
         <BoardCover>
           <DevArea>
             <DevDeckCover1>
-              <DevCard></DevCard>
+              <DevCard key={"deck1"}></DevCard>
               {getDevCards(this.props.G.boardDevDeck1)}
             </DevDeckCover1>
             <DevDeckCover2>
-              <DevCard></DevCard>
+              <DevCard key={"deck2"}></DevCard>
               {getDevCards(this.props.G.boardDevDeck2)}
             </DevDeckCover2>
             <DevDeckCover3>
-              <DevCard></DevCard>
+              <DevCard key={"deck3"}></DevCard>
               {getDevCards(this.props.G.boardDevDeck3)}
             </DevDeckCover3>
           </DevArea>

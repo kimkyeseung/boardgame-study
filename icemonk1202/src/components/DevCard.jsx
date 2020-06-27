@@ -9,11 +9,14 @@ import {
   Cost,
 } from "./styled/DevCard"
 import CardModel from "../models/Card"
+import { getId } from "../lib/util"
 
 const getCosts = (validCosts) =>
-  validCosts
-    .reverse()
-    .map(({ color, count }) => <Cost color={color}>{count}</Cost>)
+  validCosts.reverse().map(({ color, count }) => (
+    <Cost key={`cost-${getId()}`} color={color}>
+      {count}
+    </Cost>
+  ))
 
 class DevCard extends Component {
   static propTypes = {

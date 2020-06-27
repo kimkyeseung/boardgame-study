@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { COLOR, COLOR_CODE } from "../lib/constant"
+import { getId } from "../lib/util"
 
 import styled from "styled-components"
 
@@ -104,8 +105,8 @@ class PlayerBoard extends Component {
   }
 
   static propTypes = {
-    G: PropTypes.any.isRequired,
-    ctx: PropTypes.any.isRequired,
+    currentPlayer: PropTypes.any.isRequired,
+    players: PropTypes.any.isRequired,
   }
 
   static defaultProps = {
@@ -135,11 +136,17 @@ class PlayerBoard extends Component {
                 const token = player[`${color}Token`]
 
                 return color === COLOR.yellow ? (
-                  <DonationToken color={color}>
+                  <DonationToken
+                    key={`donation-token-${getId()}`}
+                    color={color}
+                  >
                     <div className="token">{token ? token : ""}</div>
                   </DonationToken>
                 ) : (
-                  <DonationToken color={color}>
+                  <DonationToken
+                    key={`donation-token-${getId()}`}
+                    color={color}
+                  >
                     <div className="donation">{donation ? donation : ""}</div>
                     <div className="token">{token ? token : ""}</div>
                     {token && donation ? donation + token : ""}
@@ -155,11 +162,11 @@ class PlayerBoard extends Component {
             const token = this.props.currentPlayer[`${color}Token`]
 
             return color === COLOR.yellow ? (
-              <DonationToken color={color}>
+              <DonationToken key={`donation-token-${getId()}`} color={color}>
                 <div className="token">{token ? token : ""}</div>
               </DonationToken>
             ) : (
-              <DonationToken color={color}>
+              <DonationToken key={`donation-token-${getId()}`} color={color}>
                 <div className="donation">{donation ? donation : ""}</div>
                 <div className="token">{token ? token : ""}</div>
                 {token && donation ? donation + token : ""}
