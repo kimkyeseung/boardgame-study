@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Token as TokenCover, Gem, GemCount } from "./styled/Token"
-import TokenModel from "../../models/Token"
+import TokenModel from "../models/Token"
 
 class Token extends Component {
   static propTypes = {

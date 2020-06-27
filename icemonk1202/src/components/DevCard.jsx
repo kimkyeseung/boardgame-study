@@ -8,7 +8,7 @@ import {
   CostCover,
   Cost,
 } from "./styled/DevCard"
-import CardModel from "../../models/Card"
+import CardModel from "../models/Card"
 
 const getCosts = (validCosts) =>
   validCosts

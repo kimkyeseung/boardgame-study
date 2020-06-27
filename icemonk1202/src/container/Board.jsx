@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import DevCard from "../components/splendor/DevCard"
-import NobleCard from "../components/splendor/NobleCard"
+import DevCard from "../components/DevCard"
+import NobleCard from "../components/NobleCard"
 
 import TokenBoard from "./TokenBoard"
 import PlayerBoard from "./PlayerBoard"

@@ -1,5 +1,5 @@
-import Card from "../../models/Card"
-import Token from "../../models/Token"
+import Card from "../models/Card"
+import Token from "../models/Token"
 import { baseCardData, baseTokenData } from "./config"
 
 export const getCardData = (_) => baseCardData.map((data) => new Card(data))

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { COLOR_CODE } from "../../../lib/splendor/constant"
+import { COLOR_CODE } from "../../lib/constant"
 
 const token = {
   radius: 40,

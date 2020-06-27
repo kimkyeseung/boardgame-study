@@ -1,7 +1,7 @@
 import { getCardData, getTokenData } from "./data"
 import { LEVEL, COLOR } from "./constant"
-import DeckModel from "../../models/Deck"
-import PlayerModel from "../../models/Player"
+import DeckModel from "../models/Deck"
+import PlayerModel from "../models/Player"
 
 const cards = getCardData()
 const buildDeckByLevel = (level) =>

@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { COLOR_CODE } from "../lib/splendor/constant"
+import { COLOR_CODE } from "../lib/constant"
 
 import styled from "styled-components"
 

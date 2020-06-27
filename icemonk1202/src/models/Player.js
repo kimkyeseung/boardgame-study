@@ -1,4 +1,4 @@
-import { COLOR } from "../lib/splendor/constant"
+import { COLOR } from "../lib/constant"
 
 let playerId = 0
 const add = (a, b) => a + b
