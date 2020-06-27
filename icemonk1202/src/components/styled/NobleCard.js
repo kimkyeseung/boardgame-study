@@ -6,15 +6,14 @@ const card = {
   height: 132,
   margin: 8,
 }
+const imageBaseURL = `https://picsum.photos`
 const Card = styled("span")`
   display: flex;
   justify-content: space-between;
   width: ${card.width}px;
   height: ${card.height}px;
   border-radius: 4px;
-  background: url(https://picsum.photos/${card.width}/${card.height}?random=${(
-      props
-    ) => props.cardId});
+  background: url(${imageBaseURL}/${card.width}/${card.height}?random=${(props) => props.cardId});
   box-shadow: 1px 1px 6px 2px grey;
   overflow: hidden;
   margin: ${card.margin}px 0;

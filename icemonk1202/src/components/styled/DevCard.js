@@ -5,6 +5,7 @@ const card = {
   width: 120,
   height: 180,
 }
+const imageBaseURL = `https://picsum.photos`
 const Card = styled("span")`
   display: flex;
   flex-direction: column;
@@ -12,9 +13,7 @@ const Card = styled("span")`
   width: ${card.width}px;
   height: ${card.height}px;
   border-radius: 4px;
-  background: url(https://picsum.photos/${card.width}/${card.height}?random=${(
-      props
-    ) => props.cardId});
+  background: url(${imageBaseURL}/${card.width}/${card.height}?random=${(props) => props.cardId});
   box-shadow: 1px 1px 6px 2px grey;
   overflow: hidden;
   user-select: none;
