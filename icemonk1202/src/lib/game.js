@@ -110,31 +110,19 @@ const Splendor = {
 
   turn: {
     moveLimit: 1,
-    onBegin: (G) => {
-      G.isEndTurn = false
-    },
-    onMove: (G) => {
-      G.isEndTurn = true
+    onBegin: (G, ctx) => {
+      const isFirst = ctx.playOrder[0] === ctx.currentPlayer
+      if (!isFirst) return
+
+      const players = ctx.playOrder.map((id) => G.players[id])
+      const isGameover = players.some((player) => player.score >= 15)
+      if (isGameover) {
+        const winner = players.sort((a, b) => b.score - a.score)[0]
+        ctx.events.endGame({ winner })
+      }
     },
   },
-  endIf: (G, ctx) => {
-    /**
-     * @TODO endIf가 한번 move에 4번 호출되고 그 사이에 턴이바뀜
-     *      마지막 순서의 move가 끝난 경우에만 체크해야하는데 불가능
-     */
-    if (!G.isEndTurn) return
-
-    const isLast = ctx.playOrder[ctx.playOrder.length - 1] === ctx.currentPlayer
-    if (!isLast) return
-
-    const players = ctx.playOrder.map((id) => G.players[id])
-    const isGameover = players.some((player) => player.score >= 15)
-    if (isGameover) {
-      const winner = players.sort((a, b) => b.score - a.score)[0]
-      return { winner }
-    }
-  },
-  onEnd: (G, ctx) => {
+  onEnd: (_, ctx) => {
     alert("승리" + JSON.stringify(ctx.gameover))
   },
 }
