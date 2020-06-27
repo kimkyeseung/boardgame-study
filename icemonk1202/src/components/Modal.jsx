@@ -13,7 +13,7 @@ const Overay = styled.div`
   z-index: 10;
 `
 
-const Modal = styled.div`
+const ContentCover = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -25,13 +25,7 @@ const Modal = styled.div`
   border: 1px solid grey;
 `
 
-const ActionButton = styled.button`
-  width: 100%;
-  height: 40px;
-  font-size: 20px;
-`
-
-class ActionModal extends Component {
+class Modal extends Component {
   static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     close: PropTypes.func,
@@ -42,13 +36,31 @@ class ActionModal extends Component {
     close: () => {},
   }
 
+  onClickContent = (e) => {
+    e.stopPropagation()
+  }
+
+  onKeypressESC = (e) => {
+    if (e.key !== "Escape") return
+
+    this.props.close()
+  }
+  componentWillMount = () => {
+    window.addEventListener("keydown", this.onKeypressESC)
+  }
+  componentWillUnmount = () => {
+    window.removeEventListener("keydown", this.onKeypressESC)
+  }
+
   render() {
     return (
       <Overay onClick={this.props.close}>
-        <Modal width={this.props.width}>{this.props.children}</Modal>
+        <ContentCover width={this.props.width} onClick={this.onClickContent}>
+          {this.props.children}
+        </ContentCover>
       </Overay>
     )
   }
 }
 
-export default ActionModal
+export default Modal
