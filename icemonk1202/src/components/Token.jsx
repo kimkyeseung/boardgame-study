@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Token as TokenCover, Gem, GemCount } from "./styled/Token"
-import TokenModel from "../../models/Token"
+import TokenModel from "../models/Token"
 
 class Token extends Component {
   static propTypes = {
@@ -21,7 +21,6 @@ class Token extends Component {
   }
 
   render() {
-    console.log(this.props.selected)
     return (
       <TokenCover
         onClick={(e) => this.props.onClick(this.props.color)}

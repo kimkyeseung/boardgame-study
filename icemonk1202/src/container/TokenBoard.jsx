@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import Token from "../components/splendor/Token"
+import Token from "../components/Token"
 
 import styled from "styled-components"
 

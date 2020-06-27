@@ -1,49 +1,66 @@
-import { COLOR } from "../lib/splendor/constant"
+import { COLOR } from "../lib/constant"
 
 let playerId = 0
+const add = (a, b) => a + b
 export default class Player {
-  constructor(name) {
-    this.id = `player-${playerId++}`
-    this.name = name || `player${playerId}`
+  constructor(id, name) {
+    this.id = id || `player-${playerId++}`
+    this.name = name || id || `player${playerId}`
   }
 
   id = null
   name = ""
   keptCards = []
   boughtCards = []
-  tokens = []
+  tokens = {
+    [COLOR.white]: [],
+    [COLOR.blue]: [],
+    [COLOR.green]: [],
+    [COLOR.red]: [],
+    [COLOR.black]: [],
+    [COLOR.yellow]: [],
+  }
 
   get score() {
-    /**
-     * @TODO 보유 카드로 스코어 계산
-     */
-    return boughtCards
+    return this.boughtCards.map((card) => card.score).reduce(add, 0)
   }
 
   get donation() {
-    /**
-     * @TODO 보유 카드로 기부량 계산
-     */
-    return boughtCards
+    return this.boughtCards
+      .map((card) => card.validDonation)
+      .reduce((acc, color) => {
+        acc[color] ? acc[color]++ : (acc[color] = 1)
+        return acc
+      }, {})
   }
 
   get whiteToken() {
-    return this.tokens.filter((token) => token.color === COLOR.white).length
+    return this.tokens[COLOR.white].filter(
+      (token) => token.color === COLOR.white
+    ).length
   }
   get blueToken() {
-    return this.tokens.filter((token) => token.color === COLOR.blue).length
+    return this.tokens[COLOR.blue].filter((token) => token.color === COLOR.blue)
+      .length
   }
   get greenToken() {
-    return this.tokens.filter((token) => token.color === COLOR.green).length
+    return this.tokens[COLOR.green].filter(
+      (token) => token.color === COLOR.green
+    ).length
   }
   get redToken() {
-    return this.tokens.filter((token) => token.color === COLOR.red).length
+    return this.tokens[COLOR.red].filter((token) => token.color === COLOR.red)
+      .length
   }
   get blackToken() {
-    return this.tokens.filter((token) => token.color === COLOR.black).length
+    return this.tokens[COLOR.black].filter(
+      (token) => token.color === COLOR.black
+    ).length
   }
-  get yelloToken() {
-    return this.tokens.filter((token) => token.color === COLOR.yello).length
+  get yellowToken() {
+    return this.tokens[COLOR.yellow].filter(
+      (token) => token.color === COLOR.yellow
+    ).length
   }
   get whiteDonation() {
     return this.boughtCards.filter((card) => card.validDonation === COLOR.white)

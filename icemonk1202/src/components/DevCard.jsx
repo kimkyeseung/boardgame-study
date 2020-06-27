@@ -8,7 +8,7 @@ import {
   CostCover,
   Cost,
 } from "./styled/DevCard"
-import CardModel from "../../models/Card"
+import CardModel from "../models/Card"
 
 const getCosts = (validCosts) =>
   validCosts
@@ -17,15 +17,20 @@ const getCosts = (validCosts) =>
 
 class DevCard extends Component {
   static propTypes = {
+    index: PropTypes.number,
     card: PropTypes.instanceOf(CardModel),
+    onClick: PropTypes.func,
   }
 
   render() {
-    const { card } = this.props
+    const { card, onClick } = this.props
     if (!card) return <Card></Card>
 
     return (
-      <Card cardId={this.props.card.id}>
+      <Card
+        cardId={this.props.card.id}
+        onClick={() => onClick(card, this.props.index)}
+      >
         <Header>
           <Score>{card.score ? card.score : ""}</Score>
           <Donnation color={card.validDonation}></Donnation>

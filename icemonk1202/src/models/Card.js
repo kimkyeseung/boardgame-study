@@ -1,5 +1,5 @@
-import { add } from "../lib/splendor/util"
-import { COLOR, CARD } from "../lib/splendor/constant"
+import { add } from "../lib/util"
+import { COLOR, CARD } from "../lib/constant"
 
 let cardId = 0
 export default class Card {

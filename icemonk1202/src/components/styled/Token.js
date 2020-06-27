@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { COLOR_CODE } from "../../../lib/splendor/constant"
+import { COLOR_CODE } from "../../lib/constant"
 
 const token = {
   radius: 40,
@@ -48,7 +48,6 @@ const GemCount = styled.div`
   bottom: -20px;
   font-size: 32px;
   font-weight: bold;
-  z-index: 10;
 `
 
 export { Token, Gem, GemCount }
