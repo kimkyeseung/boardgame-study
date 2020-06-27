@@ -21,7 +21,6 @@ class Token extends Component {
   }
 
   render() {
-    console.log(this.props.selected)
     return (
       <TokenCover
         onClick={(e) => this.props.onClick(this.props.color)}

@@ -22,7 +22,7 @@ const ContentCover = styled.div`
   height: fit-content;
   background: white;
   border-radius: 4px;
-  border: 1px solid grey;
+  box-shadow: 0 0 6px grey;
 `
 
 class Modal extends Component {
@@ -40,16 +40,16 @@ class Modal extends Component {
     e.stopPropagation()
   }
 
-  onKeypressESC = (e) => {
+  onKeydownEscape = (e) => {
     if (e.key !== "Escape") return
 
     this.props.close()
   }
-  componentWillMount = () => {
-    window.addEventListener("keydown", this.onKeypressESC)
+  componentDidMount = () => {
+    window.addEventListener("keydown", this.onKeydownEscape)
   }
   componentWillUnmount = () => {
-    window.removeEventListener("keydown", this.onKeypressESC)
+    window.removeEventListener("keydown", this.onKeydownEscape)
   }
 
   render() {

@@ -3,9 +3,9 @@ import { COLOR } from "../lib/constant"
 let playerId = 0
 const add = (a, b) => a + b
 export default class Player {
-  constructor(name) {
-    this.id = `player-${playerId++}`
-    this.name = name || `player${playerId}`
+  constructor(id, name) {
+    this.id = id || `player-${playerId++}`
+    this.name = name || id || `player${playerId}`
   }
 
   id = null
@@ -35,26 +35,32 @@ export default class Player {
   }
 
   get whiteToken() {
-    return this.tokens.white.filter((token) => token.color === COLOR.white)
-      .length
+    return this.tokens[COLOR.white].filter(
+      (token) => token.color === COLOR.white
+    ).length
   }
   get blueToken() {
-    return this.tokens.blue.filter((token) => token.color === COLOR.blue).length
+    return this.tokens[COLOR.blue].filter((token) => token.color === COLOR.blue)
+      .length
   }
   get greenToken() {
-    return this.tokens.green.filter((token) => token.color === COLOR.green)
-      .length
+    return this.tokens[COLOR.green].filter(
+      (token) => token.color === COLOR.green
+    ).length
   }
   get redToken() {
-    return this.tokens.red.filter((token) => token.color === COLOR.red).length
+    return this.tokens[COLOR.red].filter((token) => token.color === COLOR.red)
+      .length
   }
   get blackToken() {
-    return this.tokens.black.filter((token) => token.color === COLOR.black)
-      .length
+    return this.tokens[COLOR.black].filter(
+      (token) => token.color === COLOR.black
+    ).length
   }
-  get yelloToken() {
-    return this.tokens.yello.filter((token) => token.color === COLOR.yello)
-      .length
+  get yellowToken() {
+    return this.tokens[COLOR.yellow].filter(
+      (token) => token.color === COLOR.yellow
+    ).length
   }
   get whiteDonation() {
     return this.boughtCards.filter((card) => card.validDonation === COLOR.white)

@@ -11,7 +11,7 @@ const buildDeckByLevel = (level) =>
   )
 const buildPlayers = (playOrder) =>
   playOrder.reduce((acc, playerId) => {
-    acc[playerId] = new PlayerModel()
+    acc[playerId] = new PlayerModel(playerId)
     return acc
   }, {})
 
@@ -45,6 +45,7 @@ const Splendor = {
       boardNobleDeck,
       boardTokens: getTokenData(ctx.numPlayers),
       players: buildPlayers(ctx.playOrder),
+      isEndTurn: false,
     }
   },
 
@@ -88,12 +89,12 @@ const Splendor = {
     keepCard(G, ctx, card, index) {
       const player = G.players[ctx.currentPlayer]
 
-      // 토큰 비용 지불
-      Object.keys(COLOR).forEach((color) => {
-        const realCost = card.costs[color] - player[color + "Donation"]
-        const returnTokens = player.tokens[color].splice(0, realCost)
-        G.boardTokens.push(...returnTokens)
-      })
+      // 노랑 토큰 가져오기
+      const tokenIndex = G.boardTokens.findIndex(
+        (token) => token.color === COLOR.yellow
+      )
+      if (tokenIndex >= 0)
+        player.tokens.yellow.push(G.boardTokens.splice(tokenIndex, 1)[0])
 
       // 플레이어에게 카드 전달
       const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
@@ -107,13 +108,34 @@ const Splendor = {
     },
   },
 
-  turn: { moveLimit: 1 },
-
+  turn: {
+    moveLimit: 1,
+    onBegin: (G) => {
+      G.isEndTurn = false
+    },
+    onMove: (G) => {
+      G.isEndTurn = true
+    },
+  },
   endIf: (G, ctx) => {
-    if (G.players[ctx.currentPlayer].score >= 15) {
-      alert("승리", ctx.currentPlayer)
-      return { winner: ctx.currentPlayer }
+    /**
+     * @TODO endIf가 한번 move에 4번 호출되고 그 사이에 턴이바뀜
+     *      마지막 순서의 move가 끝난 경우에만 체크해야하는데 불가능
+     */
+    if (!G.isEndTurn) return
+
+    const isLast = ctx.playOrder[ctx.playOrder.length - 1] === ctx.currentPlayer
+    if (!isLast) return
+
+    const players = ctx.playOrder.map((id) => G.players[id])
+    const isGameover = players.some((player) => player.score >= 15)
+    if (isGameover) {
+      const winner = players.sort((a, b) => b.score - a.score)[0]
+      return { winner }
     }
+  },
+  onEnd: (G, ctx) => {
+    alert("승리" + JSON.stringify(ctx.gameover))
   },
 }
 

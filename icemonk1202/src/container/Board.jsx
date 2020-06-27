@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 import DevCard from "../components/DevCard"
 import NobleCard from "../components/NobleCard"
+import Modal from "../components/Modal"
 
 import TokenBoard from "./TokenBoard"
 import PlayerBoard from "./PlayerBoard"
@@ -60,6 +61,27 @@ const NobleDeckCover = styled.div`
   flex-wrap: wrap;
   padding: 16px;
 `
+const ActionButton = styled.button`
+  all: unset;
+  width: 400px;
+  height: 40px;
+  font-size: 24px;
+  text-align: center;
+  background: skyblue;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &:active {
+    filter: brightness(1.1);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #eee;
+  }
+`
 
 class Board extends Component {
   constructor(props) {
@@ -75,12 +97,64 @@ class Board extends Component {
     isMultiplayer: PropTypes.bool,
   }
 
-  state = {}
+  state = {
+    selectedCard: {},
+    selectedCardIndex: -1,
+    actionModalShow: false,
+  }
 
-  buyCard = (card, index) => {
-    if (!confirm("해당 카드를 구매하시겠습니까?")) return
+  onKeydownModal = (e) => {
+    if (!this.state.actionModalShow) return
 
-    this.props.moves.buyCard(card, index)
+    if (e.key === "b") return this.buyCard()
+    if (e.key === "k") return this.keepCard()
+  }
+
+  componentDidMount = () => {
+    window.addEventListener("keydown", this.onKeydownModal)
+  }
+  componentWillUnmount = () => {
+    window.removeEventListener("keydown", this.onKeydownModal)
+  }
+
+  onClickDevCard = (card, index) => {
+    this.setState(
+      {
+        selectedCard: card,
+        selectedCardIndex: index,
+      },
+      this.openActionModal
+    )
+  }
+
+  openActionModal = () => {
+    this.setState({ actionModalShow: true })
+  }
+  closeActionModal = () => {
+    this.setState({ actionModalShow: false })
+  }
+
+  move = (method, ...args) => {
+    this.closeActionModal()
+    this.props.moves[method](...args)
+  }
+
+  drawTokens = (tokens) => {
+    this.move("drawTokens", tokens)
+  }
+  buyCard = () => {
+    this.move("buyCard", this.state.selectedCard, this.state.selectedCardIndex)
+  }
+  keepCard = () => {
+    this.move("keepCard", this.state.selectedCard, this.state.selectedCardIndex)
+  }
+
+  get players() {
+    return this.props.ctx.playOrder.map((id) => this.props.G.players[id])
+  }
+
+  get currentPlayer() {
+    return this.props.G.players?.[this.props.ctx.currentPlayer]
   }
 
   render() {
@@ -89,19 +163,16 @@ class Board extends Component {
         <DevCard
           key={card.id}
           card={card}
-          onClick={this.buyCard}
+          onClick={this.onClickDevCard}
           index={index}
         ></DevCard>
       ))
     const getNobleCards = (cards = []) =>
       cards.map((card) => <NobleCard key={card.id} card={card}></NobleCard>)
-    const getTokens = (token) =>
-      token.map((token) => <Token key={token.id} color={token.color}></Token>)
 
     return (
       <>
         <BoardCover>
-          {this.props.ctx.currentPlayer}
           <DevArea>
             <DevDeckCover1>
               <DevCard></DevCard>
@@ -123,10 +194,19 @@ class Board extends Component {
           </NobleArea>
           <TokenBoard
             tokens={this.props.G.boardTokens}
-            drawTokens={this.props.moves.drawTokens}
+            drawTokens={this.drawTokens}
           ></TokenBoard>
         </BoardCover>
-        <PlayerBoard G={this.props.G} ctx={this.props.ctx}></PlayerBoard>
+        <PlayerBoard
+          currentPlayer={this.currentPlayer}
+          players={this.players}
+        ></PlayerBoard>
+        {this.state.actionModalShow && (
+          <Modal close={this.closeActionModal}>
+            <ActionButton onClick={this.buyCard}>Buy</ActionButton>
+            <ActionButton onClick={this.keepCard}>Keep</ActionButton>
+          </Modal>
+        )}
       </>
     )
   }
