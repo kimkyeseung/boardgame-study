@@ -11,7 +11,7 @@ class SelectedTokens extends Component {
   }
 
   render() {
-    const { onClose, tokens, isOpen } = this.props
+    const { onClose, tokens = [], isOpen } = this.props
     const { confirmable } = this.state
     return (
       <Controller isOpen={tokens.length ? true : false}>

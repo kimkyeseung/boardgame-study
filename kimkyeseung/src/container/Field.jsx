@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import SelectedTokens from './SelectedTokens'
 import FieldSummary from '../components/FieldSummary'
-import SelectedTokens from './SelectedTokens'
 
 class Field extends Component {
   constructor(props) {
