@@ -215,6 +215,7 @@ class Board extends Component {
             </NobleDeckCover>
           </NobleArea>
           <TokenBoard
+            currentPlayer={this.currentPlayer}
             tokens={this.props.G.boardTokens}
             drawTokens={this.drawTokens}
           ></TokenBoard>

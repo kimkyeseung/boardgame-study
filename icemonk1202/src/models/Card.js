@@ -1,4 +1,4 @@
-import { add } from "../lib/util"
+import { values, sum } from "../lib/util"
 import { COLOR, CARD } from "../lib/constant"
 
 let cardId = 0
@@ -25,7 +25,7 @@ export default class Card {
   playerId
 
   get totalCost() {
-    return Object.values(this.costs).reduce(add, 0)
+    return sum(values(this.costs))
   }
 
   get validCosts() {
