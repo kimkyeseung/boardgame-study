@@ -71,7 +71,7 @@ const DonationToken = styled.div`
 
 const CurrentPlayer = styled.div`
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 120px;
   height: 60px;
@@ -86,7 +86,7 @@ const CurrentPlayer = styled.div`
 
 const Score = styled.div`
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: 160px;
   height: 60px;
