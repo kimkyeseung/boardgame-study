@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Card, Nav, Score, CostCover, Cost } from "./styled/NobleCard"
-import CardModel from "../../models/Card"
+import CardModel from "../models/Card"
+import { getId } from "../lib/util"
 
 const getCosts = (validCosts) =>
-  validCosts
-    .reverse()
-    .map(({ color, count }) => <Cost color={color}>{count}</Cost>)
+  validCosts.reverse().map(({ color, count }) => (
+    <Cost key={`cost-${getId()}`} color={color}>
+      {count}
+    </Cost>
+  ))
 
 class NobleCard extends Component {
   static propTypes = {

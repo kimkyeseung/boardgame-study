@@ -1,9 +1,12 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import Token from "../components/splendor/Token"
+import Token from "../components/Token"
+
+import { getId } from "../lib/util"
 
 import styled from "styled-components"
+import { COLOR } from "../lib/constant"
 
 const TokenArea = styled.div`
   display: flex;
@@ -162,27 +165,29 @@ class TokenBoard extends Component {
     return (
       <>
         <TokenArea>
-          {["white", "blue", "green", "red", "black"].map((color) => (
-            <div style={{ display: "flex" }}>
-              <Token
-                onClick={this.onClickToken}
-                onDoubleClick={this.onDoubleClickToken}
-                selected={this.state.selectedTokens[color]}
-                count={
-                  this.props.tokens.filter((token) => token.color === color)
-                    .length
-                }
-                color={color}
-              />
-              <TokenInput
-                value={this.state.selectedTokens[color]}
-                onChange={(event) => this.onChangeToken(event, color)}
-                type="number"
-                min="0"
-                max="2"
-              ></TokenInput>
-            </div>
-          ))}
+          {Object.values(COLOR)
+            .filter((color) => color !== "yellow")
+            .map((color) => (
+              <div key={`token-${getId()}`} style={{ display: "flex" }}>
+                <Token
+                  onClick={this.onClickToken}
+                  onDoubleClick={this.onDoubleClickToken}
+                  selected={this.state.selectedTokens[color]}
+                  count={
+                    this.props.tokens.filter((token) => token.color === color)
+                      .length
+                  }
+                  color={color}
+                />
+                <TokenInput
+                  value={this.state.selectedTokens[color]}
+                  onChange={(event) => this.onChangeToken(event, color)}
+                  type="number"
+                  min="0"
+                  max="2"
+                ></TokenInput>
+              </div>
+            ))}
           <Token
             count={
               this.props.tokens.filter((token) => token.color === "yellow")
