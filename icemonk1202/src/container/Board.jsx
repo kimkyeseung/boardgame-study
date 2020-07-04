@@ -8,11 +8,15 @@ import Modal from "../components/Modal"
 import TokenBoard from "./TokenBoard"
 import PlayerBoard from "./PlayerBoard"
 
+import { LEVEL } from "../lib/constant"
+import { last } from "../lib/util"
+
 import styled from "styled-components"
 const BoardCover = styled.div`
   display: flex;
   flex-grow: 0;
   height: 90vh;
+  padding-left: 200px;
 `
 
 const DevArea = styled.div`
@@ -98,15 +102,15 @@ class Board extends Component {
   }
 
   state = {
+    isDeckClicked: false,
     selectedCard: {},
-    selectedCardIndex: -1,
     actionModalShow: false,
   }
 
   onKeydownModal = (e) => {
     if (!this.state.actionModalShow) return
 
-    if (e.key === "b") return this.buyCard()
+    if (e.key === "b" && !this.state.isDeckClicked) return this.buyCard()
     if (e.key === "k") return this.keepCard()
   }
 
@@ -117,12 +121,22 @@ class Board extends Component {
     window.removeEventListener("keydown", this.onKeydownModal)
   }
 
-  onClickDevCard = (card, index) => {
+  onClickDevDeck = (level) => {
+    const deck =
+      level === LEVEL.I
+        ? this.props.G["devDeck" + 1]
+        : level === LEVEL.II
+        ? this.props.G["devDeck" + 2]
+        : this.props.G["devDeck" + 3]
+
     this.setState(
-      {
-        selectedCard: card,
-        selectedCardIndex: index,
-      },
+      { selectedCard: last(deck.cards), isDeckClicked: true },
+      this.openActionModal
+    )
+  }
+  onClickDevCard = (card) => {
+    this.setState(
+      { selectedCard: card, isDeckClicked: false },
       this.openActionModal
     )
   }
@@ -143,10 +157,10 @@ class Board extends Component {
     this.move("drawTokens", tokens)
   }
   buyCard = () => {
-    this.move("buyCard", this.state.selectedCard, this.state.selectedCardIndex)
+    this.move("buyCard", this.state.selectedCard)
   }
   keepCard = () => {
-    this.move("keepCard", this.state.selectedCard, this.state.selectedCardIndex)
+    this.move("keepCard", this.state.selectedCard, this.state.isDeckClicked)
   }
 
   get players() {
@@ -159,12 +173,11 @@ class Board extends Component {
 
   render() {
     const getDevCards = (cards = []) =>
-      cards.map((card, index) => (
+      cards.map((card) => (
         <DevCard
           key={card.id}
           card={card}
           onClick={this.onClickDevCard}
-          index={index}
         ></DevCard>
       ))
     const getNobleCards = (cards = []) =>
@@ -175,16 +188,25 @@ class Board extends Component {
         <BoardCover>
           <DevArea>
             <DevDeckCover1>
-              <DevCard key={"deck1"}></DevCard>
-              {getDevCards(this.props.G.boardDevDeck1)}
+              <DevCard
+                key={"deck1"}
+                onClick={() => this.onClickDevDeck(LEVEL.I)}
+              ></DevCard>
+              {getDevCards(this.props.G.openedDevCards1)}
             </DevDeckCover1>
             <DevDeckCover2>
-              <DevCard key={"deck2"}></DevCard>
-              {getDevCards(this.props.G.boardDevDeck2)}
+              <DevCard
+                key={"deck2"}
+                onClick={() => this.onClickDevDeck(LEVEL.II)}
+              ></DevCard>
+              {getDevCards(this.props.G.openedDevCards2)}
             </DevDeckCover2>
             <DevDeckCover3>
-              <DevCard key={"deck3"}></DevCard>
-              {getDevCards(this.props.G.boardDevDeck3)}
+              <DevCard
+                key={"deck3"}
+                onClick={() => this.onClickDevDeck(LEVEL.III)}
+              ></DevCard>
+              {getDevCards(this.props.G.openedDevCards3)}
             </DevDeckCover3>
           </DevArea>
           <NobleArea>
@@ -203,7 +225,9 @@ class Board extends Component {
         ></PlayerBoard>
         {this.state.actionModalShow && (
           <Modal close={this.closeActionModal}>
-            <ActionButton onClick={this.buyCard}>Buy</ActionButton>
+            {!this.state.isDeckClicked && (
+              <ActionButton onClick={this.buyCard}>Buy</ActionButton>
+            )}
             <ActionButton onClick={this.keepCard}>Keep</ActionButton>
           </Modal>
         )}

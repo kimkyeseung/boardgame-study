@@ -29,9 +29,9 @@ const Splendor = {
     devDeck3.shuffle()
     nobleDeck.shuffle()
 
-    const boardDevDeck1 = devDeck1.draw(4).reverse()
-    const boardDevDeck2 = devDeck2.draw(4).reverse()
-    const boardDevDeck3 = devDeck3.draw(4).reverse()
+    const openedDevCards1 = devDeck1.draw(4).reverse()
+    const openedDevCards2 = devDeck2.draw(4).reverse()
+    const openedDevCards3 = devDeck3.draw(4).reverse()
     const boardNobleDeck = nobleDeck.draw(ctx.numPlayers + 1).reverse()
 
     return {
@@ -39,9 +39,9 @@ const Splendor = {
       devDeck2,
       devDeck3,
       nobleDeck,
-      boardDevDeck1,
-      boardDevDeck2,
-      boardDevDeck3,
+      openedDevCards1,
+      openedDevCards2,
+      openedDevCards3,
       boardNobleDeck,
       boardTokens: getTokenData(ctx.numPlayers),
       players: buildPlayers(ctx.playOrder),
@@ -66,7 +66,7 @@ const Splendor = {
             })
         })
     },
-    buyCard(G, ctx, card, index) {
+    buyCard(G, ctx, card) {
       const player = G.players[ctx.currentPlayer]
 
       // 토큰 비용 지불
@@ -78,15 +78,14 @@ const Splendor = {
 
       // 플레이어에게 카드 전달
       const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
-      const deck = G[`devDeck${level}`]
-      const boardDeck = G[`boardDevDeck${level}`]
-      boardDeck.splice(boardDeck.indexOf(card), 1)
+      const openedCards = G[`openedDevCards${level}`]
       player.boughtCards.push(card)
 
-      // 덱에서 카드 1장 꺼내서 빈자리 채움
-      boardDeck.splice(index, 0, ...deck.draw())
+      // 덱에서 카드 1장 꺼내서 카드교체
+      const deck = G[`devDeck${level}`]
+      openedCards.splice(openedCards.indexOf(card), 1, ...deck.draw())
     },
-    keepCard(G, ctx, card, index) {
+    keepCard(G, ctx, card, isDeck = false) {
       const player = G.players[ctx.currentPlayer]
 
       // 노랑 토큰 가져오기
@@ -97,14 +96,17 @@ const Splendor = {
         player.tokens.yellow.push(G.boardTokens.splice(tokenIndex, 1)[0])
 
       // 플레이어에게 카드 전달
-      const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
-      const deck = G[`devDeck${level}`]
-      const boardDeck = G[`boardDevDeck${level}`]
-      boardDeck.splice(boardDeck.indexOf(card), 1)
       player.keptCards.push(card)
 
-      // 덱에서 카드 1장 꺼내서 빈자리 채움
-      boardDeck.splice(index, 0, ...deck.draw())
+      // 덱에서 카드 이동
+      const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
+      const deck = G[`devDeck${level}`]
+      if (isDeck) {
+        deck.cards.splice(deck.cards.indexOf(card), 1)
+      } else {
+        const openedCards = G[`openedDevCards${level}`]
+        openedCards.splice(openedCards.indexOf(card), 1, ...deck.draw())
+      }
     },
   },
 
