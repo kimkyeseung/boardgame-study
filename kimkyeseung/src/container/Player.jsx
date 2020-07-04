@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import SelectedTokens from './SelectedTokens'
 import FieldSummary from '../components/FieldSummary'
 
 const Name = styled.div`
@@ -13,21 +12,15 @@ class Player extends Component {
   }
 
   render() {
-    const { ctx, player, G, selectedTokens } = this.props
+    const { ctx, player, G, selectedTokens, field } = this.props
     console.log({ player })
     const { currentPlayer } = ctx
     return (
       <div>
-        <Name>{player}</Name>
+        <Name>{field.name}</Name>
         <FieldSummary
           active={player === `player${currentPlayer}`}
           field={G.fields[player]} />
-
-        <SelectedTokens
-          tokens={selectedTokens}
-          onClose={() => {
-            this.setState({ selectedTokens: [] })
-          }} />
       </div>
     )
   }

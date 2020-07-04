@@ -41,7 +41,7 @@ class App extends Component {
     const { isStart, playerNum, playerNames } = this.state
     return (
       isStart
-        ? <Game playerNum={playerNum} />
+        ? <Game playerNum={playerNum} playerNames={playerNames}/>
         : <Lobby
           playerNum={playerNum}
           setPlayerNum={this.setPlayerNum}

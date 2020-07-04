@@ -5,14 +5,9 @@ import Card from '../components/Card'
 import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
+import SelectedTokens from '../container/SelectedTokens'
 import Player from './Player'
 import { Link } from '../../../lib/utils'
-
-const Winner = styled.div`
-  margin-top: 25px;
-  width: 168px;
-  text-align: center;
-`
 
 const Header = styled.header``
 
@@ -20,10 +15,6 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 900px;
-`
-
-const Wrapper = styled.div`
-  display: flex;
 `
 
 class Board extends Component {
@@ -37,12 +28,9 @@ class Board extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {
-      selectedTokens: []
-    }
+    this.state = {}
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
-    this.selectToken = this.selectToken.bind(this)
   }
 
   componentDidMount() {
@@ -56,19 +44,11 @@ class Board extends Component {
   }
 
   handleTokenClick(token) {
-    const { selectedTokens } = this.state
-    if (selectedTokens.includes(token) || token === 'yellow') {
+    if (token === 'yellow') {
       return
     }
     const { selectToken, getTokens } = this.props.moves
     selectToken(token)
-  } 
-
-  selectToken(token, cb) {
-    console.log(token)
-    this.setState({
-      selectedTokens: [...selectedTokens, token]
-    }, cb)
   }
 
   deselectToken(token, cb) {
@@ -79,6 +59,10 @@ class Board extends Component {
       }
       return { selectedTokens: prevState.selectedTokens.splice(index, 1) }
     }, cb)
+  }
+
+  confirmSelectedToken() {
+    console.log('confirmSelectedToken')
   }
 
   render() {
@@ -95,7 +79,7 @@ class Board extends Component {
     const developmentThree = [dev30, dev31, dev32, dev33]
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const { selectedTokens } = this.state
+    const { selectedTokens } = G
     return (
       <>
         <Layout
@@ -107,7 +91,13 @@ class Board extends Component {
           LeftPanel={
             <div>
               {Object.keys(G.fields).map(player => (
-                <Player player={player} key={player} field={G.fields[player]} G={G} ctx={ctx} />
+                <Player
+                  key={player}
+                  field={G.fields[player]}
+                  G={G}
+                  selectedTokens={selectedTokens}
+                  player={player}
+                  ctx={ctx} />
               ))}
             </div>
           }
@@ -157,7 +147,13 @@ class Board extends Component {
             />
           }
           RightPanel={<div>Right</div>}
-          Footer={<div>Footer</div>} />
+          Footer={<div className="hand">
+            <SelectedTokens
+              tokens={selectedTokens}
+              onClose={() => {
+                this.setState({ selectedTokens: [] })
+              }} />
+          </div>} />
       </>
     )
   }
