@@ -1,12 +1,17 @@
 import React from 'react'
 import App from './src/App'
 import styled, { createGlobalStyle } from 'styled-components'
+import { Provider } from 'react-redux'
+import store from './src/store'
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Galada&family=Lobster&display=swap');
   body {
     padding: 0;
     margin: 0;
+    font-family: 'Galada', 'Lobster', 'serif';
   }
+  font-family: 'Galada','Lobster', 'serif';
 `
 
 const Main = styled.div`
@@ -19,11 +24,11 @@ const Main = styled.div`
 
 export default function Kimkyeseung() {
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <Main>
         <App />
       </Main>
-    </>
+    </Provider>
   )
 }

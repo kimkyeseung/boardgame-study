@@ -1,22 +1,32 @@
 import React, { Component } from 'react'
 import Lobby from './container/Lobby'
 import Game from './container/Game'
-import Layout from './components/Layout'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerNum: 4, //0
+      playerNum: 2,
       config: {},
-      isStart: true //false
+      playerNames: ['0', '1', '2', '3'],
+      isStart: false
     }
     this.setPlayerNum = this.setPlayerNum.bind(this)
+    this.setPlayerName = this.setPlayerName.bind(this)
     this.startGame = this.startGame.bind(this)
   }
 
   setPlayerNum(num) {
     this.setState({ playerNum: num })
+  }
+
+  setPlayerName(name, index) {
+    this.setState(({ playerNames }) => {
+      const next = [...playerNames]
+      next[index] = name
+      console.log({ next, name })
+      return { playerNames: next }
+    })
   }
 
   startGame() {
@@ -28,13 +38,15 @@ class App extends Component {
   }
 
   render() {
-    const { isStart, playerNum } = this.state
+    const { isStart, playerNum, playerNames } = this.state
     return (
       isStart
-        ? <Game playerNum={playerNum} />
+        ? <Game playerNum={playerNum} playerNames={playerNames}/>
         : <Lobby
           playerNum={playerNum}
           setPlayerNum={this.setPlayerNum}
+          setPlayerName={this.setPlayerName}
+          playerNames={playerNames}
           startGame={this.startGame} />
     )
   }

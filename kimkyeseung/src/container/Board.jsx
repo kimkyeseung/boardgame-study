@@ -3,17 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from '../components/Card'
 import Token from '../components/Token'
-import SelectedTokens from './SelectedTokens'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
-import FieldSummary from '../components/FieldSummary'
+import SelectedTokens from '../container/SelectedTokens'
+import Player from './Player'
 import { Link } from '../../../lib/utils'
-
-const Winner = styled.div`
-  margin-top: 25px;
-  width: 168px;
-  text-align: center;
-`
 
 const Header = styled.header``
 
@@ -21,10 +15,6 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 900px;
-`
-
-const Wrapper = styled.div`
-  display: flex;
 `
 
 class Board extends Component {
@@ -38,9 +28,7 @@ class Board extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {
-      selectedTokens: []
-    }
+    this.state = {}
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
   }
@@ -56,13 +44,25 @@ class Board extends Component {
   }
 
   handleTokenClick(token) {
-    const { selectedTokens } = this.state
-    if (selectedTokens.includes(token) || token === 'yellow') {
+    if (token === 'yellow') {
       return
     }
-    this.setState({
-      selectedTokens: [...selectedTokens, token]
-    })
+    const { selectToken, getTokens } = this.props.moves
+    selectToken(token)
+  }
+
+  deselectToken(token, cb) {
+    this.setState(prevState => {
+      const index = prevState.selectedTokens.findIndex(token)
+      if (index === -1) {
+        return alert('문제가 발생하였습니다.')
+      }
+      return { selectedTokens: prevState.selectedTokens.splice(index, 1) }
+    }, cb)
+  }
+
+  confirmSelectedToken() {
+    console.log('confirmSelectedToken')
   }
 
   render() {
@@ -73,13 +73,13 @@ class Board extends Component {
       dev20, dev21, dev22, dev23,
       dev30, dev31, dev32, dev33
     } = G.board
-    console.log(G.fields)
+    // console.log(G.fields)
     const developmentOne = [dev10, dev11, dev12, dev13]
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const { selectedTokens } = this.state
+    const { selectedTokens } = G
     return (
       <>
         <Layout
@@ -91,9 +91,13 @@ class Board extends Component {
           LeftPanel={
             <div>
               {Object.keys(G.fields).map(player => (
-                <FieldSummary
-                  active={player === `player${currentPlayer}`}
-                  field={G.fields[player]} />
+                <Player
+                  key={player}
+                  field={G.fields[player]}
+                  G={G}
+                  selectedTokens={selectedTokens}
+                  player={player}
+                  ctx={ctx} />
               ))}
             </div>
           }
@@ -143,14 +147,13 @@ class Board extends Component {
             />
           }
           RightPanel={<div>Right</div>}
-          Footer={<div>Footer</div>} />
-        <Wrapper>
-          <SelectedTokens
-            tokens={selectedTokens}
-            onClose={() => {
-              this.setState({ selectedTokens: [] })
-            }} />
-        </Wrapper>
+          Footer={<div className="hand">
+            <SelectedTokens
+              tokens={selectedTokens}
+              onClose={() => {
+                this.setState({ selectedTokens: [] })
+              }} />
+          </div>} />
       </>
     )
   }
