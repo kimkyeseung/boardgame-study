@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from '../components/Card'
 import Token from '../components/Token'
-import SelectedTokens from './SelectedTokens'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
 import FieldSummary from '../components/FieldSummary'
@@ -43,6 +42,7 @@ class Board extends Component {
     }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
+    this.selectToken = this.selectToken.bind(this)
   }
 
   componentDidMount() {
@@ -60,9 +60,25 @@ class Board extends Component {
     if (selectedTokens.includes(token) || token === 'yellow') {
       return
     }
+    const { selectToken, getTokens } = this.props.moves
+    selectToken(token)
+  } 
+
+  selectToken(token, cb) {
+    console.log(token)
     this.setState({
       selectedTokens: [...selectedTokens, token]
-    })
+    }, cb)
+  }
+
+  deselectToken(token, cb) {
+    this.setState(prevState => {
+      const index = prevState.selectedTokens.findIndex(token)
+      if (index === -1) {
+        return alert('문제가 발생하였습니다.')
+      }
+      return { selectedTokens: prevState.selectedTokens.splice(index, 1) }
+    }, cb)
   }
 
   render() {
@@ -92,6 +108,8 @@ class Board extends Component {
             <div>
               {Object.keys(G.fields).map(player => (
                 <FieldSummary
+                  selectedTokens={selectedTokens}
+                  deselecToken={this.deselectToken}
                   active={player === `player${currentPlayer}`}
                   field={G.fields[player]} />
               ))}
@@ -144,13 +162,6 @@ class Board extends Component {
           }
           RightPanel={<div>Right</div>}
           Footer={<div>Footer</div>} />
-        <Wrapper>
-          <SelectedTokens
-            tokens={selectedTokens}
-            onClose={() => {
-              this.setState({ selectedTokens: [] })
-            }} />
-        </Wrapper>
       </>
     )
   }

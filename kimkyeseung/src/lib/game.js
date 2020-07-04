@@ -91,11 +91,12 @@ const Splendor = {
       G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
       ctx.events.endTurn()
     },
-    getToken(G, ctx, token) {
-      // if () {
-
-      // }
-      ctx.events.endTurn()
+    selectToken(G, ctx, token) {
+      console.log('select')
+    },
+    getTokens(G, ctx) {
+      console.log('work', { G, ctx })
+      // ctx.events.endTurn()
     },
 
   },
