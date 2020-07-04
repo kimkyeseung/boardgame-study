@@ -7,6 +7,7 @@ import { getId } from "../lib/util"
 
 import styled from "styled-components"
 import { COLOR } from "../lib/constant"
+import { add, values } from "../lib/util"
 
 const TokenArea = styled.div`
   display: flex;
@@ -92,22 +93,6 @@ class TokenBoard extends Component {
     return this.hasDoubleToken ? this.totalCount === 2 : this.totalCount === 3
   }
 
-  onDoubleClickToken = (color) => {
-    const {
-      state: { selectedTokens },
-      props: { tokens },
-    } = this
-    if (tokens.filter((token) => token.color === color).length < 2) return
-    if (tokens.filter((token) => token.color === color).length < 4) return
-
-    this.setState({
-      selectedTokens: {
-        ...selectedTokens,
-        [color]: selectedTokens[color] === 2 ? 0 : 2,
-      },
-    })
-  }
-
   resetTokens() {
     this.setState({
       selectedTokens: {
@@ -125,13 +110,22 @@ class TokenBoard extends Component {
       state: { selectedTokens },
       props: { tokens },
     } = this
-    if (selectedTokens[color] === 2) return
-    if (!tokens.find((token) => token.color === color)) return
+    const existColorCount = tokens.filter((token) => token.color === color)
+      .length
+    if (!existColorCount) return
+    if (existColorCount <= selectedTokens[color]) return
 
     this.setState({
       selectedTokens: {
         ...selectedTokens,
-        [color]: selectedTokens[color] + (selectedTokens[color] ? -1 : 1),
+        [color]:
+          selectedTokens[color] === 0
+            ? 1
+            : selectedTokens[color] === 1
+            ? existColorCount < 4
+              ? 0
+              : 2
+            : 0,
       },
     })
   }
@@ -171,7 +165,6 @@ class TokenBoard extends Component {
               <div key={`token-${getId()}`} style={{ display: "flex" }}>
                 <Token
                   onClick={this.onClickToken}
-                  onDoubleClick={this.onDoubleClickToken}
                   selected={this.state.selectedTokens[color]}
                   count={
                     this.props.tokens.filter((token) => token.color === color)
