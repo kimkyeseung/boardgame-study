@@ -63,12 +63,12 @@ const Splendor = {
       }
     })
     return {
+      fields,
+      board,
+      tokens,
       developOneDeck,
       developTwoDeck,
       developThreeDeck,
-      board,
-      tokens,
-      fields
     }
   },
 

@@ -5,7 +5,7 @@ import Card from '../components/Card'
 import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
-import Field from './Field'
+import Player from './Player'
 import { Link } from '../../../lib/utils'
 
 const Winner = styled.div`
@@ -107,7 +107,7 @@ class Board extends Component {
           LeftPanel={
             <div>
               {Object.keys(G.fields).map(player => (
-                <Field player={player} key={player} field={G.fields[player]} G={G} ctx={ctx} />
+                <Player player={player} key={player} field={G.fields[player]} G={G} ctx={ctx} />
               ))}
             </div>
           }

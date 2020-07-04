@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import SelectedTokens from './SelectedTokens'
 import FieldSummary from '../components/FieldSummary'
 
-class Field extends Component {
+const Name = styled.div`
+
+`
+
+class Player extends Component {
   constructor(props) {
     super(props)
   }
@@ -13,6 +18,7 @@ class Field extends Component {
     const { currentPlayer } = ctx
     return (
       <div>
+        <Name>{player}</Name>
         <FieldSummary
           active={player === `player${currentPlayer}`}
           field={G.fields[player]} />
@@ -27,4 +33,4 @@ class Field extends Component {
   }
 }
 
-export default Field
+export default Player
