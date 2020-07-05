@@ -34,6 +34,7 @@ class Board extends Component {
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
+    this.deselectToken = this.deselectToken.bind(this)
   }
 
   componentDidMount() {
@@ -51,20 +52,18 @@ class Board extends Component {
       return
     }
     const { G, ctx, moves } = this.props
-    const { selectToken, getTokens } = moves
+    const { selectToken } = moves
     selectToken(token, (confirmable) => {
       this.setState({ confirmable })
     })
   }
 
-  deselectToken(token, cb) {
-    this.setState(prevState => {
-      const index = prevState.selectedTokens.findIndex(token)
-      if (index === -1) {
-        return alert('문제가 발생하였습니다.')
-      }
-      return { selectedTokens: prevState.selectedTokens.splice(index, 1) }
-    }, cb)
+  deselectToken(index, cb) {
+    const { G, ctx, moves } = this.props
+    const { deselectToken, } = moves
+    deselectToken(index, (confirmable) => {
+      this.setState({ confirmable })
+    })
   }
 
   confirmSelectedToken(cb) {
@@ -163,7 +162,8 @@ class Board extends Component {
             <SelectedTokens
               tokens={hand}
               confirmable={confirmable}
-              handler={this.confirmSelectedToken}
+              deselectToken={this.deselectToken}
+              confirmSelectedToken={this.confirmSelectedToken}
               onClose={() => {
                 // this.setState({ selectedTokens: [] })
               }} />

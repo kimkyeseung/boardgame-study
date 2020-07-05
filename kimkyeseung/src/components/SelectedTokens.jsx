@@ -25,19 +25,21 @@ const visibleStyle = css`
 Controller.Wrapper = styled.div`
 `
 
-const SelectedTokens = ({ onClose, tokens = [], isOpen, handler, confirmable }) => {
+const SelectedTokens = ({ onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
   return (
     <Controller isOpen={tokens.length ? true : false}>
       <TokkenWrapper>
         <Flex>
           {tokens.map((token, i) => {
-            return <Token color={token} key={i} />
+            return <Token onClick={() => {
+              deselectToken(i)
+            }} color={token} key={i} />
           })}
         </Flex>
       </TokkenWrapper>
       <button disabled={!confirmable} onClick={ev => {
         ev.preventDefault()
-        handler(onClose)
+        confirmSelectedToken(onClose)
       }}>confirm</button>
 
       <button onClick={onClose}>close</button>
