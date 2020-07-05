@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Lobby from './container/Lobby'
+import Lobby from './container/LobbyContainer'
 import Game from './container/Game'
 
 class App extends Component {

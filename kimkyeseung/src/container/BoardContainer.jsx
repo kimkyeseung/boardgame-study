@@ -5,7 +5,7 @@ import Card from '../components/Card'
 import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
-import SelectedTokens from '../container/SelectedTokens'
+import SelectedTokens from '../components/SelectedTokens'
 import Player from './Player'
 import { Link } from '../../../lib/utils'
 

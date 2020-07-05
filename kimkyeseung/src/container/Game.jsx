@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Client } from 'boardgame.io/react'
 
-import Board from './Board'
+import Board from './BoardContainer'
 import { game } from '../lib'
 
 class Game extends Component {
