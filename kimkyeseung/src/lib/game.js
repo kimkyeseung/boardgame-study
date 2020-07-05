@@ -1,10 +1,13 @@
 import developmentCards from '../../assets/developmentCards.json'
-import { getTokenValidator } from './validator'
+import {
+  getTokenValidator,
+  tokenLimitValidator
+} from './validator'
 
 const game = (playerNames) => {
   const Splendor = {
     name: "splendor",
-  
+
     setup: ({ numPlayers, random, ...G }) => {
       // console.log(G)
       const developOneDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 1))
@@ -15,17 +18,17 @@ const game = (playerNames) => {
       board.dev11 = developOneDeck.pop()
       board.dev12 = developOneDeck.pop()
       board.dev13 = developOneDeck.pop()
-  
+
       board.dev20 = developTwoDeck.pop()
       board.dev21 = developTwoDeck.pop()
       board.dev22 = developTwoDeck.pop()
       board.dev23 = developTwoDeck.pop()
-  
+
       board.dev30 = developThreeDeck.pop()
       board.dev31 = developThreeDeck.pop()
       board.dev32 = developThreeDeck.pop()
       board.dev33 = developThreeDeck.pop()
-  
+
       const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
       const tokens = {}
       tokens.red
@@ -35,7 +38,7 @@ const game = (playerNames) => {
         = tokens.green
         = tokenCount
       tokens.yellow = 5
-  
+
       const fields = {}
       const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0 }
       Array(numPlayers).fill(1).forEach((a, i) => {
@@ -57,7 +60,7 @@ const game = (playerNames) => {
         developThreeDeck,
       }
     },
-  
+
     moves: {
       replaceDevelopmentSpace(G, ctx, { index, grade }) {
         const deck = {
@@ -67,36 +70,51 @@ const game = (playerNames) => {
         }
         G.board[`dev${grade}${index}`] = deck[grade].pop()
       },
+
       buyDevelopment(G, ctx, development) {
-        console.log({ ctx })
-        console.log(development)
         const { value, valueAmount, victoryPoint } = development
-  
+
         const { developments, victoryPoints } = G.fields[`player${ctx.currentPlayer}`]
         developments[value]++
         G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
         ctx.events.endTurn()
       },
-      selectToken(G, ctx, token) {
+
+      selectToken(G, ctx, token, cb = () => { }) {
         const { tokens, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
         if (tokens[token]) {
           G.tokens[token]--
           hand.push(token)
         }
-        const confirmable = getTokenValidator(hand)
+        const result = getTokenValidator(hand)
+        cb(result)
       },
-      getTokens(G, ctx) {
-        console.log('work', { G, ctx })
-        // ctx.events.endTurn()
+
+      getTokens(G, ctx, cb) {
+        const { tokens, fields } = G
+        const { hand, token } = fields[`player${ctx.currentPlayer}`]
+        hand.forEach(t => {
+          token[t]++
+        })
+        hand.length = 0
+        if (tokenLimitValidator(token)) {
+          cb()
+          ctx.events.endTurn()
+        } else {
+        }
       },
-  
+
+      returnTokens(over) {
+
+      }
+
     },
-  
+
     turn: {
       // endIf: (G, ctx) => ({ next: '3' }),
     },
-  
+
     endIf: (G, ctx) => {
       return false
       // if (IsVictory(G.cells)) {
@@ -106,7 +124,7 @@ const game = (playerNames) => {
       //   return { draw: true }
       // }
     },
-  
+
     ai: {
       enumerate: G => {
         let moves = [];

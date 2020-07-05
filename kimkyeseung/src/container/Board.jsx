@@ -28,9 +28,12 @@ class Board extends Component {
   }
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      confirmable: false
+    }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
+    this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
   }
 
   componentDidMount() {
@@ -47,8 +50,11 @@ class Board extends Component {
     if (token === 'yellow') {
       return
     }
-    const { selectToken, getTokens } = this.props.moves
-    selectToken(token)
+    const { G, ctx, moves } = this.props
+    const { selectToken, getTokens } = moves
+    selectToken(token, (confirmable) => {
+      this.setState({ confirmable })
+    })
   }
 
   deselectToken(token, cb) {
@@ -61,8 +67,11 @@ class Board extends Component {
     }, cb)
   }
 
-  confirmSelectedToken() {
+  confirmSelectedToken(cb) {
     console.log('confirmSelectedToken')
+    const { G, ctx, moves } = this.props
+    const { selectToken, getTokens } = moves
+    getTokens(cb)
   }
 
   render() {
@@ -79,7 +88,10 @@ class Board extends Component {
     const developmentThree = [dev30, dev31, dev32, dev33]
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const { selectedTokens } = G
+    const { selectedTokens, fields } = G
+    const { hand } = fields[`player${currentPlayer}`]
+    const { confirmable } = this.state
+    console.log({ hand })
     return (
       <>
         <Layout
@@ -149,9 +161,11 @@ class Board extends Component {
           RightPanel={<div>Right</div>}
           Footer={<div className="hand">
             <SelectedTokens
-              tokens={selectedTokens}
+              tokens={hand}
+              confirmable={confirmable}
+              handler={this.confirmSelectedToken}
               onClose={() => {
-                this.setState({ selectedTokens: [] })
+                // this.setState({ selectedTokens: [] })
               }} />
           </div>} />
       </>

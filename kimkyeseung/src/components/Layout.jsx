@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from './Box'
 
-const Layout = ({ Header, LeftPanel, RightPanel, Main, ...props }) => {
+const Layout = ({ Header, LeftPanel, RightPanel, Main, Footer, ...props }) => {
   return (
     <Box>
       <Box>{Header}</Box>
@@ -16,6 +16,7 @@ const Layout = ({ Header, LeftPanel, RightPanel, Main, ...props }) => {
           {RightPanel}
         </Box>
       </Box>
+      <Box>{Footer}</Box>
     </Box>
   )
 }

@@ -13,7 +13,6 @@ class Player extends Component {
 
   render() {
     const { ctx, player, G, selectedTokens, field } = this.props
-    console.log({ player })
     const { currentPlayer } = ctx
     return (
       <div>
