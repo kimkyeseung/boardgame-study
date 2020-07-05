@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import Empty from '../components/units/Empty'
+import { Empty } from '../components/units'
 
 const Title = styled.div`
   text-align: center;

@@ -1,5 +1,5 @@
 import React from 'react'
-import Box from './units/Box'
+import { Box } from './units/Box'
 
 const Layout = ({ Developments, Nobles, Tokens, ...props }) => {
   return (

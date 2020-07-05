@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { space, color, layout, flexbox } from 'styled-system'
 
-const Box = styled.div(
+export const Box = styled.div(
   {
     boxSizing: 'border-box',
     minWidth: 0,
@@ -13,5 +13,3 @@ const Box = styled.div(
   layout,
   flexbox
 )
-
-export default Box

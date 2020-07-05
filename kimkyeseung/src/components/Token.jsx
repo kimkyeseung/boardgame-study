@@ -27,4 +27,9 @@ Token.Wrapper = styled.div`
 
 `
 
+Token.propTypes = {
+  color: PropTypes.oneOf(['red', 'green', 'blue', 'yellow', 'black', 'white']).isRequired,
+  count: PropTypes.number
+}
+
 export default Token
