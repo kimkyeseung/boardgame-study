@@ -17,6 +17,8 @@
 - [x] 컨트롤러(모달 대신) 컴포넌트 제작
 - [x] 레이아웃 컴포넌트 제작
 - [x] Left패널에 플레이어별 상황 보여주기
+- [ ] 게임 시작 전후 라우트 분리
+- [ ] 토큰 갯수만큼 두꼐 다르게 표시하기(실제로 쌓여있는 모습처럼 보이기)
 
 ## Dependencies
 - [react-modal](https://github.com/reactjs/react-modal)

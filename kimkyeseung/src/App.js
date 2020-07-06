@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Lobby from './container/LobbyContainer'
-import Game from './container/Game'
+import Router from 'next/router'
 
 class App extends Component {
   constructor(props) {
@@ -39,15 +39,23 @@ class App extends Component {
 
   render() {
     const { isStart, playerNum, playerNames } = this.state
+    if (isStart) {
+      Router.push({
+        pathname: '/kimkyeseung/splendor',
+        query: {
+          gameId: new Date().getTime(),
+          players: playerNames.slice(0, playerNum)
+        }
+      })
+      return null
+    }
     return (
-      isStart
-        ? <Game playerNum={playerNum} playerNames={playerNames}/>
-        : <Lobby
-          playerNum={playerNum}
-          setPlayerNum={this.setPlayerNum}
-          setPlayerName={this.setPlayerName}
-          playerNames={playerNames}
-          startGame={this.startGame} />
+      <Lobby
+        playerNum={playerNum}
+        setPlayerNum={this.setPlayerNum}
+        setPlayerName={this.setPlayerName}
+        playerNames={playerNames}
+        startGame={this.startGame} />
     )
   }
 }

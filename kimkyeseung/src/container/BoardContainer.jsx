@@ -97,6 +97,7 @@ class Board extends Component {
           Header={
             <Header>
               <Link to="/">HOME</Link>
+              <Link to="/kimkyeseung">로비</Link>
             </Header>
           }
           LeftPanel={
