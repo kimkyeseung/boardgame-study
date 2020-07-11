@@ -186,6 +186,7 @@ class Board extends Component {
     return (
       <>
         <BoardCover>
+          {/* 개발 카드 */}
           <DevArea>
             <DevDeckCover1>
               <DevCard
@@ -209,21 +210,29 @@ class Board extends Component {
               {getDevCards(this.props.G.openedDevCards3)}
             </DevDeckCover3>
           </DevArea>
+
+          {/* 귀족카드 */}
           <NobleArea>
             <NobleDeckCover>
               {getNobleCards(this.props.G.boardNobleDeck)}
             </NobleDeckCover>
           </NobleArea>
+
+          {/* 토큰 */}
           <TokenBoard
             currentPlayer={this.currentPlayer}
             tokens={this.props.G.boardTokens}
             drawTokens={this.drawTokens}
           ></TokenBoard>
         </BoardCover>
+
+        {/* 플레이어 상황판 */}
         <PlayerBoard
           currentPlayer={this.currentPlayer}
           players={this.players}
         ></PlayerBoard>
+
+        {/* 카드 선택 시 모달 */}
         {this.state.actionModalShow && (
           <Modal close={this.closeActionModal}>
             {!this.state.isDeckClicked && (
