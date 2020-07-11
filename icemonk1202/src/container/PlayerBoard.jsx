@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { COLOR, COLOR_CODE } from "../lib/constant"
-import { getId } from "../lib/util"
+import { getId, entries } from "../lib/util"
 
 import styled from "styled-components"
 
@@ -71,7 +71,7 @@ const DonationToken = styled.div`
 
 const CurrentPlayer = styled.div`
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 120px;
   height: 60px;
@@ -86,7 +86,7 @@ const CurrentPlayer = styled.div`
 
 const Score = styled.div`
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: 160px;
   height: 60px;
@@ -115,7 +115,7 @@ class PlayerBoard extends Component {
   }
 
   get otherPlayers() {
-    return Object.entries(this.props.players)
+    return entries(this.props.players)
       .filter(([id]) => id !== this.props.currentPlayer.id)
       .map(([_, player]) => player)
   }

@@ -18,7 +18,7 @@ const ContentCover = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
+  width: ${(props) => props.width}px;
   height: fit-content;
   background: white;
   border-radius: 4px;

@@ -9,13 +9,11 @@ class Token extends Component {
     count: PropTypes.number,
     selected: PropTypes.number,
     onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
   }
 
   static defaultProps = {
     color: "white",
     onClick: () => {},
-    onDoubleClick: () => {},
     selected: 0,
     count: 0,
   }
@@ -23,8 +21,7 @@ class Token extends Component {
   render() {
     return (
       <TokenCover
-        onClick={(e) => this.props.onClick(this.props.color)}
-        onDoubleClick={(e) => this.props.onDoubleClick(this.props.color)}
+        onClick={() => this.props.onClick(this.props.color)}
         color={this.props.color}
         selected={this.props.selected}
       >

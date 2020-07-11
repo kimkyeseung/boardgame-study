@@ -1,7 +1,7 @@
 import { COLOR } from "../lib/constant"
+import { sum, get } from "../lib/util"
 
 let playerId = 0
-const add = (a, b) => a + b
 export default class Player {
   constructor(id, name) {
     this.id = id || `player-${playerId++}`
@@ -22,7 +22,7 @@ export default class Player {
   }
 
   get score() {
-    return this.boughtCards.map((card) => card.score).reduce(add, 0)
+    return sum(this.boughtCards.map(get("score")))
   }
 
   get donation() {
@@ -62,6 +62,18 @@ export default class Player {
       (token) => token.color === COLOR.yellow
     ).length
   }
+
+  get totalTokenCount() {
+    return (
+      this.whiteToken +
+      this.blueToken +
+      this.greenToken +
+      this.redToken +
+      this.blackToken +
+      this.yellowToken
+    )
+  }
+
   get whiteDonation() {
     return this.boughtCards.filter((card) => card.validDonation === COLOR.white)
       .length
