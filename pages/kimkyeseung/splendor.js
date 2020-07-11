@@ -1,3 +1,3 @@
-import Game from '../../kimkyeseung/src/components/Game'
+import Splendor from '../../kimkyeseung/splendor'
 
-export default Game
+export default Splendor

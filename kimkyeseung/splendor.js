@@ -1,5 +1,5 @@
 import React from 'react'
-import App from './src/App'
+import Game from './src/components/Game'
 import styled, { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
@@ -25,7 +25,7 @@ export default function Kimkyeseung() {
     <>
     <GlobalStyle />
     <Main>
-      <App />
+      <Game />
     </Main>
     </>
   )

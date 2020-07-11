@@ -29,6 +29,7 @@
     "@types/ramda": "^0.27.6",
     "@types/react": "^16.9.38",
     "@types/styled-components": "^5.1.0",
+    "babel-plugin-styled-components": "^1.10.7",
     "babel-plugin-transform-define": "^1.3.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",

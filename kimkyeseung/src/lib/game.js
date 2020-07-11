@@ -1,5 +1,4 @@
 import developmentCards from '../../assets/developmentCards.json'
-import qs from 'query-string'
 import {
   getTokenValidator,
   tokenLimitValidator

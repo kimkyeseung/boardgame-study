@@ -51,7 +51,7 @@ export default ({ development, onClick }) => {
   }
   const { grade, cost, value, victoryPoint } = development
   return (
-    <Space onClick={onClick} backgroundUrl={`kimkyeseung/image/${value + grade}.jpg`}>
+    <Space onClick={onClick} backgroundUrl={`image/${value + grade}.jpg`}>
       <header>
         <p className="vp">{victoryPoint ? victoryPoint : ''}</p>
         <Value value={value} />

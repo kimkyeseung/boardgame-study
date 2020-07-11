@@ -2,5 +2,5 @@ const env = require('./env-config')
 
 module.exports = {
   presets: ['next/babel'],
-  plugins: [['transform-define', env]],
+  plugins: [["styled-components", { "ssr": true }], ['transform-define', env]]
 }
