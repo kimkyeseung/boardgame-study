@@ -15,6 +15,7 @@ const Controller = styled.div`
   border: 1px solid blue;
   display: none;
   position: relative;
+  max-width: 800px;
   ${({ isOpen }) => isOpen && visibleStyle}
 `
 
@@ -25,24 +26,30 @@ const visibleStyle = css`
 Controller.Wrapper = styled.div`
 `
 
-const SelectedTokens = ({ onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
+const Message = styled.div`
+
+`
+
+const SelectedTokens = ({ message, onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
   return (
     <Controller isOpen={tokens.length ? true : false}>
-      <TokkenWrapper>
-        <Flex>
-          {tokens.map((token, i) => {
-            return <Token onClick={() => {
-              deselectToken(i)
-            }} color={token} key={i} />
-          })}
-        </Flex>
-      </TokkenWrapper>
-      <button disabled={!confirmable} onClick={ev => {
-        ev.preventDefault()
-        confirmSelectedToken(onClose)
-      }}>confirm</button>
-
-      <button onClick={onClose}>close</button>
+      <Message>{message}</Message>
+      <Flex>
+        <TokkenWrapper>
+          <Flex>
+            {tokens.map((token, i) => {
+              return <Token onClick={() => {
+                deselectToken(i)
+              }} color={token} key={i} />
+            })}
+          </Flex>
+        </TokkenWrapper>
+        <button disabled={!confirmable} onClick={ev => {
+          ev.preventDefault()
+          confirmSelectedToken()
+        }}>confirm</button>
+        <button onClick={onClose}>close</button>
+      </Flex>
     </Controller>
   )
 }

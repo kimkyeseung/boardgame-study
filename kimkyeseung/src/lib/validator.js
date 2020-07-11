@@ -6,7 +6,7 @@ export const getTokenValidator = (tokens = []) => {
     }
     case 3: {
       const [token1, token2, token3] = tokens
-      return token1 !== token2 !== token3
+      return (token1 !== token2) && (token1 !== token3) && (token2 !== token3)
     }
     default:
       return false

@@ -34,6 +34,7 @@ class Board extends Component {
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
+    this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
     this.deselectToken = this.deselectToken.bind(this)
   }
 
@@ -60,17 +61,31 @@ class Board extends Component {
 
   deselectToken(index, cb) {
     const { G, ctx, moves } = this.props
-    const { deselectToken, } = moves
+    const { deselectToken } = moves
     deselectToken(index, (confirmable) => {
       this.setState({ confirmable })
     })
   }
 
-  confirmSelectedToken(cb) {
+  confirmSelectedToken() {
     console.log('confirmSelectedToken')
     const { G, ctx, moves } = this.props
     const { selectToken, getTokens } = moves
-    getTokens(cb)
+    getTokens(() => {
+      this.setState({
+        confirmable: false
+      })
+    })
+  }
+
+  cancelSelectedToken() {
+    const { G, ctx, moves } = this.props
+    const { cancelSelectedToken } = moves
+    cancelSelectedToken(() => {
+      this.setState({
+        confirmable: false
+      })
+    })
   }
 
   render() {
@@ -161,13 +176,12 @@ class Board extends Component {
           RightPanel={<div>Right</div>}
           Footer={<div className="hand">
             <SelectedTokens
+              message="가져올 토큰을 선택하세요"
               tokens={hand}
               confirmable={confirmable}
               deselectToken={this.deselectToken}
               confirmSelectedToken={this.confirmSelectedToken}
-              onClose={() => {
-                // this.setState({ selectedTokens: [] })
-              }} />
+              onClose={this.cancelSelectedToken} />
           </div>} />
       </>
     )
