@@ -2,11 +2,14 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 
 import Token from "../components/Token"
+import ReturnTokenModal from "./ReturnTokenModal"
 
 import { getId } from "../lib/util"
 
 import styled from "styled-components"
 import { COLOR } from "../lib/constant"
+import { MAX_TOKEN_COUNT } from "../lib/config"
+import { values, sum } from "../lib/util"
 
 const TokenArea = styled.div`
   display: flex;
@@ -50,15 +53,18 @@ class TokenBoard extends Component {
   }
 
   static propTypes = {
+    currentPlayer: PropTypes.object.isRequired,
     drawTokens: PropTypes.func,
     tokens: PropTypes.array.isRequired,
   }
   static defaultProps = {
+    currentPlayer: () => ({}),
     drawTokens: () => {},
     tokens: () => [],
   }
 
   state = {
+    returnTokenModalShow: false,
     selectedTokens: {
       white: 0,
       blue: 0,
@@ -78,34 +84,14 @@ class TokenBoard extends Component {
     )
   }
 
-  get totalCount() {
-    return (
-      this.state.selectedTokens.white +
-      this.state.selectedTokens.blue +
-      this.state.selectedTokens.green +
-      this.state.selectedTokens.red +
-      this.state.selectedTokens.black
-    )
+  get selectedTotalCount() {
+    return sum(values(this.state.selectedTokens))
   }
 
   get canDrawTokens() {
-    return this.hasDoubleToken ? this.totalCount === 2 : this.totalCount === 3
-  }
-
-  onDoubleClickToken = (color) => {
-    const {
-      state: { selectedTokens },
-      props: { tokens },
-    } = this
-    if (tokens.filter((token) => token.color === color).length < 2) return
-    if (tokens.filter((token) => token.color === color).length < 4) return
-
-    this.setState({
-      selectedTokens: {
-        ...selectedTokens,
-        [color]: selectedTokens[color] === 2 ? 0 : 2,
-      },
-    })
+    return this.hasDoubleToken
+      ? this.selectedTotalCount === 2
+      : this.selectedTotalCount === 3
   }
 
   resetTokens() {
@@ -125,40 +111,80 @@ class TokenBoard extends Component {
       state: { selectedTokens },
       props: { tokens },
     } = this
-    if (selectedTokens[color] === 2) return
-    if (!tokens.find((token) => token.color === color)) return
+    const existColorCount = tokens.filter((token) => token.color === color)
+      .length
+    if (!existColorCount) return
+    if (existColorCount <= selectedTokens[color]) return
 
     this.setState({
       selectedTokens: {
         ...selectedTokens,
-        [color]: selectedTokens[color] + (selectedTokens[color] ? -1 : 1),
+        [color]:
+          selectedTokens[color] === 0
+            ? 1
+            : selectedTokens[color] === 1
+            ? existColorCount < 4
+              ? 0
+              : 2
+            : 0,
       },
     })
   }
 
-  onChangeToken = (event, color) => {
+  onChangeToken(event, color) {
     const {
       state: { selectedTokens },
       props: { tokens },
     } = this
-    if (event.target.value > 2 || event.target.value < 0) return
-    if (
-      tokens.filter((token) => token.color === color).length < 4 &&
-      event.target.value > 1
-    )
-      return
-    if (
-      tokens.filter((token) => token.color === color).length <
-      event.target.value
-    )
-      return
+    const existColorCount = tokens.filter((token) => token.color === color)
+      .length
+    const newValue = event.target.value
 
-    this.setState({
+    if (newValue > 2 || newValue < 0) return
+    if (existColorCount < 4 && newValue > 1) return
+    if (existColorCount < newValue) return
+
+    this.setState({ selectedTokens: { ...selectedTokens, [color]: +newValue } })
+  }
+
+  onConfirmReturnToken = async (returnTokens) => {
+    await this.setState({
       selectedTokens: {
-        ...selectedTokens,
-        [color]: +event.target.value,
+        white: this.state.selectedTokens.white - returnTokens.white,
+        blue: this.state.selectedTokens.blue - returnTokens.blue,
+        green: this.state.selectedTokens.green - returnTokens.green,
+        red: this.state.selectedTokens.red - returnTokens.red,
+        black: this.state.selectedTokens.black - returnTokens.black,
       },
     })
+
+    this.props.drawTokens(this.state.selectedTokens)
+    this.resetTokens()
+  }
+
+  closeReturnModal = () => {
+    this.setState({ returnTokenModalShow: false })
+  }
+
+  get returnCount() {
+    return Math.max(
+      this.props.currentPlayer.totalTokenCount +
+        this.selectedTotalCount -
+        MAX_TOKEN_COUNT,
+      0
+    )
+  }
+
+  onTokenConfirm = () => {
+    if (this.returnCount) {
+      this.setState({
+        returnTokenModalShow: true,
+      })
+      return
+    }
+
+    this.props.drawTokens(this.state.selectedTokens)
+    this.resetTokens()
   }
 
   render() {
@@ -166,12 +192,11 @@ class TokenBoard extends Component {
       <>
         <TokenArea>
           {Object.values(COLOR)
-            .filter((color) => color !== "yellow")
+            .filter((color) => color !== COLOR.yellow)
             .map((color) => (
               <div key={`token-${getId()}`} style={{ display: "flex" }}>
                 <Token
                   onClick={this.onClickToken}
-                  onDoubleClick={this.onDoubleClickToken}
                   selected={this.state.selectedTokens[color]}
                   count={
                     this.props.tokens.filter((token) => token.color === color)
@@ -190,23 +215,28 @@ class TokenBoard extends Component {
             ))}
           <Token
             count={
-              this.props.tokens.filter((token) => token.color === "yellow")
+              this.props.tokens.filter((token) => token.color === COLOR.yellow)
                 .length
             }
             color="yellow"
           />
         </TokenArea>
         {this.canDrawTokens ? (
-          <DrawTokenButton
-            onClick={() => {
-              this.props.drawTokens(this.state.selectedTokens)
-              this.resetTokens()
-            }}
-          >
+          <DrawTokenButton onClick={this.onTokenConfirm}>
             토큰 가져오기
           </DrawTokenButton>
         ) : (
           ""
+        )}
+
+        {this.state.returnTokenModalShow && (
+          <ReturnTokenModal
+            player={this.props.currentPlayer}
+            tempTokens={this.state.selectedTokens}
+            count={this.returnCount}
+            close={this.closeReturnModal}
+            submit={this.onConfirmReturnToken}
+          ></ReturnTokenModal>
         )}
       </>
     )

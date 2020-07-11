@@ -1,5 +1,6 @@
 import { LEVEL } from "./constant"
 
+export const MAX_TOKEN_COUNT = 10
 export const baseTokenData = {
   // [player]: TokenCount
   2: {
