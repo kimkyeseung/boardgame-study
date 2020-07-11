@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { COLOR, COLOR_CODE } from "../lib/constant"
-import { getId } from "../lib/util"
+import { getId, entries } from "../lib/util"
 
 import styled from "styled-components"
 
@@ -115,7 +115,7 @@ class PlayerBoard extends Component {
   }
 
   get otherPlayers() {
-    return Object.entries(this.props.players)
+    return entries(this.props.players)
       .filter(([id]) => id !== this.props.currentPlayer.id)
       .map(([_, player]) => player)
   }

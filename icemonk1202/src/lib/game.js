@@ -54,15 +54,21 @@ const Splendor = {
       Object.entries(tokens)
         .filter(([_, count]) => count)
         .forEach(([color, count]) => {
-          Array(count)
+          Array(Math.abs(count))
             .fill()
             .forEach((_) => {
-              const tokenIndex = G.boardTokens.findIndex(
-                (token) => token.color === color
-              )
-              G.players[ctx.currentPlayer].tokens[color].push(
-                ...G.boardTokens.splice(tokenIndex, 1)
-              )
+              if (count > 0) {
+                const tokenIndex = G.boardTokens.findIndex(
+                  (token) => token.color === color
+                )
+                G.players[ctx.currentPlayer].tokens[color].push(
+                  ...G.boardTokens.splice(tokenIndex, 1)
+                )
+              } else if (count < 0) {
+                G.boardTokens.push(
+                  G.players[ctx.currentPlayer].tokens[color].pop()
+                )
+              }
             })
         })
     },

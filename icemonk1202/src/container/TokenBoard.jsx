@@ -47,15 +47,6 @@ const DrawTokenButton = styled.div`
   }
 `
 
-const getDefaultState = () => ({
-  selectedTokens: {
-    white: 0,
-    blue: 0,
-    green: 0,
-    red: 0,
-    black: 0,
-  },
-})
 class TokenBoard extends Component {
   constructor(props) {
     super(props)
@@ -72,7 +63,16 @@ class TokenBoard extends Component {
     tokens: () => [],
   }
 
-  state = getDefaultState()
+  state = {
+    returnTokenModalShow: false,
+    selectedTokens: {
+      white: 0,
+      blue: 0,
+      green: 0,
+      red: 0,
+      black: 0,
+    },
+  }
 
   get hasDoubleToken() {
     return (
@@ -95,7 +95,15 @@ class TokenBoard extends Component {
   }
 
   resetTokens() {
-    this.setState(getDefaultState())
+    this.setState({
+      selectedTokens: {
+        white: 0,
+        blue: 0,
+        green: 0,
+        red: 0,
+        black: 0,
+      },
+    })
   }
 
   onClickToken = (color) => {
@@ -123,7 +131,7 @@ class TokenBoard extends Component {
     })
   }
 
-  onChangeToken = (event, color) => {
+  onChangeToken(event, color) {
     const {
       state: { selectedTokens },
       props: { tokens },
@@ -139,11 +147,40 @@ class TokenBoard extends Component {
     this.setState({ selectedTokens: { ...selectedTokens, [color]: +newValue } })
   }
 
+  onConfirmReturnToken = async (returnTokens) => {
+    await this.setState({
+      selectedTokens: {
+        white: this.state.selectedTokens.white - returnTokens.white,
+        blue: this.state.selectedTokens.blue - returnTokens.blue,
+        green: this.state.selectedTokens.green - returnTokens.green,
+        red: this.state.selectedTokens.red - returnTokens.red,
+        black: this.state.selectedTokens.black - returnTokens.black,
+      },
+    })
+
+    this.props.drawTokens(this.state.selectedTokens)
+    this.resetTokens()
+  }
+
+  closeReturnModal = () => {
+    this.setState({ returnTokenModalShow: false })
+  }
+
+  get returnCount() {
+    return Math.max(
+      this.props.currentPlayer.totalTokenCount +
+        this.selectedTotalCount -
+        MAX_TOKEN_COUNT,
+      0
+    )
+  }
+
   onTokenConfirm = () => {
-    const newTokenCount =
-      this.selectedTotalCount + this.props.currentPlayer.totalTokenCount
-    const mustReturnCount = MAX_TOKEN_COUNT - newTokenCount
-    if (mustReturnCount > 0) {
+    if (this.returnCount) {
+      this.setState({
+        returnTokenModalShow: true,
+      })
+      return
     }
 
     this.props.drawTokens(this.state.selectedTokens)
@@ -191,7 +228,16 @@ class TokenBoard extends Component {
         ) : (
           ""
         )}
-        <ReturnTokenModal player={this.props.currentPlayer}></ReturnTokenModal>
+
+        {this.state.returnTokenModalShow && (
+          <ReturnTokenModal
+            player={this.props.currentPlayer}
+            tempTokens={this.state.selectedTokens}
+            count={this.returnCount}
+            close={this.closeReturnModal}
+            submit={this.onConfirmReturnToken}
+          ></ReturnTokenModal>
+        )}
       </>
     )
   }
