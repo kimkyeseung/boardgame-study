@@ -14,12 +14,12 @@ interface Gold {
 
 export type Tokens = Gems & Gold;
 
-export const createGems = (emerald: number, diamond: number, sapphire: number, onyx: number): Gems => ({
-  emerald, diamond, sapphire, onyx,
+export const createGems = (diamond: number, sapphire: number, emerald: number, ruby: number, onyx: number): Gems => ({
+  diamond, sapphire, emerald, ruby, onyx,
 });
 
-export const createTokens = (emerald: number, diamond: number, sapphire: number, onyx: number, gold: number): Tokens => ({
-  emerald, diamond, sapphire, onyx, gold,
+export const createTokens = (diamond: number, sapphire: number, emerald: number, ruby: number, onyx: number, gold: number): Tokens => ({
+  diamond, sapphire, emerald, ruby, onyx, gold,
 })
 
 type F = <T>(x: T, y: T) => T;
@@ -31,7 +31,7 @@ export const evalGems = (f: F) => R.curry((x: Gems, y: Gems): Gems => {
 })
 
 type Level = 1 | 2 | 3;
-interface Development {
+export interface Development {
   level: Level;
   score: number;
   cost: Readonly<Gems>;
@@ -44,10 +44,14 @@ export const createDevelopment = (
   level, score, cost: { ...cost }, discount: { ...discount },
 });
 
-interface Noble {
+export interface Noble {
   score: number;
   cost: Gems;
 }
+
+export const createNoble = (score: number, cost: Readonly<Gems>): Noble => ({
+  score, cost: { ...cost },
+})
 
 interface Hand {
   tokens: Tokens;
@@ -153,7 +157,7 @@ export const validateBuyCard = (b: Board, p: Player, pos: [Level, number] | numb
 
   const discount: Gems = R.reduce(
     evalGems(R.add),
-    createGems(0, 0, 0, 0),
+    createGems(0, 0, 0, 0, 0),
     R.pluck('discount', b.hands[p].development));
 
   const cost = evalGems(R.subtract)(card.cost, discount);
