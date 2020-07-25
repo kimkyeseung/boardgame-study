@@ -25,8 +25,8 @@ export const createTokens = (diamond: number, sapphire: number, emerald: number,
 type F = <T>(x: T, y: T) => T;
 export const evalTokens = (f: F) => R.curry((x: Tokens, y: Tokens): Tokens => R.mapObjIndexed((v, k) => f(v, y[k]), x))
 export const evalGems = (f: F) => R.curry((x: Gems, y: Gems): Gems => {
-  const x1: Gems = R.pickAll(['emerald', 'diamond', 'sapphire', 'onyx'], x);
-  const y1: Gems = R.pickAll(['emerald', 'diamond', 'sapphire', 'onyx'], y);
+  const x1: Gems = R.pickAll(['diamond', 'sapphire', 'onyx', 'emerald', 'ruby'], x);
+  const y1: Gems = R.pickAll(['diamond', 'sapphire', 'onyx', 'emerald', 'ruby'], y);
   return R.mapObjIndexed((v, k) => f(v, y1[k]), x1)
 })
 
