@@ -17,6 +17,17 @@ const buildPlayers = (playOrder) =>
     return acc
   }, {})
 
+const countLack = (player, card) => {
+  let totalLackCount = 0
+
+  for (const color of Object.keys(COLOR)) {
+    const realCost = card.costs[color] - player[color + "Donation"]
+    totalLackCount += Math.max(realCost - player[color + "TokenCount"], 0)
+  }
+
+  return totalLackCount
+}
+
 const Splendor = {
   name: "splendor",
 
@@ -73,13 +84,30 @@ const Splendor = {
     buyCard(G, ctx, card) {
       const player = G.players[ctx.currentPlayer]
 
+      const lackCount = countLack(player, card)
+      // 토큰이 부족하거나 황금토큰 사용 안할 시 행동 취소
+      if (
+        (lackCount && player.yellowTokenCount < lackCount) ||
+        !confirm("황금토큰을 사용하여 구매하시겠습니까?")
+      ) {
+        return INVALID_MOVE
+      }
+
       // 토큰 비용 지불
+      let yellowTokenCount = player.yellowTokenCount
       for (const color of Object.keys(COLOR)) {
         const realCost = card.costs[color] - player[color + "Donation"]
-        // 토큰 미보유시 행동 취소
-        if (realCost > player.tokens[color]) return INVALID_MOVE
+        const lack = Math.max(realCost - player[color + "TokenCount"], 0)
 
-        const returnTokens = player.tokens[color].splice(0, realCost)
+        // 황금토큰 사용
+        if (lack) {
+          yellowTokenCount -= lack
+          G.boardTokens[color].push(
+            ...player.tokens[COLOR.yellow].splice(0, lack)
+          )
+        }
+
+        const returnTokens = player.tokens[color].splice(0, realCost - lack)
         G.boardTokens[color].push(...returnTokens)
       }
 
