@@ -1,7 +1,8 @@
 import developmentCards from '../../assets/developmentCards.json'
 import {
   getTokenValidator,
-  tokenLimitValidator
+  tokenLimitValidator,
+  buyDevelopmentValidator
 } from './validator'
 
 const game = (playerNames) => {
@@ -40,7 +41,7 @@ const game = (playerNames) => {
       tokens.yellow = 5
 
       const fields = {}
-      const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0 }
+      const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0, yellow: 0 }
       Array(numPlayers).fill(1).forEach((a, i) => {
         fields[`player${i}`] = {
           name: playerNames[i],
@@ -62,22 +63,44 @@ const game = (playerNames) => {
     },
 
     moves: {
-      replaceDevelopmentSpace(G, ctx, { index, grade }) {
-        const deck = {
-          '1': G.developOneDeck,
-          '2': G.developTwoDeck,
-          '3': G.developThreeDeck
+      buyDevelopment(G, ctx, development, index, grade) {
+        const { value, valueAmount, victoryPoint, cost } = development
+        console.log({ valueAmount })
+        const { developments, victoryPoints, token } = G.fields[`player${ctx.currentPlayer}`]
+
+        const able = buyDevelopmentValidator({ developments, token }, cost)
+        console.log({ able })
+        if (able) {
+
+          const diff = Object.keys(token).reduce((diff, color) => {
+            const price = cost[color] || 0
+            const discountedCost = Math.max(price - developments[color], 0)
+            console.log({ color, discountedCost, 'have': developments[color], price })
+            if (discountedCost > token[color]) {
+              diff += discountedCost - token[color]
+            }
+            token[color] -= discountedCost
+            return diff
+          }, 0)
+          token.yellow -= diff
+
+          developments[value] += valueAmount
+          console.log(value * valueAmount, developments[value])
+          G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
+
+
+          const deck = {
+            '1': G.developOneDeck,
+            '2': G.developTwoDeck,
+            '3': G.developThreeDeck
+          }
+          G.board[`dev${grade}${index}`] = deck[grade].pop()
+
+          ctx.events.endTurn()
+        } else {
+          alert('비용이 모자랍니다.')
         }
-        G.board[`dev${grade}${index}`] = deck[grade].pop()
-      },
 
-      buyDevelopment(G, ctx, development) {
-        const { value, valueAmount, victoryPoint } = development
-
-        const { developments, victoryPoints } = G.fields[`player${ctx.currentPlayer}`]
-        developments[value]++
-        G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
-        ctx.events.endTurn()
       },
 
       selectToken(G, ctx, token, cb = () => { }) {

@@ -5,7 +5,9 @@
     "value": "blue",
     "valueAmount": 1,
     "victoryPoint": 0,
-    "cost": {},
+    "cost": {
+      "black": 3
+    },
     "set": "original"
   },
   {

@@ -43,9 +43,9 @@ class Board extends Component {
   }
 
   handleSpaceClick(dev, index, grade) {
-    const { replaceDevelopmentSpace, buyDevelopment } = this.props.moves
-    replaceDevelopmentSpace({ index, grade })
-    buyDevelopment(dev)
+    const { buyDevelopment } = this.props.moves
+
+    buyDevelopment(dev, index, grade)
   }
 
   handleTokenClick(token) {
