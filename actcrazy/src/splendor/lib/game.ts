@@ -62,11 +62,13 @@ interface Hand {
 
 type Player = string | number;
 
+type Cards = { [key in Level]: Development[] };
+
 export interface Board {
   tokens: Tokens;
   noble: readonly Noble[];
-  deck: { [key in Level]: Development[] };
-  matt: { [key in Level]: Development[] };
+  deck: Cards;
+  matt: Cards;
   hands: {
     [key in Player]: Hand;
   }
