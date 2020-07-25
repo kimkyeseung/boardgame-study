@@ -1,9 +1,10 @@
 import * as R from 'ramda'
 
 interface Gems {
-  emerald: number;
   diamond: number;
   sapphire: number;
+  emerald: number;
+  ruby: number;
   onyx: number;
 }
 
