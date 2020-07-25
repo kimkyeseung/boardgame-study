@@ -11,6 +11,8 @@ const Overay = styled.div`
   height: 100vh;
   background: #0005;
   z-index: 10;
+  opacity: ${(props) => props.state.opacity};
+  transition: opacity ${(props) => props.state.delay / 1000}s;
 `
 
 const ContentCover = styled.div`
@@ -27,24 +29,43 @@ const ContentCover = styled.div`
 
 class Modal extends Component {
   static propTypes = {
+    value: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     close: PropTypes.func,
   }
 
   static defaultProps = {
+    value: false,
     width: 400,
     close: () => {},
+  }
+
+  state = {
+    opacity: 0,
+    delay: 300,
   }
 
   onClickContent = (e) => {
     e.stopPropagation()
   }
 
+  close = () => {
+    this.setState({ opacity: 0 })
+
+    setTimeout(() => this.props.close(), this.state.delay)
+  }
+
   onKeydownEscape = (e) => {
     if (e.key !== "Escape") return
 
-    this.props.close()
+    this.close()
   }
+
+  componentDidUpdate = (prevProps) => {
+    if (!prevProps.value)
+      setTimeout(() => this.setState({ opacity: 1 }), this.state.delay)
+  }
+
   componentDidMount = () => {
     window.addEventListener("keydown", this.onKeydownEscape)
   }
@@ -54,11 +75,13 @@ class Modal extends Component {
 
   render() {
     return (
-      <Overay onClick={this.props.close}>
-        <ContentCover width={this.props.width} onClick={this.onClickContent}>
-          {this.props.children}
-        </ContentCover>
-      </Overay>
+      this.props.value && (
+        <Overay onClick={this.close} state={this.state}>
+          <ContentCover width={this.props.width} onClick={this.onClickContent}>
+            {this.props.children}
+          </ContentCover>
+        </Overay>
+      )
     )
   }
 }

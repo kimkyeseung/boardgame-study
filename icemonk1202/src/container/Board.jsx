@@ -233,14 +233,13 @@ class Board extends Component {
         ></PlayerBoard>
 
         {/* 카드 선택 시 모달 */}
-        {this.state.actionModalShow && (
-          <Modal close={this.closeActionModal}>
-            {!this.state.isDeckClicked && (
-              <ActionButton onClick={this.buyCard}>Buy</ActionButton>
-            )}
-            <ActionButton onClick={this.keepCard}>Keep</ActionButton>
-          </Modal>
-        )}
+
+        <Modal value={this.state.actionModalShow} close={this.closeActionModal}>
+          {!this.state.isDeckClicked && (
+            <ActionButton onClick={this.buyCard}>Buy</ActionButton>
+          )}
+          <ActionButton onClick={this.keepCard}>Keep</ActionButton>
+        </Modal>
       </>
     )
   }
