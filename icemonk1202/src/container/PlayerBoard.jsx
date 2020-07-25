@@ -105,26 +105,26 @@ class PlayerBoard extends Component {
   }
 
   static propTypes = {
-    currentPlayer: PropTypes.any.isRequired,
+    player: PropTypes.any.isRequired,
     players: PropTypes.any.isRequired,
   }
 
   static defaultProps = {
-    currentPlayer: () => ({}),
+    player: () => ({}),
     players: () => [],
   }
 
   get otherPlayers() {
     return entries(this.props.players)
-      .filter(([id]) => id !== this.props.currentPlayer.id)
+      .filter(([id]) => id !== this.props.player.id)
       .map(([_, player]) => player)
   }
 
   render() {
     return (
       <>
-        <CurrentPlayer>{this.props.currentPlayer.id}번</CurrentPlayer>
-        <Score>{this.props.currentPlayer.score}점</Score>
+        <CurrentPlayer>{this.props.player.id}번</CurrentPlayer>
+        <Score>{this.props.player.score}점</Score>
         {this.otherPlayers.map((player, index) => {
           return (
             <SideDashboard key={player.id} index={index}>
@@ -158,8 +158,8 @@ class PlayerBoard extends Component {
         })}
         <Dashboard>
           {Object.values(COLOR).map((color) => {
-            const donation = this.props.currentPlayer[`${color}Donation`]
-            const token = this.props.currentPlayer[`${color}Token`]
+            const donation = this.props.player[`${color}Donation`]
+            const token = this.props.player[`${color}Token`]
 
             return color === COLOR.yellow ? (
               <DonationToken key={`donation-token-${getId()}`} color={color}>

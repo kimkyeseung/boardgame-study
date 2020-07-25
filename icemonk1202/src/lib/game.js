@@ -1,7 +1,9 @@
+import { INVALID_MOVE } from "boardgame.io/core"
 import { getCardData, getTokenData } from "./data"
 import { LEVEL, COLOR } from "./constant"
 import DeckModel from "../models/Deck"
 import PlayerModel from "../models/Player"
+import { pipe, go, range, last } from "./util"
 
 const cards = getCardData()
 const buildDeckByLevel = (level) =>
@@ -50,37 +52,36 @@ const Splendor = {
   },
 
   moves: {
-    drawTokens(G, ctx, tokens) {
-      Object.entries(tokens)
-        .filter(([_, count]) => count)
-        .forEach(([color, count]) => {
-          Array(Math.abs(count))
-            .fill()
-            .forEach((_) => {
-              if (count > 0) {
-                const tokenIndex = G.boardTokens.findIndex(
-                  (token) => token.color === color
-                )
-                G.players[ctx.currentPlayer].tokens[color].push(
-                  ...G.boardTokens.splice(tokenIndex, 1)
-                )
-              } else if (count < 0) {
-                G.boardTokens.push(
-                  G.players[ctx.currentPlayer].tokens[color].pop()
-                )
-              }
-            })
-        })
+    drawTokens(G, ctx, changeTokenCount) {
+      const validTokenCount = Object.entries(changeTokenCount).filter(last)
+
+      validTokenCount.forEach(([color, count]) => {
+        // 토큰 가져오기
+        if (count > 0) {
+          G.players[ctx.currentPlayer].tokens[color].push(
+            ...G.boardTokens[color].splice(0, count)
+          )
+        }
+        // 토큰 반납
+        else {
+          G.boardTokens[color].push(
+            ...G.players[ctx.currentPlayer].tokens[color].splice(0, count)
+          )
+        }
+      })
     },
     buyCard(G, ctx, card) {
       const player = G.players[ctx.currentPlayer]
 
       // 토큰 비용 지불
-      Object.keys(COLOR).forEach((color) => {
+      for (const color of Object.keys(COLOR)) {
         const realCost = card.costs[color] - player[color + "Donation"]
+        // 토큰 미보유시 행동 취소
+        if (realCost > player.tokens[color]) return INVALID_MOVE
+
         const returnTokens = player.tokens[color].splice(0, realCost)
-        G.boardTokens.push(...returnTokens)
-      })
+        G.boardTokens[color].push(...returnTokens)
+      }
 
       // 플레이어에게 카드 전달
       const level = card.level === LEVEL.I ? 1 : card.level === LEVEL.II ? 2 : 3
@@ -94,12 +95,12 @@ const Splendor = {
     keepCard(G, ctx, card, isDeck = false) {
       const player = G.players[ctx.currentPlayer]
 
+      // 이미 보관한 카드가 3장 이상일 시 행동 취소
+      if (player.keptCards.length >= 3) return INVALID_MOVE
+
       // 노랑 토큰 가져오기
-      const tokenIndex = G.boardTokens.findIndex(
-        (token) => token.color === COLOR.yellow
-      )
-      if (tokenIndex >= 0)
-        player.tokens.yellow.push(G.boardTokens.splice(tokenIndex, 1)[0])
+      if (G.boardTokens[COLOR.yellow].length)
+        player.tokens.yellow.push(G.boardTokens[COLOR.yellow].pop())
 
       // 플레이어에게 카드 전달
       player.keptCards.push(card)

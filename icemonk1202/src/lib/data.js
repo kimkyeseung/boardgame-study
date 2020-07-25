@@ -14,6 +14,6 @@ const generateTokens = (color = "white", count = 0) => {
 
 export const getTokenData = (player = 2) =>
   Object.entries(baseTokenData[player]).reduce((acc, [color, count]) => {
-    acc.push(...generateTokens(color, count))
+    acc[color] = generateTokens(color, count)
     return acc
-  }, [])
+  }, {})
