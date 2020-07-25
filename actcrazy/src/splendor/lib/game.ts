@@ -139,28 +139,16 @@ export const validateReturnTokens = (handTokens: Tokens, tokens: Tokens): boolea
   return false;
 }
 
-export const validateBuyCard = (b: Board, p: Player, pos: [Level, number] | number) => {
-  let card: Development | undefined = undefined;
-  if (typeof pos === 'number') {
-    card = b.hands[p].reserved[pos];
-  } else {
-    const [level, p] = pos;
-    card = b.matt[level][p];
-  }
+export const getCardFromReserved = (h: Hand, pos: number) => h.reserved[pos]
 
-  if (R.isNil(card)) {
-    return false;
-  }
+export const getCardFromMatt = (matt: Cards, level: Level, pos: number) => matt[level][pos]
 
-  const tokens = b.hands[p].tokens;
-  if (R.isNil(tokens)) {
-    return false;
-  }
-
+export const validateBuyCard = (hand: Hand, card: Development) => {
+  const tokens = hand.tokens;
   const discount: Gems = R.reduce(
     evalGems(R.add),
     createGems(0, 0, 0, 0, 0),
-    R.pluck('discount', b.hands[p].development));
+    R.pluck('discount', hand.development));
 
   const cost = evalGems(R.subtract)(card.cost, discount);
   const change = evalGems(R.subtract)(tokens, cost);
