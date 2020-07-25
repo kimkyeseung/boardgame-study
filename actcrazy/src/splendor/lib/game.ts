@@ -81,8 +81,8 @@ export const addDevelopment = (p: Player, card: Development, b: Board): Board =>
 const isNegative = (x: number) => x < 0;
 const anyNegative = R.any(isNegative)
 
-export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean => {
-  const t = R.values(tokens);
+export const validateGetGems = (boardTokens: Tokens, gems: Gems): boolean => {
+  const t = R.values(gems);
   if (anyNegative(t)) {
     return false;
   }
@@ -100,7 +100,7 @@ export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean 
   }
 
   if (sum === 3) {
-    const c = evalTokens(R.subtract)(boardTokens, tokens)
+    const c = evalGems(R.subtract)(boardTokens, gems)
     if (anyNegative(R.values(c))) {
       return false;
     }
@@ -109,7 +109,7 @@ export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean 
   }
 
   if (sum === 2 && sameIndex !== -1) {
-    const key = R.keys(tokens)[sameIndex] as (keyof Tokens)
+    const key = R.keys(gems)[sameIndex] as (keyof Tokens)
     if (boardTokens[key] < 4) {
       return false
     }
