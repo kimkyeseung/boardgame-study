@@ -47,22 +47,22 @@ class ReturnTokenModal extends Component {
 
     this.setState({
       existTokens: {
-        white: this.props.player.whiteToken,
-        blue: this.props.player.blueToken,
-        green: this.props.player.greenToken,
-        red: this.props.player.redToken,
-        black: this.props.player.blackToken,
+        white: this.props.player.whiteTokenCount,
+        blue: this.props.player.blueTokenCount,
+        green: this.props.player.greenTokenCount,
+        red: this.props.player.redTokenCount,
+        black: this.props.player.blackTokenCount,
       },
     })
   }
   componentWillMount = () => {
     this.setState({
       existTokens: {
-        white: this.props.player.whiteToken,
-        blue: this.props.player.blueToken,
-        green: this.props.player.greenToken,
-        red: this.props.player.redToken,
-        black: this.props.player.blackToken,
+        white: this.props.player.whiteTokenCount,
+        blue: this.props.player.blueTokenCount,
+        green: this.props.player.greenTokenCount,
+        red: this.props.player.redTokenCount,
+        black: this.props.player.blackTokenCount,
       },
     })
     console.log(this.state.existTokens)

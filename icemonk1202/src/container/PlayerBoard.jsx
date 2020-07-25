@@ -133,7 +133,7 @@ class PlayerBoard extends Component {
               </div>
               {Object.values(COLOR).map((color) => {
                 const donation = player[`${color}Donation`]
-                const token = player[`${color}Token`]
+                const token = player[`${color}TokenCount`]
 
                 return color === COLOR.yellow ? (
                   <DonationToken
@@ -149,7 +149,6 @@ class PlayerBoard extends Component {
                   >
                     <div className="donation">{donation ? donation : ""}</div>
                     <div className="token">{token ? token : ""}</div>
-                    {token && donation ? donation + token : ""}
                   </DonationToken>
                 )
               })}
@@ -159,7 +158,7 @@ class PlayerBoard extends Component {
         <Dashboard>
           {Object.values(COLOR).map((color) => {
             const donation = this.props.player[`${color}Donation`]
-            const token = this.props.player[`${color}Token`]
+            const token = this.props.player[`${color}TokenCount`]
 
             return color === COLOR.yellow ? (
               <DonationToken key={`donation-token-${getId()}`} color={color}>
