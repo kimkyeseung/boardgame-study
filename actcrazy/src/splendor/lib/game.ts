@@ -1,9 +1,10 @@
 import * as R from 'ramda'
 
 interface Gems {
-  emerald: number;
   diamond: number;
   sapphire: number;
+  emerald: number;
+  ruby: number;
   onyx: number;
 }
 
@@ -13,24 +14,24 @@ interface Gold {
 
 export type Tokens = Gems & Gold;
 
-export const createGems = (emerald: number, diamond: number, sapphire: number, onyx: number): Gems => ({
-  emerald, diamond, sapphire, onyx,
+export const createGems = (diamond: number, sapphire: number, emerald: number, ruby: number, onyx: number): Gems => ({
+  diamond, sapphire, emerald, ruby, onyx,
 });
 
-export const createTokens = (emerald: number, diamond: number, sapphire: number, onyx: number, gold: number): Tokens => ({
-  emerald, diamond, sapphire, onyx, gold,
+export const createTokens = (diamond: number, sapphire: number, emerald: number, ruby: number, onyx: number, gold: number): Tokens => ({
+  diamond, sapphire, emerald, ruby, onyx, gold,
 })
 
 type F = <T>(x: T, y: T) => T;
 export const evalTokens = (f: F) => R.curry((x: Tokens, y: Tokens): Tokens => R.mapObjIndexed((v, k) => f(v, y[k]), x))
 export const evalGems = (f: F) => R.curry((x: Gems, y: Gems): Gems => {
-  const x1: Gems = R.pickAll(['emerald', 'diamond', 'sapphire', 'onyx'], x);
-  const y1: Gems = R.pickAll(['emerald', 'diamond', 'sapphire', 'onyx'], y);
+  const x1: Gems = R.pickAll(['diamond', 'sapphire', 'onyx', 'emerald', 'ruby'], x);
+  const y1: Gems = R.pickAll(['diamond', 'sapphire', 'onyx', 'emerald', 'ruby'], y);
   return R.mapObjIndexed((v, k) => f(v, y1[k]), x1)
 })
 
 type Level = 1 | 2 | 3;
-interface Development {
+export interface Development {
   level: Level;
   score: number;
   cost: Readonly<Gems>;
@@ -43,10 +44,14 @@ export const createDevelopment = (
   level, score, cost: { ...cost }, discount: { ...discount },
 });
 
-interface Noble {
+export interface Noble {
   score: number;
   cost: Gems;
 }
+
+export const createNoble = (score: number, cost: Readonly<Gems>): Noble => ({
+  score, cost: { ...cost },
+})
 
 interface Hand {
   tokens: Tokens;
@@ -57,11 +62,13 @@ interface Hand {
 
 type Player = string | number;
 
+type Cards = { [key in Level]: Development[] };
+
 export interface Board {
   tokens: Tokens;
   noble: readonly Noble[];
-  deck: { [key in Level]: Development[] };
-  matt: { [key in Level]: Development[] };
+  deck: Cards;
+  matt: Cards;
   hands: {
     [key in Player]: Hand;
   }
@@ -76,8 +83,8 @@ export const addDevelopment = (p: Player, card: Development, b: Board): Board =>
 const isNegative = (x: number) => x < 0;
 const anyNegative = R.any(isNegative)
 
-export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean => {
-  const t = R.values(tokens);
+export const validateGetGems = (boardTokens: Tokens, gems: Gems): boolean => {
+  const t = R.values(gems);
   if (anyNegative(t)) {
     return false;
   }
@@ -95,7 +102,7 @@ export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean 
   }
 
   if (sum === 3) {
-    const c = evalTokens(R.subtract)(boardTokens, tokens)
+    const c = evalGems(R.subtract)(boardTokens, gems)
     if (anyNegative(R.values(c))) {
       return false;
     }
@@ -104,7 +111,7 @@ export const validateGetTokens = (boardTokens: Tokens, tokens: Tokens): boolean 
   }
 
   if (sum === 2 && sameIndex !== -1) {
-    const key = R.keys(tokens)[sameIndex] as (keyof Tokens)
+    const key = R.keys(gems)[sameIndex] as (keyof Tokens)
     if (boardTokens[key] < 4) {
       return false
     }
@@ -132,28 +139,16 @@ export const validateReturnTokens = (handTokens: Tokens, tokens: Tokens): boolea
   return false;
 }
 
-export const validateBuyCard = (b: Board, p: Player, pos: [Level, number] | number) => {
-  let card: Development | undefined = undefined;
-  if (typeof pos === 'number') {
-    card = b.hands[p].reserved[pos];
-  } else {
-    const [level, p] = pos;
-    card = b.matt[level][p];
-  }
+export const getCardFromReserved = (h: Hand, pos: number) => h.reserved[pos]
 
-  if (R.isNil(card)) {
-    return false;
-  }
+export const getCardFromMatt = (matt: Cards, level: Level, pos: number) => matt[level][pos]
 
-  const tokens = b.hands[p].tokens;
-  if (R.isNil(tokens)) {
-    return false;
-  }
-
+export const validateBuyCard = (hand: Hand, card: Development) => {
+  const tokens = hand.tokens;
   const discount: Gems = R.reduce(
     evalGems(R.add),
-    createGems(0, 0, 0, 0),
-    R.pluck('discount', b.hands[p].development));
+    createGems(0, 0, 0, 0, 0),
+    R.pluck('discount', hand.development));
 
   const cost = evalGems(R.subtract)(card.cost, discount);
   const change = evalGems(R.subtract)(tokens, cost);
