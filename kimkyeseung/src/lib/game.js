@@ -1,4 +1,4 @@
-import developmentCards from '../../assets/developmentCards.json'
+import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
 import {
   getTokenValidator,
   tokenLimitValidator,
@@ -6,15 +6,31 @@ import {
 } from './validator'
 import { getToken, payToken } from '../lib/utils'
 
+const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
+  const development = DEVELOPMENT_CARDS[cardId]
+  switch (development.grade) {
+    case 1:
+      cards.gradeOne.push(development)
+      return cards
+    case 2:
+      cards.gradeTwo.push(development)
+      return cards
+    case 3:
+      cards.gradeThree.push(development)
+      return cards
+    default:
+      return cards
+  }
+}, { gradeOne: [], gradeTwo: [], gradeThree: [] })
+
 const game = (playerNames) => {
   const Splendor = {
     name: "splendor",
 
     setup: ({ numPlayers, random, ...G }) => {
-      // console.log(G)
-      const developOneDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 1))
-      const developTwoDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 2))
-      const developThreeDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 3))
+      const developOneDeck = random.Shuffle(developCards.gradeOne)
+      const developTwoDeck = random.Shuffle(developCards.gradeTwo)
+      const developThreeDeck = random.Shuffle(developCards.gradeThree)
       const board = {}
       board.dev10 = developOneDeck.pop()
       board.dev11 = developOneDeck.pop()
@@ -49,7 +65,10 @@ const game = (playerNames) => {
           developments: { ...defaultValues },
           token: { ...defaultValues },
           reservedDevs: [],
-          hand: [],
+          hand: {
+            tokens: [],
+            development: {}
+          },
           victoryPoints: 0
         }
       })
@@ -64,6 +83,11 @@ const game = (playerNames) => {
     },
 
     moves: {
+      selectDevelopment(G, ctx, development, index, grade, cb = () => { }) {
+        const { tokens, fields, board } = G
+        const { hand } = fields[`player${ctx.currentPlayer}`]
+      },
+
       buyDevelopment(G, ctx, development, index, grade) {
         const {
           fields,
@@ -76,17 +100,17 @@ const game = (playerNames) => {
         const { value, valueAmount, victoryPoint, cost } = development
         const { developments, victoryPoints, token } = fields[`player${ctx.currentPlayer}`]
         const able = buyDevelopmentValidator({ developments, token }, cost)
-        
+
         if (able) {
           const diff = Object.keys(token).reduce((diff, color) => {
             const price = cost[color] || 0
             const discountedCost = Math.max(price - developments[color], 0)
-            console.log({ color, discountedCost, 'have': developments[color], price })
             if (discountedCost > token[color]) {
               diff += (discountedCost - token[color])
             }
             token[color] -= discountedCost
             tokens[color] += discountedCost
+
             return diff
           }, 0)
           token.yellow -= diff
@@ -106,7 +130,6 @@ const game = (playerNames) => {
         } else {
           alert('비용이 모자랍니다.')
         }
-
       },
 
       selectToken(G, ctx, token, cb = () => { }) {
@@ -114,38 +137,38 @@ const game = (playerNames) => {
         const { hand } = fields[`player${ctx.currentPlayer}`]
         if (tokens[token]) {
           G.tokens[token]--
-          hand.push(token)
+          hand.tokens.push(token)
         }
-        const result = getTokenValidator(hand)
+        const result = getTokenValidator(hand.tokens)
         cb(result)
       },
 
       deselectToken(G, ctx, index, cb = () => { }) {
         const { tokens, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
-        const [token] = hand.splice(index, 1)
+        const [token] = hand.tokens.splice(index, 1)
         tokens[token]++
-        const result = getTokenValidator(hand)
+        const result = getTokenValidator(hand.tokens)
         cb(result)
       },
 
       cancelSelectedToken(G, ctx, cb = () => { }) {
         const { tokens, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
-        hand.forEach(token => {
+        hand.tokens.forEach(token => {
           tokens[token]++
         })
-        hand.length = 0
+        hand.tokens.length = 0
         cb()
       },
 
       getTokens(G, ctx, cb) {
         const { tokens, fields } = G
         const { hand, token } = fields[`player${ctx.currentPlayer}`]
-        hand.forEach(t => {
+        hand.tokens.forEach(t => {
           token[t]++
         })
-        hand.length = 0
+        hand.tokens = []
         if (tokenLimitValidator(token)) {
           cb()
           ctx.events.endTurn()

@@ -177,7 +177,7 @@ class Board extends Component {
           Footer={<div className="hand">
             <SelectedTokens
               message="가져올 토큰을 선택하세요"
-              tokens={hand}
+              tokens={hand.tokens}
               confirmable={confirmable}
               deselectToken={this.deselectToken}
               confirmSelectedToken={this.confirmSelectedToken}
