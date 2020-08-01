@@ -30,8 +30,8 @@ const Message = styled.div`
 
 `
 
-const SelectedDevelopment = ({ message, onClose, development, deselectDevelopment, confirmSelectedToken, confirmable }) => {
-  console.log('work')
+const SelectedDevelopment = ({ message, development, deselectDevelopment, buySelectedDevelopment }) => {
+
   return (
     <Controller isOpen={development ? true : false}>
       <Message>{message}</Message>
@@ -41,11 +41,16 @@ const SelectedDevelopment = ({ message, onClose, development, deselectDevelopmen
             deselectDevelopment()
           }} />
         </TokkenWrapper>
-        <button disabled={!confirmable} onClick={ev => {
+        <button onClick={ev => {
           ev.preventDefault()
-          confirmSelectedToken()
-        }}>confirm</button>
-        <button onClick={onClose}>close</button>
+          buySelectedDevelopment()
+        }}>구매</button>
+        <button onClick={ev => {
+          ev.preventDefault()
+        }}>예약</button>
+        <button onClick={() => {
+          deselectDevelopment()
+        }}>취소</button>
       </Flex>
     </Controller>
   )

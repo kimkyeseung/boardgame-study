@@ -113,7 +113,7 @@ const game = (playerNames) => {
         cb()
       },
 
-      buyDevelopment(G, ctx, devId, index, grade) {
+      buyDevelopment(G, ctx, current, cb = () => { }) {
         const {
           fields,
           developOneDeck,
@@ -122,8 +122,11 @@ const game = (playerNames) => {
           board,
           tokens
         } = G
-        const { value, valueAmount, victoryPoint, cost } = DEVELOPMENT_CARDS[devId]
-        const { developments, victoryPoints, token } = fields[`player${ctx.currentPlayer}`]
+        const { developments, victoryPoints, token, hand } = fields[`player${ctx.currentPlayer}`]
+
+        const development = DEVELOPMENT_CARDS[hand.development]
+        const { value, valueAmount, victoryPoint, cost } = development
+
         const able = buyDevelopmentValidator({ developments, token }, cost)
 
         if (able) {
@@ -149,8 +152,11 @@ const game = (playerNames) => {
             '2': developTwoDeck,
             '3': developThreeDeck
           }
+          const { grade, index } = current
           board[`dev${grade}${index}`] = deck[grade].pop()
+          hand.development = null
 
+          cb()
           ctx.events.endTurn()
         } else {
           alert('비용이 모자랍니다.')

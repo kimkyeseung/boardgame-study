@@ -18,7 +18,7 @@ const Row = styled.div`
   max-width: 900px;
 `
 
-class Board extends Component {
+class BoardContainer extends Component {
   static propTypes = {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
@@ -35,14 +35,11 @@ class Board extends Component {
     }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
+    this.buySelectedDevelopment = this.buySelectedDevelopment.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
     this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
     this.deselectToken = this.deselectToken.bind(this)
-  }
-
-  componentDidMount() {
-
   }
 
   handleSpaceClick(dev, index, grade) {
@@ -68,11 +65,21 @@ class Board extends Component {
   }
 
   deselectDevelopment() {
-    const { G, ctx, moves } = this.props
+    const { moves } = this.props
     const { deselectDevelopment } = moves
 
     const { focusedDevelopment: current } = this.state
     deselectDevelopment(current, () => {
+      this.setState({ focusedDevelopment: {} })
+    })
+  }
+
+  buySelectedDevelopment() {
+    const { moves } = this.props
+    const { focusedDevelopment: current } = this.state
+    const { buyDevelopment } = moves
+
+    buyDevelopment(current, () => {
       this.setState({ focusedDevelopment: {} })
     })
   }
@@ -88,7 +95,7 @@ class Board extends Component {
     })
   }
 
-  deselectToken(index, cb) {
+  deselectToken(index) {
     const { G, ctx, moves } = this.props
     const { deselectToken } = moves
     deselectToken(index, (confirmable) => {
@@ -162,21 +169,21 @@ class Board extends Component {
                 <>
                   <Row>
                     {developmentThree.map((dev, index) => (
-                      <Card key={dev ? dev.id : index} onClick={ev => {
+                      <Card key={dev} onClick={ev => {
                         this.handleSpaceClick(dev, index, 3)
                       }} grade={3} dev={dev} />
                     ))}
                   </Row>
                   <Row>
                     {developmentTwo.map((dev, index) => (
-                      <Card key={dev ? dev.id : index} onClick={ev => {
+                      <Card key={dev} onClick={ev => {
                         this.handleSpaceClick(dev, index, 2)
                       }} grade={2} dev={dev} />
                     ))}
                   </Row>
                   <Row>
                     {developmentOne.map((dev, index) => (
-                      <Card key={dev ? dev.id : index} onClick={ev => {
+                      <Card key={dev} onClick={ev => {
                         this.handleSpaceClick(dev, index, 1)
                       }} grade={1} dev={dev} />
                     ))}
@@ -213,12 +220,12 @@ class Board extends Component {
             {focusedDevelopment && <SelectedDevelopment
               message="개발카드를 어떻게 하시겠습니까?"
               deselectDevelopment={this.deselectDevelopment}
-              development={focusedDevelopment.development}
-              onClose={() => { }} />}
+              buySelectedDevelopment={this.buySelectedDevelopment}
+              development={focusedDevelopment.development} />}
           </div>} />
       </>
     )
   }
 }
 
-export default Board
+export default BoardContainer
