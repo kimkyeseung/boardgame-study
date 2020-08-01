@@ -30,7 +30,13 @@ const Message = styled.div`
 
 `
 
-const SelectedDevelopment = ({ message, development, deselectDevelopment, buySelectedDevelopment }) => {
+const SelectedDevelopment = ({
+  message,
+  development,
+  deselectDevelopment,
+  buySelectedDevelopment,
+  reserveSelectedDevelopment
+}) => {
 
   return (
     <Controller isOpen={development ? true : false}>
@@ -47,6 +53,7 @@ const SelectedDevelopment = ({ message, development, deselectDevelopment, buySel
         }}>구매</button>
         <button onClick={ev => {
           ev.preventDefault()
+          reserveSelectedDevelopment()
         }}>예약</button>
         <button onClick={() => {
           deselectDevelopment()

@@ -2,7 +2,8 @@ import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
 import {
   getTokenValidator,
   tokenLimitValidator,
-  buyDevelopmentValidator
+  buyDevelopmentValidator,
+  reserveDevelopmentValidator
 } from './validator'
 import { getToken, payToken } from '../lib/utils'
 
@@ -124,8 +125,8 @@ const game = (playerNames) => {
         } = G
         const { developments, victoryPoints, token, hand } = fields[`player${ctx.currentPlayer}`]
 
-        const development = DEVELOPMENT_CARDS[hand.development]
-        const { value, valueAmount, victoryPoint, cost } = development
+        const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
+        const { value, valueAmount, victoryPoint, cost } = targetDevelopment
 
         const able = buyDevelopmentValidator({ developments, token }, cost)
 
@@ -160,6 +161,43 @@ const game = (playerNames) => {
           ctx.events.endTurn()
         } else {
           alert('비용이 모자랍니다.')
+        }
+      },
+
+      reserveDevelopment(G, ctx, current, cb = () => { }) {
+        const {
+          fields,
+          developOneDeck,
+          developTwoDeck,
+          developThreeDeck,
+          board,
+          tokenStore
+        } = G
+        const { reservedDevs, token, hand } = fields[`player${ctx.currentPlayer}`]
+
+        const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
+
+        const able = reserveDevelopmentValidator(reservedDevs)
+        if (able) {
+          if (tokenStore.yellow) {
+            tokenStore.yellow--
+            token.yellow++
+          }
+          reservedDevs.push(targetDevelopment.id)
+
+          const deck = {
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
+          }
+          const { grade, index } = current
+          board[`dev${grade}${index}`] = deck[grade].pop()
+          hand.development = null
+
+          cb()
+          ctx.events.endTurn()
+        } else {
+          alert('더 이상 예약할 수 없습니다.')
         }
       },
 

@@ -33,3 +33,5 @@ export const buyDevelopmentValidator = (player, cost) => {
 
   return token.yellow >= diff
 }
+
+export const reserveDevelopmentValidator = (reserved = []) => reserved.length < 3

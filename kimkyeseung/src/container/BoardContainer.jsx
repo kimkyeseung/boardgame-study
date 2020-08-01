@@ -36,6 +36,7 @@ class BoardContainer extends Component {
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
     this.buySelectedDevelopment = this.buySelectedDevelopment.bind(this)
+    this.reserveSelectedDevelopment = this.reserveSelectedDevelopment.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
     this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
@@ -46,11 +47,11 @@ class BoardContainer extends Component {
     const { G, ctx, moves } = this.props
     const { fields } = G
     const { currentPlayer } = ctx
-    const { buyDevelopment, selectDevelopment } = moves
-    const { hand } = fields[`player${currentPlayer}`]
+    const { selectDevelopment } = moves
 
     const { focusedDevelopment: current } = this.state
     const next = { index, grade }
+
     selectDevelopment(dev, current, next, (development) => {
       this.setState({
         focusedDevelopment: {
@@ -60,26 +61,34 @@ class BoardContainer extends Component {
         }
       })
     })
-
-    // buyDevelopment(dev, index, grade)
   }
 
   deselectDevelopment() {
     const { moves } = this.props
     const { deselectDevelopment } = moves
+    const { focusedDevelopment } = this.state
 
-    const { focusedDevelopment: current } = this.state
-    deselectDevelopment(current, () => {
+    deselectDevelopment(focusedDevelopment, () => {
       this.setState({ focusedDevelopment: {} })
     })
   }
 
   buySelectedDevelopment() {
     const { moves } = this.props
-    const { focusedDevelopment: current } = this.state
     const { buyDevelopment } = moves
+    const { focusedDevelopment } = this.state
 
-    buyDevelopment(current, () => {
+    buyDevelopment(focusedDevelopment, () => {
+      this.setState({ focusedDevelopment: {} })
+    })
+  }
+
+  reserveSelectedDevelopment() {
+    const { moves } = this.props
+    const { reserveDevelopment } = moves
+    const { focusedDevelopment } = this.state
+
+    reserveDevelopment(focusedDevelopment, () => {
       this.setState({ focusedDevelopment: {} })
     })
   }
@@ -221,6 +230,7 @@ class BoardContainer extends Component {
               message="개발카드를 어떻게 하시겠습니까?"
               deselectDevelopment={this.deselectDevelopment}
               buySelectedDevelopment={this.buySelectedDevelopment}
+              reserveSelectedDevelopment={this.reserveSelectedDevelopment}
               development={focusedDevelopment.development} />}
           </div>} />
       </>
