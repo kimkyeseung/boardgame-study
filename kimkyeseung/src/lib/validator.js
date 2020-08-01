@@ -1,8 +1,8 @@
-export const getTokenValidator = (tokens = []) => {
+export const getTokenValidator = (tokens = [], tokenStore) => {
   switch (tokens.length) {
     case 2: {
       const [token1, token2] = tokens
-      return token1 === token2
+      return token1 === token2 && tokenStore[token1] >= 2
     }
     case 3: {
       const [token1, token2, token3] = tokens
@@ -30,6 +30,6 @@ export const buyDevelopmentValidator = (player, cost) => {
     .reduce((diffAmount, color) => cost[color] > total[color]
       ? diffAmount + (cost[color] - total[color])
       : diffAmount, 0)
-      
+
   return token.yellow >= diff
 }

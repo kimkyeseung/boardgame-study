@@ -137,7 +137,7 @@ class BoardContainer extends Component {
     const developmentThree = [dev30, dev31, dev32, dev33]
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const { selectedTokens, fields } = G
+    const { tokenStore, selectedTokens, fields } = G
     const { hand } = fields[`player${currentPlayer}`]
     const { confirmable, focusedDevelopment } = this.state
 
@@ -196,7 +196,7 @@ class BoardContainer extends Component {
                     <Token
                       key={token}
                       color={token}
-                      count={G.tokens[token]}
+                      count={tokenStore[token]}
                       onClick={() => {
                         this.handleTokenClick(token)
                       }} />

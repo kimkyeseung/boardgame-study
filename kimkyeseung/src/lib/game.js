@@ -48,14 +48,14 @@ const game = (playerNames) => {
       board.dev33 = developThreeDeck.pop()
 
       const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
-      const tokens = {}
-      tokens.red
-        = tokens.blue
-        = tokens.black
-        = tokens.white
-        = tokens.green
+      const tokenStore = {}
+      tokenStore.red
+        = tokenStore.blue
+        = tokenStore.black
+        = tokenStore.white
+        = tokenStore.green
         = tokenCount
-      tokens.yellow = 5
+      tokenStore.yellow = 5
 
       const fields = {}
       const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0, yellow: 0 }
@@ -75,7 +75,7 @@ const game = (playerNames) => {
       return {
         fields,
         board,
-        tokens,
+        tokenStore,
         developOneDeck,
         developTwoDeck,
         developThreeDeck,
@@ -84,7 +84,7 @@ const game = (playerNames) => {
 
     moves: {
       selectDevelopment(G, ctx, devId, current, next, cb = () => { }) {
-        const { tokens, fields, board } = G
+        const { fields, board } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
         if (hand.development) {
           const { index, grade, development } = current
@@ -98,7 +98,7 @@ const game = (playerNames) => {
       },
 
       deselectDevelopment(G, ctx, current, cb = () => { }) {
-        const { tokens, fields, board } = G
+        const { fields, board } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
 
         if (!hand.development) {
@@ -120,7 +120,7 @@ const game = (playerNames) => {
           developTwoDeck,
           developThreeDeck,
           board,
-          tokens
+          tokenStore
         } = G
         const { developments, victoryPoints, token, hand } = fields[`player${ctx.currentPlayer}`]
 
@@ -137,12 +137,12 @@ const game = (playerNames) => {
               diff += (discountedCost - token[color])
             }
             token[color] -= discountedCost
-            tokens[color] += discountedCost
+            tokenStore[color] += discountedCost
 
             return diff
           }, 0)
           token.yellow -= diff
-          tokens.yellow += diff
+          tokenStore.yellow += diff
 
           developments[value] += valueAmount
           fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
@@ -164,37 +164,37 @@ const game = (playerNames) => {
       },
 
       selectToken(G, ctx, token, cb = () => { }) {
-        const { tokens, fields } = G
+        const { tokenStore, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
-        if (tokens[token]) {
-          G.tokens[token]--
+        if (tokenStore[token]) {
+          tokenStore[token]--
           hand.tokens.push(token)
         }
-        const result = getTokenValidator(hand.tokens)
+        const result = getTokenValidator(hand.tokens, tokenStore)
         cb(result)
       },
 
       deselectToken(G, ctx, index, cb = () => { }) {
-        const { tokens, fields } = G
+        const { tokenStore, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
         const [token] = hand.tokens.splice(index, 1)
-        tokens[token]++
+        tokenStore[token]++
         const result = getTokenValidator(hand.tokens)
         cb(result)
       },
 
       cancelSelectedToken(G, ctx, cb = () => { }) {
-        const { tokens, fields } = G
+        const { tokenStore, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
         hand.tokens.forEach(token => {
-          tokens[token]++
+          tokenStore[token]++
         })
         hand.tokens.length = 0
         cb()
       },
 
       getTokens(G, ctx, cb) {
-        const { tokens, fields } = G
+        const { fields } = G
         const { hand, token } = fields[`player${ctx.currentPlayer}`]
         hand.tokens.forEach(t => {
           token[t]++
