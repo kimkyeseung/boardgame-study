@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
-import Token from './Token'
+import Card from './Card'
 import { Flex } from './units'
 
-const TokenWrapper = styled.div`
+const TokkenWrapper = styled.div`
   width: fit-content;
   margin: 0 auto;
   display: flex;
@@ -30,20 +30,17 @@ const Message = styled.div`
 
 `
 
-const SelectedTokens = ({ message, onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
+const SelectedDevelopment = ({ message, onClose, development, deselectDevelopment, confirmSelectedToken, confirmable }) => {
+  console.log('work')
   return (
-    <Controller isOpen={tokens.length ? true : false}>
+    <Controller isOpen={development ? true : false}>
       <Message>{message}</Message>
       <Flex>
-        <TokenWrapper>
-          <Flex>
-            {tokens.map((token, i) => {
-              return <Token onClick={() => {
-                deselectToken(i)
-              }} color={token} key={i} />
-            })}
-          </Flex>
-        </TokenWrapper>
+        <TokkenWrapper>
+          <Card dev={development} onClick={() => {
+            deselectDevelopment()
+          }} />
+        </TokkenWrapper>
         <button disabled={!confirmable} onClick={ev => {
           ev.preventDefault()
           confirmSelectedToken()
@@ -54,4 +51,4 @@ const SelectedTokens = ({ message, onClose, tokens = [], deselectToken, confirmS
   )
 }
 
-export default SelectedTokens
+export default SelectedDevelopment

@@ -7,16 +7,16 @@ import {
 import { getToken, payToken } from '../lib/utils'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
-  const development = DEVELOPMENT_CARDS[cardId]
-  switch (development.grade) {
+  const { grade, id } = DEVELOPMENT_CARDS[cardId]
+  switch (grade) {
     case 1:
-      cards.gradeOne.push(development)
+      cards.gradeOne.push(id)
       return cards
     case 2:
-      cards.gradeTwo.push(development)
+      cards.gradeTwo.push(id)
       return cards
     case 3:
-      cards.gradeThree.push(development)
+      cards.gradeThree.push(id)
       return cards
     default:
       return cards
@@ -67,7 +67,7 @@ const game = (playerNames) => {
           reservedDevs: [],
           hand: {
             tokens: [],
-            development: {}
+            development: null
           },
           victoryPoints: 0
         }
@@ -83,12 +83,37 @@ const game = (playerNames) => {
     },
 
     moves: {
-      selectDevelopment(G, ctx, development, index, grade, cb = () => { }) {
+      selectDevelopment(G, ctx, devId, current, next, cb = () => { }) {
         const { tokens, fields, board } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
+        if (hand.development) {
+          const { index, grade, development } = current
+          board[`dev${grade}${index}`] = development
+        }
+        hand.development = devId
+        const { grade, index } = next
+        board[`dev${grade}${index}`] = null
+
+        cb(hand.development)
       },
 
-      buyDevelopment(G, ctx, development, index, grade) {
+      deselectDevelopment(G, ctx, current, cb = () => { }) {
+        const { tokens, fields, board } = G
+        const { hand } = fields[`player${ctx.currentPlayer}`]
+
+        if (!hand.development) {
+          return
+        }
+
+        const { grade, index } = current
+
+        board[`dev${grade}${index}`] = hand.development
+        hand.development = null
+
+        cb()
+      },
+
+      buyDevelopment(G, ctx, devId, index, grade) {
         const {
           fields,
           developOneDeck,
@@ -97,7 +122,7 @@ const game = (playerNames) => {
           board,
           tokens
         } = G
-        const { value, valueAmount, victoryPoint, cost } = development
+        const { value, valueAmount, victoryPoint, cost } = DEVELOPMENT_CARDS[devId]
         const { developments, victoryPoints, token } = fields[`player${ctx.currentPlayer}`]
         const able = buyDevelopmentValidator({ developments, token }, cost)
 

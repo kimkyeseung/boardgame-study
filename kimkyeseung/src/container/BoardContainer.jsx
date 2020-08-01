@@ -6,6 +6,7 @@ import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
 import SelectedTokens from '../components/SelectedTokens'
+import SelectedDevelopment from '../components/SelectedDevelopment'
 import Player from './Player'
 import { Link } from '../../../lib/utils'
 
@@ -29,9 +30,11 @@ class Board extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      confirmable: false
+      confirmable: false,
+      focusedDevelopment: {}
     }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
+    this.deselectDevelopment = this.deselectDevelopment.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
     this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
@@ -43,9 +46,35 @@ class Board extends Component {
   }
 
   handleSpaceClick(dev, index, grade) {
-    const { buyDevelopment } = this.props.moves
+    const { G, ctx, moves } = this.props
+    const { fields } = G
+    const { currentPlayer } = ctx
+    const { buyDevelopment, selectDevelopment } = moves
+    const { hand } = fields[`player${currentPlayer}`]
 
-    buyDevelopment(dev, index, grade)
+    const { focusedDevelopment: current } = this.state
+    const next = { index, grade }
+    selectDevelopment(dev, current, next, (development) => {
+      this.setState({
+        focusedDevelopment: {
+          grade,
+          index,
+          development
+        }
+      })
+    })
+
+    // buyDevelopment(dev, index, grade)
+  }
+
+  deselectDevelopment() {
+    const { G, ctx, moves } = this.props
+    const { deselectDevelopment } = moves
+
+    const { focusedDevelopment: current } = this.state
+    deselectDevelopment(current, () => {
+      this.setState({ focusedDevelopment: {} })
+    })
   }
 
   handleTokenClick(token) {
@@ -68,7 +97,6 @@ class Board extends Component {
   }
 
   confirmSelectedToken() {
-    console.log('confirmSelectedToken')
     const { G, ctx, moves } = this.props
     const { selectToken, getTokens } = moves
     getTokens(() => {
@@ -104,7 +132,7 @@ class Board extends Component {
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
     const { selectedTokens, fields } = G
     const { hand } = fields[`player${currentPlayer}`]
-    const { confirmable } = this.state
+    const { confirmable, focusedDevelopment } = this.state
 
     return (
       <>
@@ -136,21 +164,21 @@ class Board extends Component {
                     {developmentThree.map((dev, index) => (
                       <Card key={dev ? dev.id : index} onClick={ev => {
                         this.handleSpaceClick(dev, index, 3)
-                      }} grade={3} development={dev} />
+                      }} grade={3} dev={dev} />
                     ))}
                   </Row>
                   <Row>
                     {developmentTwo.map((dev, index) => (
                       <Card key={dev ? dev.id : index} onClick={ev => {
                         this.handleSpaceClick(dev, index, 2)
-                      }} grade={2} development={dev} />
+                      }} grade={2} dev={dev} />
                     ))}
                   </Row>
                   <Row>
                     {developmentOne.map((dev, index) => (
                       <Card key={dev ? dev.id : index} onClick={ev => {
                         this.handleSpaceClick(dev, index, 1)
-                      }} grade={1} development={dev} />
+                      }} grade={1} dev={dev} />
                     ))}
                   </Row>
                 </>
@@ -182,6 +210,11 @@ class Board extends Component {
               deselectToken={this.deselectToken}
               confirmSelectedToken={this.confirmSelectedToken}
               onClose={this.cancelSelectedToken} />
+            {focusedDevelopment && <SelectedDevelopment
+              message="개발카드를 어떻게 하시겠습니까?"
+              deselectDevelopment={this.deselectDevelopment}
+              development={focusedDevelopment.development}
+              onClose={() => { }} />}
           </div>} />
       </>
     )

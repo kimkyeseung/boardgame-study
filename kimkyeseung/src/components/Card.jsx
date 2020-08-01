@@ -4,6 +4,8 @@ import styled, { css } from 'styled-components'
 import Value from './Value'
 import Cost from './Cost'
 
+import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
+
 const normalStyle = css`
   display: flex;
   flex-direction: column;
@@ -45,11 +47,11 @@ const Space = styled.div`
 
 
 
-export default ({ development, onClick }) => {
-  if (!development) {
+export default ({ dev, onClick }) => {
+  if (!dev) {
     return <Space empty></Space>
   }
-  const { grade, cost, value, victoryPoint } = development
+  const { grade, cost, value, victoryPoint } = DEVELOPMENT_CARDS[dev]
   return (
     <Space onClick={onClick} backgroundUrl={`image/${value + grade}.jpg`}>
       <header>
