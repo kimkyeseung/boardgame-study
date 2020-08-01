@@ -105,7 +105,7 @@ class Board extends Component {
     const { selectedTokens, fields } = G
     const { hand } = fields[`player${currentPlayer}`]
     const { confirmable } = this.state
-    console.log({ hand })
+
     return (
       <>
         <Layout

@@ -4,6 +4,7 @@ import {
   tokenLimitValidator,
   buyDevelopmentValidator
 } from './validator'
+import { getToken, payToken } from '../lib/utils'
 
 const game = (playerNames) => {
   const Splendor = {
@@ -64,37 +65,42 @@ const game = (playerNames) => {
 
     moves: {
       buyDevelopment(G, ctx, development, index, grade) {
+        const {
+          fields,
+          developOneDeck,
+          developTwoDeck,
+          developThreeDeck,
+          board,
+          tokens
+        } = G
         const { value, valueAmount, victoryPoint, cost } = development
-        console.log({ valueAmount })
-        const { developments, victoryPoints, token } = G.fields[`player${ctx.currentPlayer}`]
-
+        const { developments, victoryPoints, token } = fields[`player${ctx.currentPlayer}`]
         const able = buyDevelopmentValidator({ developments, token }, cost)
-        console.log({ able })
+        
         if (able) {
-
           const diff = Object.keys(token).reduce((diff, color) => {
             const price = cost[color] || 0
             const discountedCost = Math.max(price - developments[color], 0)
             console.log({ color, discountedCost, 'have': developments[color], price })
             if (discountedCost > token[color]) {
-              diff += discountedCost - token[color]
+              diff += (discountedCost - token[color])
             }
             token[color] -= discountedCost
+            tokens[color] += discountedCost
             return diff
           }, 0)
           token.yellow -= diff
+          tokens.yellow += diff
 
           developments[value] += valueAmount
-          console.log(value * valueAmount, developments[value])
-          G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
-
+          fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
 
           const deck = {
-            '1': G.developOneDeck,
-            '2': G.developTwoDeck,
-            '3': G.developThreeDeck
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
           }
-          G.board[`dev${grade}${index}`] = deck[grade].pop()
+          board[`dev${grade}${index}`] = deck[grade].pop()
 
           ctx.events.endTurn()
         } else {
