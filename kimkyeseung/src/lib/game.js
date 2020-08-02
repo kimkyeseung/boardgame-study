@@ -5,7 +5,7 @@ import {
   buyDevelopmentValidator,
   reserveDevelopmentValidator
 } from './validator'
-import { getToken, payToken } from '../lib/utils'
+import { getToken, payToken, getLackAmount } from '../lib/utils'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
   const { grade, id } = DEVELOPMENT_CARDS[cardId]
@@ -128,22 +128,27 @@ const game = (playerNames) => {
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
         const { value, valueAmount, victoryPoint, cost } = targetDevelopment
 
-        const able = buyDevelopmentValidator({ developments, token }, cost)
+        const lackAmount = getLackAmount({ developments, token }, cost)
+        const buyable = token.yellow >= lackAmount
 
-        if (able) {
-          const diff = Object.keys(token).reduce((diff, color) => {
-            const price = cost[color] || 0
-            const discountedCost = Math.max(price - developments[color], 0)
-            if (discountedCost > token[color]) {
-              diff += (discountedCost - token[color])
+        if (buyable) {
+          const lack = Object.keys(token).reduce((diff, color) => {
+            const individualCost = cost[color] || 0
+            const discountedIndividualCost = individualCost > developments[color] ? individualCost - developments[color] : 0
+            if (discountedIndividualCost > token[color]) {
+              const toPay = discountedIndividualCost - token[color]
+              diff += toPay
+              token[color] -= toPay
+              tokenStore[color] += toPay
+            } else {
+              token[color] -= discountedIndividualCost
+              tokenStore[color] += discountedIndividualCost
             }
-            token[color] -= discountedCost
-            tokenStore[color] += discountedCost
 
             return diff
           }, 0)
-          token.yellow -= diff
-          tokenStore.yellow += diff
+          token.yellow -= lack
+          tokenStore.yellow += lack
 
           developments[value] += valueAmount
           fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint

@@ -118,7 +118,7 @@ const FieldSummary = ({ active, field }) => {
         <Token value="red" amount={token.red} />
         <Token value="green" amount={token.green} />
         <Token value="black" amount={token.black} />
-        {token.yellow && <Token value="yellow" amount={token.yellow} />}
+        {token.yellow ? <Token value="yellow" amount={token.yellow} /> : null}
         {totalTokenCount ? <TokenCount>{totalTokenCount}</TokenCount> : null}
       </Token.Wrapper>
     </StyledFieldSummary>

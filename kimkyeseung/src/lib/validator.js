@@ -20,18 +20,20 @@ export const tokenLimitValidator = (token = {}) => {
   return total <= limit
 }
 
-export const buyDevelopmentValidator = (player, cost) => {
-  const { developments, token } = player
-  const total = {}
-  Object.keys(developments).forEach(color => {
-    total[color] = developments[color] + token[color]
-  })
-  const diff = Object.keys(cost)
-    .reduce((diffAmount, color) => cost[color] > total[color]
-      ? diffAmount + (cost[color] - total[color])
-      : diffAmount, 0)
+// export const buyDevelopmentValidator = (player, cost) => {
+//   const { developments, token } = player
+//   const total = {}
+//   Object.keys(developments).forEach(color => {
+//     total[color] = developments[color] + token[color]
+//   })
+//   const diff = Object.keys(cost)
+//     .reduce((diffAmount, color) => cost[color] > total[color]
+//       ? diffAmount + (cost[color] - total[color])
+//       : diffAmount, 0)
 
-  return token.yellow >= diff
-}
+//   return token.yellow >= diff
+// }
+
+export const buyDevelopmentValidator = (token, lack) => token.yellow >= lack
 
 export const reserveDevelopmentValidator = (reserved = []) => reserved.length < 3
