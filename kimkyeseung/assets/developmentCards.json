@@ -1,14 +1,16 @@
-[
-  {
+{
+  "101B": {
     "grade": 1,
     "id": "101B",
     "value": "blue",
     "valueAmount": 1,
     "victoryPoint": 0,
-    "cost": {},
+    "cost": {
+      "black": 3
+    },
     "set": "original"
   },
-  {
+  "102B": {
     "grade": 1,
     "id": "102B",
     "value": "blue",
@@ -19,7 +21,7 @@
     },
     "set": "original"
   },
-  {
+  "103B": {
     "grade": 1,
     "id": "103B",
     "value": "blue",
@@ -31,7 +33,7 @@
     },
     "set": "original"
   },
-  {
+  "104B": {
     "grade": 1,
     "id": "104B",
     "value": "blue",
@@ -43,7 +45,7 @@
     },
     "set": "original"
   },
-  {
+  "105B": {
     "grade": 1,
     "id": "105B",
     "value": "blue",
@@ -56,7 +58,7 @@
     },
     "set": "original"
   },
-  {
+  "106B": {
     "grade": 1,
     "id": "106B",
     "value": "blue",
@@ -69,7 +71,7 @@
     },
     "set": "original"
   },
-  {
+  "107B": {
     "grade": 1,
     "id": "107B",
     "value": "blue",
@@ -83,7 +85,7 @@
     },
     "set": "original"
   },
-  {
+  "108B": {
     "grade": 1,
     "id": "108B",
     "value": "blue",
@@ -97,7 +99,7 @@
     },
     "set": "original"
   },
-  {
+  "109G": {
     "grade": 1,
     "id": "109G",
     "value": "green",
@@ -108,7 +110,7 @@
     },
     "set": "original"
   },
-  {
+  "110G": {
     "grade": 1,
     "id": "110G",
     "value": "green",
@@ -119,7 +121,7 @@
     },
     "set": "original"
   },
-  {
+  "111G": {
     "grade": 1,
     "id": "111G",
     "value": "green",
@@ -131,7 +133,7 @@
     },
     "set": "original"
   },
-  {
+  "112G": {
     "grade": 1,
     "id": "112G",
     "value": "green",
@@ -143,7 +145,7 @@
     },
     "set": "original"
   },
-  {
+  "113G": {
     "grade": 1,
     "id": "113G",
     "value": "green",
@@ -156,7 +158,7 @@
     },
     "set": "original"
   },
-  {
+  "114G": {
     "grade": 1,
     "id": "114G",
     "value": "green",
@@ -169,7 +171,7 @@
     },
     "set": "original"
   },
-  {
+  "115G": {
     "grade": 1,
     "id": "115G",
     "value": "green",
@@ -183,7 +185,7 @@
     },
     "set": "original"
   },
-  {
+  "116G": {
     "grade": 1,
     "id": "116G",
     "value": "green",
@@ -197,7 +199,7 @@
     },
     "set": "original"
   },
-  {
+  "117R": {
     "grade": 1,
     "id": "117R",
     "value": "red",
@@ -211,7 +213,7 @@
     },
     "set": "original"
   },
-  {
+  "118K": {
     "grade": 1,
     "id": "118K",
     "value": "black",
@@ -222,7 +224,7 @@
     },
     "set": "original"
   },
-  {
+  "119K": {
     "grade": 1,
     "id": "119K",
     "value": "black",
@@ -233,7 +235,7 @@
     },
     "set": "original"
   },
-  {
+  "120K": {
     "grade": 1,
     "id": "120K",
     "value": "black",
@@ -245,7 +247,7 @@
     },
     "set": "original"
   },
-  {
+  "121K": {
     "grade": 1,
     "id": "121K",
     "value": "black",
@@ -257,7 +259,7 @@
     },
     "set": "original"
   },
-  {
+  "122K": {
     "grade": 1,
     "id": "122K",
     "value": "black",
@@ -270,7 +272,7 @@
     },
     "set": "original"
   },
-  {
+  "123K": {
     "grade": 1,
     "id": "123K",
     "value": "black",
@@ -283,7 +285,7 @@
     },
     "set": "original"
   },
-  {
+  "124K": {
     "grade": 1,
     "id": "124K",
     "value": "black",
@@ -297,7 +299,7 @@
     },
     "set": "original"
   },
-  {
+  "125K": {
     "grade": 1,
     "id": "125K",
     "value": "black",
@@ -311,7 +313,7 @@
     },
     "set": "original"
   },
-  {
+  "126R": {
     "grade": 1,
     "id": "126R",
     "value": "red",
@@ -322,7 +324,7 @@
     },
     "set": "original"
   },
-  {
+  "127R": {
     "grade": 1,
     "id": "127R",
     "value": "red",
@@ -333,7 +335,7 @@
     },
     "set": "original"
   },
-  {
+  "128R": {
     "grade": 1,
     "id": "128R",
     "value": "red",
@@ -345,7 +347,7 @@
     },
     "set": "original"
   },
-  {
+  "129R": {
     "grade": 1,
     "id": "129R",
     "value": "red",
@@ -357,7 +359,7 @@
     },
     "set": "original"
   },
-  {
+  "130R": {
     "grade": 1,
     "id": "130R",
     "value": "red",
@@ -370,7 +372,7 @@
     },
     "set": "original"
   },
-  {
+  "131R": {
     "grade": 1,
     "id": "131R",
     "value": "red",
@@ -383,7 +385,7 @@
     },
     "set": "original"
   },
-  {
+  "132R": {
     "grade": 1,
     "id": "132R",
     "value": "red",
@@ -397,7 +399,7 @@
     },
     "set": "original"
   },
-  {
+  "133W": {
     "grade": 1,
     "id": "133W",
     "value": "white",
@@ -408,7 +410,7 @@
     },
     "set": "original"
   },
-  {
+  "134W": {
     "grade": 1,
     "id": "134W",
     "value": "white",
@@ -419,7 +421,7 @@
     },
     "set": "original"
   },
-  {
+  "135W": {
     "grade": 1,
     "id": "135W",
     "value": "white",
@@ -431,7 +433,7 @@
     },
     "set": "original"
   },
-  {
+  "136W": {
     "grade": 1,
     "id": "136W",
     "value": "white",
@@ -443,7 +445,7 @@
     },
     "set": "original"
   },
-  {
+  "137W": {
     "grade": 1,
     "id": "137W",
     "value": "white",
@@ -456,7 +458,7 @@
     },
     "set": "original"
   },
-  {
+  "138W": {
     "grade": 1,
     "id": "138W",
     "value": "white",
@@ -469,7 +471,7 @@
     },
     "set": "original"
   },
-  {
+  "139W": {
     "grade": 1,
     "id": "139W",
     "value": "white",
@@ -483,7 +485,7 @@
     },
     "set": "original"
   },
-  {
+  "140W": {
     "grade": 1,
     "id": "140W",
     "value": "white",
@@ -497,7 +499,7 @@
     },
     "set": "original"
   },
-  {
+  "201B": {
     "grade": 2,
     "id": "201B",
     "value": "blue",
@@ -508,7 +510,7 @@
     },
     "set": "original"
   },
-  {
+  "202B": {
     "grade": 2,
     "id": "202B",
     "value": "blue",
@@ -519,7 +521,7 @@
     },
     "set": "original"
   },
-  {
+  "203B": {
     "grade": 2,
     "id": "203B",
     "value": "blue",
@@ -531,7 +533,7 @@
     },
     "set": "original"
   },
-  {
+  "204B": {
     "grade": 2,
     "id": "204B",
     "value": "blue",
@@ -544,7 +546,7 @@
     },
     "set": "original"
   },
-  {
+  "205B": {
     "grade": 2,
     "id": "205B",
     "value": "blue",
@@ -557,7 +559,7 @@
     },
     "set": "original"
   },
-  {
+  "206B": {
     "grade": 2,
     "id": "206B",
     "value": "blue",
@@ -570,7 +572,7 @@
     },
     "set": "original"
   },
-  {
+  "207G": {
     "grade": 2,
     "id": "207G",
     "value": "green",
@@ -581,7 +583,7 @@
     },
     "set": "original"
   },
-  {
+  "208G": {
     "grade": 2,
     "id": "208G",
     "value": "green",
@@ -592,7 +594,7 @@
     },
     "set": "original"
   },
-  {
+  "209G": {
     "grade": 2,
     "id": "209G",
     "value": "green",
@@ -604,7 +606,7 @@
     },
     "set": "original"
   },
-  {
+  "210G": {
     "grade": 2,
     "id": "210G",
     "value": "green",
@@ -617,7 +619,7 @@
     },
     "set": "original"
   },
-  {
+  "211G": {
     "grade": 2,
     "id": "211G",
     "value": "green",
@@ -630,7 +632,7 @@
     },
     "set": "original"
   },
-  {
+  "212G": {
     "grade": 2,
     "id": "212G",
     "value": "green",
@@ -643,7 +645,7 @@
     },
     "set": "original"
   },
-  {
+  "213K": {
     "grade": 2,
     "id": "213K",
     "value": "black",
@@ -654,7 +656,7 @@
     },
     "set": "original"
   },
-  {
+  "214K": {
     "grade": 2,
     "id": "214K",
     "value": "black",
@@ -665,7 +667,7 @@
     },
     "set": "original"
   },
-  {
+  "215K": {
     "grade": 2,
     "id": "215K",
     "value": "black",
@@ -677,7 +679,7 @@
     },
     "set": "original"
   },
-  {
+  "216K": {
     "grade": 2,
     "id": "216K",
     "value": "black",
@@ -690,7 +692,7 @@
     },
     "set": "original"
   },
-  {
+  "217K": {
     "grade": 2,
     "id": "217K",
     "value": "black",
@@ -703,7 +705,7 @@
     },
     "set": "original"
   },
-  {
+  "218K": {
     "grade": 2,
     "id": "218K",
     "value": "black",
@@ -716,7 +718,7 @@
     },
     "set": "original"
   },
-  {
+  "219R": {
     "grade": 2,
     "id": "219R",
     "value": "red",
@@ -727,7 +729,7 @@
     },
     "set": "original"
   },
-  {
+  "220R": {
     "grade": 2,
     "id": "220R",
     "value": "red",
@@ -738,7 +740,7 @@
     },
     "set": "original"
   },
-  {
+  "221R": {
     "grade": 2,
     "id": "221R",
     "value": "red",
@@ -750,7 +752,7 @@
     },
     "set": "original"
   },
-  {
+  "222R": {
     "grade": 2,
     "id": "222R",
     "value": "red",
@@ -763,7 +765,7 @@
     },
     "set": "original"
   },
-  {
+  "223R": {
     "grade": 2,
     "id": "223R",
     "value": "red",
@@ -776,7 +778,7 @@
     },
     "set": "original"
   },
-  {
+  "224R": {
     "grade": 2,
     "id": "224R",
     "value": "red",
@@ -789,7 +791,7 @@
     },
     "set": "original"
   },
-  {
+  "225W": {
     "grade": 2,
     "id": "225W",
     "value": "white",
@@ -800,7 +802,7 @@
     },
     "set": "original"
   },
-  {
+  "226W": {
     "grade": 2,
     "id": "226W",
     "value": "white",
@@ -811,7 +813,7 @@
     },
     "set": "original"
   },
-  {
+  "227W": {
     "grade": 2,
     "id": "227W",
     "value": "white",
@@ -823,7 +825,7 @@
     },
     "set": "original"
   },
-  {
+  "228W": {
     "grade": 2,
     "id": "228W",
     "value": "white",
@@ -836,7 +838,7 @@
     },
     "set": "original"
   },
-  {
+  "229W": {
     "grade": 2,
     "id": "229W",
     "value": "white",
@@ -849,7 +851,7 @@
     },
     "set": "original"
   },
-  {
+  "230W": {
     "grade": 2,
     "id": "230W",
     "value": "white",
@@ -862,7 +864,7 @@
     },
     "set": "original"
   },
-  {
+  "301B": {
     "grade": 3,
     "id": "301B",
     "value": "blue",
@@ -873,7 +875,7 @@
     },
     "set": "original"
   },
-  {
+  "302B": {
     "grade": 3,
     "id": "302B",
     "value": "blue",
@@ -885,7 +887,7 @@
     },
     "set": "original"
   },
-  {
+  "303B": {
     "grade": 3,
     "id": "303B",
     "value": "blue",
@@ -898,7 +900,7 @@
     },
     "set": "original"
   },
-  {
+  "304B": {
     "grade": 3,
     "id": "304B",
     "value": "blue",
@@ -912,7 +914,7 @@
     },
     "set": "original"
   },
-  {
+  "305G": {
     "grade": 3,
     "id": "305G",
     "value": "green",
@@ -923,7 +925,7 @@
     },
     "set": "original"
   },
-  {
+  "306G": {
     "grade": 3,
     "id": "306G",
     "value": "green",
@@ -935,7 +937,7 @@
     },
     "set": "original"
   },
-  {
+  "307G": {
     "grade": 3,
     "id": "307G",
     "value": "green",
@@ -948,7 +950,7 @@
     },
     "set": "original"
   },
-  {
+  "308G": {
     "grade": 3,
     "id": "308G",
     "value": "green",
@@ -962,7 +964,7 @@
     },
     "set": "original"
   },
-  {
+  "309K": {
     "grade": 3,
     "id": "309K",
     "value": "black",
@@ -973,7 +975,7 @@
     },
     "set": "original"
   },
-  {
+  "310K": {
     "grade": 3,
     "id": "310K",
     "value": "black",
@@ -985,7 +987,7 @@
     },
     "set": "original"
   },
-  {
+  "311K": {
     "grade": 3,
     "id": "311K",
     "value": "black",
@@ -998,7 +1000,7 @@
     },
     "set": "original"
   },
-  {
+  "312K": {
     "grade": 3,
     "id": "312K",
     "value": "black",
@@ -1012,7 +1014,7 @@
     },
     "set": "original"
   },
-  {
+  "313R": {
     "grade": 3,
     "id": "313R",
     "value": "red",
@@ -1023,7 +1025,7 @@
     },
     "set": "original"
   },
-  {
+  "314R": {
     "grade": 3,
     "id": "314R",
     "value": "red",
@@ -1035,7 +1037,7 @@
     },
     "set": "original"
   },
-  {
+  "315R": {
     "grade": 3,
     "id": "315R",
     "value": "red",
@@ -1048,7 +1050,7 @@
     },
     "set": "original"
   },
-  {
+  "316R": {
     "grade": 3,
     "id": "316R",
     "value": "red",
@@ -1062,7 +1064,7 @@
     },
     "set": "original"
   },
-  {
+  "317W": {
     "grade": 3,
     "id": "317W",
     "value": "white",
@@ -1073,7 +1075,7 @@
     },
     "set": "original"
   },
-  {
+  "318W": {
     "grade": 3,
     "id": "318W",
     "value": "white",
@@ -1085,7 +1087,7 @@
     },
     "set": "original"
   },
-  {
+  "319W": {
     "grade": 3,
     "id": "319W",
     "value": "white",
@@ -1098,7 +1100,7 @@
     },
     "set": "original"
   },
-  {
+  "320W": {
     "grade": 3,
     "id": "320W",
     "value": "white",
@@ -1112,4 +1114,4 @@
     },
     "set": "original"
   }
-]
+}

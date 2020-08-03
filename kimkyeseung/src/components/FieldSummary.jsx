@@ -28,6 +28,9 @@ const color = {
   `,
   black: css`
     background: black;
+  `,
+  yellow: css`
+    background: yellow;
   `
 }
 
@@ -93,8 +96,12 @@ const VictoryPoint = styled.div`
   top: 5px;
 `
 
+const TokenCount = styled.div``
+
 const FieldSummary = ({ active, field }) => {
   const { developments, token, victoryPoints } = field
+  const totalTokenCount = Object.values(token).reduce((total, count) => total + count, 0)
+
   return (
     <StyledFieldSummary active={active}>
       <Development.Wrapper>
@@ -111,6 +118,8 @@ const FieldSummary = ({ active, field }) => {
         <Token value="red" amount={token.red} />
         <Token value="green" amount={token.green} />
         <Token value="black" amount={token.black} />
+        {token.yellow ? <Token value="yellow" amount={token.yellow} /> : null}
+        {totalTokenCount ? <TokenCount>{totalTokenCount}</TokenCount> : null}
       </Token.Wrapper>
     </StyledFieldSummary>
   )

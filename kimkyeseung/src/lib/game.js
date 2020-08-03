@@ -1,18 +1,38 @@
-import developmentCards from '../../assets/developmentCards.json'
+import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
 import {
   getTokenValidator,
-  tokenLimitValidator
+  tokenLimitValidator,
+  buyDevelopmentValidator,
+  reserveDevelopmentValidator
 } from './validator'
+import { takeTokens, returnTokens, getLackAmount } from '../lib/utils'
+
+const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
+  const { grade, id } = DEVELOPMENT_CARDS[cardId]
+  switch (grade) {
+    case 1:
+      cards.gradeOne.push(id)
+      return cards
+    case 2:
+      cards.gradeTwo.push(id)
+      return cards
+    case 3:
+      cards.gradeThree.push(id)
+      return cards
+    default:
+      return cards
+  }
+}, { gradeOne: [], gradeTwo: [], gradeThree: [] })
 
 const game = (playerNames) => {
   const Splendor = {
     name: "splendor",
 
     setup: ({ numPlayers, random, ...G }) => {
-      // console.log(G)
-      const developOneDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 1))
-      const developTwoDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 2))
-      const developThreeDeck = random.Shuffle(developmentCards.filter(({ grade }) => grade === 3))
+      const developOneDeck = random.Shuffle(developCards.gradeOne)
+      const developTwoDeck = random.Shuffle(developCards.gradeTwo)
+      const developThreeDeck = random.Shuffle(developCards.gradeThree)
+
       const board = {}
       board.dev10 = developOneDeck.pop()
       board.dev11 = developOneDeck.pop()
@@ -29,99 +49,227 @@ const game = (playerNames) => {
       board.dev32 = developThreeDeck.pop()
       board.dev33 = developThreeDeck.pop()
 
+      const tokenStore = {}
       const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
-      const tokens = {}
-      tokens.red
-        = tokens.blue
-        = tokens.black
-        = tokens.white
-        = tokens.green
+      tokenStore.red
+        = tokenStore.blue
+        = tokenStore.black
+        = tokenStore.white
+        = tokenStore.green
         = tokenCount
-      tokens.yellow = 5
+      tokenStore.yellow = 5
 
       const fields = {}
-      const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0 }
+      const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0, yellow: 0 }
       Array(numPlayers).fill(1).forEach((a, i) => {
         fields[`player${i}`] = {
           name: playerNames[i],
           developments: { ...defaultValues },
           token: { ...defaultValues },
           reservedDevs: [],
-          hand: [],
+          hand: {
+            tokens: [],
+            development: null
+          },
           victoryPoints: 0
         }
       })
+
       return {
         fields,
         board,
-        tokens,
+        tokenStore,
         developOneDeck,
         developTwoDeck,
-        developThreeDeck,
+        developThreeDeck
       }
     },
 
     moves: {
-      replaceDevelopmentSpace(G, ctx, { index, grade }) {
-        const deck = {
-          '1': G.developOneDeck,
-          '2': G.developTwoDeck,
-          '3': G.developThreeDeck
+      selectDevelopment(G, ctx, devId, current, next, cb = () => { }) {
+        const { fields, board } = G
+        const { hand } = fields[`player${ctx.currentPlayer}`]
+        if (hand.development) {
+          const { index, grade, development } = current
+          board[`dev${grade}${index}`] = development
         }
-        G.board[`dev${grade}${index}`] = deck[grade].pop()
+        hand.development = devId
+        const { grade, index } = next
+        board[`dev${grade}${index}`] = null
+
+        cb(hand.development)
       },
 
-      buyDevelopment(G, ctx, development) {
-        const { value, valueAmount, victoryPoint } = development
+      deselectDevelopment(G, ctx, current, cb = () => { }) {
+        const { fields, board } = G
+        const { hand } = fields[`player${ctx.currentPlayer}`]
 
-        const { developments, victoryPoints } = G.fields[`player${ctx.currentPlayer}`]
-        developments[value]++
-        G.fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
-        ctx.events.endTurn()
+        if (!hand.development) {
+          return
+        }
+
+        const { grade, index } = current
+
+        board[`dev${grade}${index}`] = hand.development
+        hand.development = null
+
+        cb()
+      },
+
+      buyDevelopment(G, ctx, current, cb = () => { }) {
+        const {
+          fields,
+          developOneDeck,
+          developTwoDeck,
+          developThreeDeck,
+          board,
+          tokenStore
+        } = G
+        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const { developments, victoryPoints, token, hand } = currentPlayer
+
+        const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
+        const { value, valueAmount, victoryPoint, cost } = targetDevelopment
+
+        const lackAmount = getLackAmount({ developments, token }, cost)
+        const buyable = token.yellow >= lackAmount
+
+        if (buyable) {
+          const lack = Object.keys(token).reduce((diff, color) => {
+            const individualCost = cost[color] || 0
+            const discountedIndividualCost = individualCost > developments[color] ? individualCost - developments[color] : 0
+            if (discountedIndividualCost > token[color]) {
+              const toPay = discountedIndividualCost - token[color]
+              diff += toPay
+              token[color] -= toPay
+              tokenStore[color] += toPay
+            } else {
+              token[color] -= discountedIndividualCost
+              tokenStore[color] += discountedIndividualCost
+            }
+
+            return diff
+          }, 0)
+          token.yellow -= lack
+          tokenStore.yellow += lack
+
+          developments[value] += valueAmount
+          fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
+
+          const deck = {
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
+          }
+          const { grade, index } = current
+          board[`dev${grade}${index}`] = deck[grade].pop()
+          hand.development = null
+
+          cb()
+          ctx.events.endTurn()
+        } else {
+          alert('비용이 모자랍니다.')
+        }
+      },
+
+      reserveDevelopment(G, ctx, current, cb = () => { }) {
+        const {
+          fields,
+          developOneDeck,
+          developTwoDeck,
+          developThreeDeck,
+          board,
+          tokenStore
+        } = G
+        const { reservedDevs, token, hand } = fields[`player${ctx.currentPlayer}`]
+
+        const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
+
+        const able = reserveDevelopmentValidator(reservedDevs)
+        if (able) {
+          if (tokenStore.yellow) {
+            tokenStore.yellow--
+            token.yellow++
+          }
+          reservedDevs.push(targetDevelopment.id)
+
+          const deck = {
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
+          }
+          const { grade, index } = current
+          board[`dev${grade}${index}`] = deck[grade].pop()
+          hand.development = null
+
+          cb()
+          ctx.events.endTurn()
+        } else {
+          alert('더 이상 예약할 수 없습니다.')
+        }
       },
 
       selectToken(G, ctx, token, cb = () => { }) {
-        const { tokens, fields } = G
+        const { tokenStore, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
-        if (tokens[token]) {
-          G.tokens[token]--
-          hand.push(token)
+        if (tokenStore[token]) {
+          tokenStore[token]--
+          hand.tokens.push(token)
         }
-        const result = getTokenValidator(hand)
+        const result = getTokenValidator(hand.tokens, tokenStore)
         cb(result)
       },
 
       deselectToken(G, ctx, index, cb = () => { }) {
-        const { tokens, fields } = G
+        const { tokenStore, fields } = G
         const { hand } = fields[`player${ctx.currentPlayer}`]
-        const [token] = hand.splice(index, 1)
-        G.tokens[token]++
-        const result = getTokenValidator(hand)
+        const [token] = hand.tokens.splice(index, 1)
+        tokenStore[token]++
+        const result = getTokenValidator(hand.tokens)
         cb(result)
       },
 
-      getTokens(G, ctx, cb) {
-        const { tokens, fields } = G
-        const { hand, token } = fields[`player${ctx.currentPlayer}`]
-        hand.forEach(t => {
-          token[t]++
+      cancelSelectedToken(G, ctx, cb = () => { }) {
+        const { tokenStore, fields } = G
+        const { hand } = fields[`player${ctx.currentPlayer}`]
+        hand.tokens.forEach(token => {
+          tokenStore[token]++
         })
-        hand.length = 0
-        if (tokenLimitValidator(token)) {
-          cb()
-          ctx.events.endTurn()
-        } else {
-        }
+        hand.tokens.length = 0
+        cb()
       },
 
-      returnTokens(over) {
+      getTokens(G, ctx, cb) {
+        const { fields } = G
+        const { hand, token } = fields[`player${ctx.currentPlayer}`]
+        hand.tokens.forEach(t => {
+          token[t]++
+        })
+        hand.tokens = []
 
+        const tokenLimit = 10
+        const tokenCount = Object.values(token).reduce((count, t) => count + t)
+        if (tokenCount > tokenLimit) {
+          ctx.events.setStage('returnTokens')
+          cb(tokenCount - tokenLimit)
+        } else {
+          cb()
+          ctx.events.endTurn()
+        }
       }
-
     },
 
     turn: {
       // endIf: (G, ctx) => ({ next: '3' }),
+      stages: {
+        returnTokens: {
+          moves: {
+            returnTokens(over) {
+              console.log('return token')
+            }
+          }
+        }
+      }
     },
 
     endIf: (G, ctx) => {

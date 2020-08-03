@@ -5,7 +5,9 @@ import Card from '../components/Card'
 import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
-import SelectedTokens from '../components/SelectedTokens'
+import TokenController from '../components/TokenController'
+import TokenReturnController from '../components/TokenReturnController'
+import DevelopmentController from '../components/DevelopmentController'
 import Player from './Player'
 import { Link } from '../../../lib/utils'
 
@@ -17,7 +19,7 @@ const Row = styled.div`
   max-width: 900px;
 `
 
-class Board extends Component {
+class BoardContainer extends Component {
   static propTypes = {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
@@ -26,25 +28,74 @@ class Board extends Component {
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   }
+
   constructor(props) {
     super(props)
     this.state = {
-      confirmable: false
+      confirmable: false,
+      focusedDevelopment: {},
+      tokenOverloaded: 0
     }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
+    this.deselectDevelopment = this.deselectDevelopment.bind(this)
+    this.buySelectedDevelopment = this.buySelectedDevelopment.bind(this)
+    this.reserveSelectedDevelopment = this.reserveSelectedDevelopment.bind(this)
     this.handleTokenClick = this.handleTokenClick.bind(this)
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
+    this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
     this.deselectToken = this.deselectToken.bind(this)
   }
 
-  componentDidMount() {
-
+  componentDidUpdate({ G }) {
+    console.log(G)
   }
 
   handleSpaceClick(dev, index, grade) {
-    const { replaceDevelopmentSpace, buyDevelopment } = this.props.moves
-    replaceDevelopmentSpace({ index, grade })
-    buyDevelopment(dev)
+    const { moves } = this.props
+    const { selectDevelopment } = moves
+
+    const { focusedDevelopment: current } = this.state
+    const next = { index, grade }
+
+    selectDevelopment(dev, current, next, (development) => {
+      this.setState({
+        focusedDevelopment: {
+          grade,
+          index,
+          development
+        }
+      })
+    })
+  }
+
+  deselectDevelopment() {
+    const { moves } = this.props
+    const { deselectDevelopment } = moves
+    const { focusedDevelopment } = this.state
+
+    deselectDevelopment(focusedDevelopment, () => {
+      this.setState({ focusedDevelopment: {} })
+    })
+  }
+
+  buySelectedDevelopment() {
+    const { moves } = this.props
+    const { buyDevelopment } = moves
+    const { focusedDevelopment } = this.state
+
+    buyDevelopment(focusedDevelopment, () => {
+      this.setState({ focusedDevelopment: {} })
+    })
+  }
+
+  reserveSelectedDevelopment() {
+    const { moves } = this.props
+    const { reserveDevelopment } = moves
+    const { focusedDevelopment } = this.state
+
+    reserveDevelopment(focusedDevelopment, () => {
+      this.setState({ focusedDevelopment: {} })
+    })
   }
 
   handleTokenClick(token) {
@@ -58,39 +109,54 @@ class Board extends Component {
     })
   }
 
-  deselectToken(index, cb) {
+  deselectToken(index) {
     const { G, ctx, moves } = this.props
-    const { deselectToken, } = moves
+    const { deselectToken } = moves
     deselectToken(index, (confirmable) => {
       this.setState({ confirmable })
     })
   }
 
-  confirmSelectedToken(cb) {
-    console.log('confirmSelectedToken')
+  confirmSelectedToken() {
     const { G, ctx, moves } = this.props
     const { selectToken, getTokens } = moves
-    getTokens(cb)
+    getTokens((tokenOverloaded = 0) => {
+      this.setState({
+        confirmable: false,
+        tokenOverloaded
+      })
+    })
+  }
+
+  cancelSelectedToken() {
+    const { G, ctx, moves } = this.props
+    const { cancelSelectedToken } = moves
+    cancelSelectedToken(() => {
+      this.setState({
+        confirmable: false
+      })
+    })
   }
 
   render() {
-    const { G, moves, ctx } = this.props
+    const { G, ctx } = this.props
     const { currentPlayer } = ctx
+    const { board, tokenStore, selectedTokens, fields } = G
+    const { confirmable, focusedDevelopment, tokenOverloaded } = this.state
+
     const {
       dev10, dev11, dev12, dev13,
       dev20, dev21, dev22, dev23,
       dev30, dev31, dev32, dev33
-    } = G.board
-    // console.log(G.fields)
+    } = board
     const developmentOne = [dev10, dev11, dev12, dev13]
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
 
+    const { hand, token } = fields[`player${currentPlayer}`]
+
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const { selectedTokens, fields } = G
-    const { hand } = fields[`player${currentPlayer}`]
-    const { confirmable } = this.state
-    console.log({ hand })
+
     return (
       <>
         <Layout
@@ -119,23 +185,23 @@ class Board extends Component {
                 <>
                   <Row>
                     {developmentThree.map((dev, index) => (
-                      <Card key={dev ? dev.id : index} onClick={ev => {
+                      <Card key={dev} onClick={ev => {
                         this.handleSpaceClick(dev, index, 3)
-                      }} grade={3} development={dev} />
+                      }} grade={3} dev={dev} />
                     ))}
                   </Row>
                   <Row>
                     {developmentTwo.map((dev, index) => (
-                      <Card key={dev ? dev.id : index} onClick={ev => {
+                      <Card key={dev} onClick={ev => {
                         this.handleSpaceClick(dev, index, 2)
-                      }} grade={2} development={dev} />
+                      }} grade={2} dev={dev} />
                     ))}
                   </Row>
                   <Row>
                     {developmentOne.map((dev, index) => (
-                      <Card key={dev ? dev.id : index} onClick={ev => {
+                      <Card key={dev} onClick={ev => {
                         this.handleSpaceClick(dev, index, 1)
-                      }} grade={1} development={dev} />
+                      }} grade={1} dev={dev} />
                     ))}
                   </Row>
                 </>
@@ -146,7 +212,7 @@ class Board extends Component {
                     <Token
                       key={token}
                       color={token}
-                      count={G.tokens[token]}
+                      count={tokenStore[token]}
                       onClick={() => {
                         this.handleTokenClick(token)
                       }} />
@@ -160,18 +226,34 @@ class Board extends Component {
           }
           RightPanel={<div>Right</div>}
           Footer={<div className="hand">
-            <SelectedTokens
-              tokens={hand}
-              confirmable={confirmable}
-              deselectToken={this.deselectToken}
-              confirmSelectedToken={this.confirmSelectedToken}
-              onClose={() => {
-                // this.setState({ selectedTokens: [] })
-              }} />
+            {hand.tokens.length
+              ? <TokenController
+                message="가져올 토큰을 선택하세요"
+                tokens={hand.tokens}
+                confirmable={confirmable}
+                deselectToken={this.deselectToken}
+                confirmSelectedToken={this.confirmSelectedToken}
+                onClose={this.cancelSelectedToken} />
+              : null}
+            {focusedDevelopment && <DevelopmentController
+              message="개발카드를 어떻게 하시겠습니까?"
+              deselectDevelopment={this.deselectDevelopment}
+              buySelectedDevelopment={this.buySelectedDevelopment}
+              reserveSelectedDevelopment={this.reserveSelectedDevelopment}
+              development={focusedDevelopment.development} />}
+            {tokenOverloaded
+              ? <TokenReturnController
+                message="초과한 토큰을 반납하세요"
+                tokens={token}
+                confirmable={Object.values(token).reduce((a, t) => a + t) <= 10}
+                deselectToken={this.deselectToken}
+                confirmSelectedToken={this.confirmSelectedToken}
+                onClose={this.cancelSelectedToken} />
+              : null}
           </div>} />
       </>
     )
   }
 }
 
-export default Board
+export default BoardContainer
