@@ -5,8 +5,9 @@ import Card from '../components/Card'
 import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
-import SelectedTokens from '../components/SelectedTokens'
-import SelectedDevelopment from '../components/SelectedDevelopment'
+import TokenController from '../components/TokenController'
+import TokenReturnController from '../components/TokenReturnController'
+import DevelopmentController from '../components/DevelopmentController'
 import Player from './Player'
 import { Link } from '../../../lib/utils'
 
@@ -27,11 +28,13 @@ class BoardContainer extends Component {
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   }
+
   constructor(props) {
     super(props)
     this.state = {
       confirmable: false,
-      focusedDevelopment: {}
+      focusedDevelopment: {},
+      tokenOverloaded: 0
     }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
@@ -43,10 +46,12 @@ class BoardContainer extends Component {
     this.deselectToken = this.deselectToken.bind(this)
   }
 
+  componentDidUpdate({ G }) {
+    console.log(G)
+  }
+
   handleSpaceClick(dev, index, grade) {
-    const { G, ctx, moves } = this.props
-    const { fields } = G
-    const { currentPlayer } = ctx
+    const { moves } = this.props
     const { selectDevelopment } = moves
 
     const { focusedDevelopment: current } = this.state
@@ -115,9 +120,10 @@ class BoardContainer extends Component {
   confirmSelectedToken() {
     const { G, ctx, moves } = this.props
     const { selectToken, getTokens } = moves
-    getTokens(() => {
+    getTokens((tokenOverloaded = 0) => {
       this.setState({
-        confirmable: false
+        confirmable: false,
+        tokenOverloaded
       })
     })
   }
@@ -133,22 +139,23 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { G, moves, ctx } = this.props
+    const { G, ctx } = this.props
     const { currentPlayer } = ctx
+    const { board, tokenStore, selectedTokens, fields } = G
+    const { confirmable, focusedDevelopment, tokenOverloaded } = this.state
+
     const {
       dev10, dev11, dev12, dev13,
       dev20, dev21, dev22, dev23,
       dev30, dev31, dev32, dev33
-    } = G.board
-    // console.log(G.fields)
+    } = board
     const developmentOne = [dev10, dev11, dev12, dev13]
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
 
+    const { hand, token } = fields[`player${currentPlayer}`]
+
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
-    const { tokenStore, selectedTokens, fields } = G
-    const { hand } = fields[`player${currentPlayer}`]
-    const { confirmable, focusedDevelopment } = this.state
 
     return (
       <>
@@ -219,19 +226,30 @@ class BoardContainer extends Component {
           }
           RightPanel={<div>Right</div>}
           Footer={<div className="hand">
-            <SelectedTokens
-              message="가져올 토큰을 선택하세요"
-              tokens={hand.tokens}
-              confirmable={confirmable}
-              deselectToken={this.deselectToken}
-              confirmSelectedToken={this.confirmSelectedToken}
-              onClose={this.cancelSelectedToken} />
-            {focusedDevelopment && <SelectedDevelopment
+            {hand.tokens.length
+              ? <TokenController
+                message="가져올 토큰을 선택하세요"
+                tokens={hand.tokens}
+                confirmable={confirmable}
+                deselectToken={this.deselectToken}
+                confirmSelectedToken={this.confirmSelectedToken}
+                onClose={this.cancelSelectedToken} />
+              : null}
+            {focusedDevelopment && <DevelopmentController
               message="개발카드를 어떻게 하시겠습니까?"
               deselectDevelopment={this.deselectDevelopment}
               buySelectedDevelopment={this.buySelectedDevelopment}
               reserveSelectedDevelopment={this.reserveSelectedDevelopment}
               development={focusedDevelopment.development} />}
+            {tokenOverloaded
+              ? <TokenReturnController
+                message="초과한 토큰을 반납하세요"
+                tokens={token}
+                confirmable={Object.values(token).reduce((a, t) => a + t) <= 10}
+                deselectToken={this.deselectToken}
+                confirmSelectedToken={this.confirmSelectedToken}
+                onClose={this.cancelSelectedToken} />
+              : null}
           </div>} />
       </>
     )

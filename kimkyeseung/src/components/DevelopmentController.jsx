@@ -30,7 +30,7 @@ const Message = styled.div`
 
 `
 
-const SelectedDevelopment = ({
+const DevelopmentController = ({
   message,
   development,
   deselectDevelopment,
@@ -63,4 +63,4 @@ const SelectedDevelopment = ({
   )
 }
 
-export default SelectedDevelopment
+export default DevelopmentController

@@ -1,8 +1,12 @@
-export const getToken = () => {
+export const holdTokens = (tokenStore, player, color) => {
 
 }
 
-export const payToken = () => {
+export const takeTokens = (tokenStore, player, color) => {
+
+}
+
+export const returnTokens = () => {
 
 }
 

@@ -5,7 +5,7 @@ import {
   buyDevelopmentValidator,
   reserveDevelopmentValidator
 } from './validator'
-import { getToken, payToken, getLackAmount } from '../lib/utils'
+import { takeTokens, returnTokens, getLackAmount } from '../lib/utils'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
   const { grade, id } = DEVELOPMENT_CARDS[cardId]
@@ -32,6 +32,7 @@ const game = (playerNames) => {
       const developOneDeck = random.Shuffle(developCards.gradeOne)
       const developTwoDeck = random.Shuffle(developCards.gradeTwo)
       const developThreeDeck = random.Shuffle(developCards.gradeThree)
+
       const board = {}
       board.dev10 = developOneDeck.pop()
       board.dev11 = developOneDeck.pop()
@@ -48,8 +49,8 @@ const game = (playerNames) => {
       board.dev32 = developThreeDeck.pop()
       board.dev33 = developThreeDeck.pop()
 
-      const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
       const tokenStore = {}
+      const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
       tokenStore.red
         = tokenStore.blue
         = tokenStore.black
@@ -73,13 +74,14 @@ const game = (playerNames) => {
           victoryPoints: 0
         }
       })
+
       return {
         fields,
         board,
         tokenStore,
         developOneDeck,
         developTwoDeck,
-        developThreeDeck,
+        developThreeDeck
       }
     },
 
@@ -123,7 +125,8 @@ const game = (playerNames) => {
           board,
           tokenStore
         } = G
-        const { developments, victoryPoints, token, hand } = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const { developments, victoryPoints, token, hand } = currentPlayer
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
         const { value, valueAmount, victoryPoint, cost } = targetDevelopment
@@ -243,21 +246,30 @@ const game = (playerNames) => {
           token[t]++
         })
         hand.tokens = []
-        if (tokenLimitValidator(token)) {
+
+        const tokenLimit = 10
+        const tokenCount = Object.values(token).reduce((count, t) => count + t)
+        if (tokenCount > tokenLimit) {
+          ctx.events.setStage('returnTokens')
+          cb(tokenCount - tokenLimit)
+        } else {
           cb()
           ctx.events.endTurn()
-        } else {
         }
-      },
-
-      returnTokens(over) {
-
       }
-
     },
 
     turn: {
       // endIf: (G, ctx) => ({ next: '3' }),
+      stages: {
+        returnTokens: {
+          moves: {
+            returnTokens(over) {
+              console.log('return token')
+            }
+          }
+        }
+      }
     },
 
     endIf: (G, ctx) => {

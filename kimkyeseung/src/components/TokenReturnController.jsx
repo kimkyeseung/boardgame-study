@@ -13,14 +13,9 @@ const Controller = styled.div`
   margin-right: auto;
   margin-left: auto;
   border: 1px solid blue;
-  display: none;
+  display: block;
   position: relative;
   max-width: 800px;
-  ${({ isOpen }) => isOpen && visibleStyle}
-`
-
-const visibleStyle = css`
-  display: block;
 `
 
 Controller.Wrapper = styled.div`
@@ -30,18 +25,24 @@ const Message = styled.div`
 
 `
 
-const SelectedTokens = ({ message, onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
+const TokenReturnController = ({ message, onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
   return (
-    <Controller isOpen={tokens.length ? true : false}>
+    <Controller>
       <Message>{message}</Message>
       <Flex>
         <TokenWrapper>
           <Flex>
-            {tokens.map((token, i) => {
-              return <Token onClick={() => {
-                deselectToken(i)
-              }} color={token} key={i} />
-            })}
+            {Array.isArray(tokens)
+              ? tokens.map((token, i) => (
+                <Token
+                  onClick={() => {
+                    deselectToken(i)
+                  }}
+                  color={token}
+                  key={i} />))
+              : Object.keys(tokens).map((token, i) => {
+                return <Token onClick={() => { }} color={token} count={tokens[token]} />
+              })}
           </Flex>
         </TokenWrapper>
         <button disabled={!confirmable} onClick={ev => {
@@ -54,4 +55,4 @@ const SelectedTokens = ({ message, onClose, tokens = [], deselectToken, confirmS
   )
 }
 
-export default SelectedTokens
+export default TokenReturnController
