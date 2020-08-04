@@ -6,7 +6,6 @@ import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
 import TokenController from '../components/TokenController'
-import TokenReturnController from '../components/TokenReturnController'
 import DevelopmentController from '../components/DevelopmentController'
 import Player from './Player'
 import { Link } from '../../../lib/utils'
@@ -44,6 +43,7 @@ class BoardContainer extends Component {
     this.confirmSelectedToken = this.confirmSelectedToken.bind(this)
     this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
     this.deselectToken = this.deselectToken.bind(this)
+    this.returnToken = this.returnToken.bind(this)
   }
 
   componentDidUpdate({ G }) {
@@ -93,8 +93,11 @@ class BoardContainer extends Component {
     const { reserveDevelopment } = moves
     const { focusedDevelopment } = this.state
 
-    reserveDevelopment(focusedDevelopment, () => {
-      this.setState({ focusedDevelopment: {} })
+    reserveDevelopment(focusedDevelopment, (tokenOverloaded = 0) => {
+      this.setState({
+        focusedDevelopment: {},
+        tokenOverloaded
+      })
     })
   }
 
@@ -138,6 +141,16 @@ class BoardContainer extends Component {
     })
   }
 
+  returnToken(token) {
+    const { G, ctx, moves } = this.props
+    const { returnTokens } = moves
+    returnTokens(token, () => {
+      this.setState({
+        tokenOverloaded: 0
+      })
+    })
+  }
+
   render() {
     const { G, ctx } = this.props
     const { currentPlayer } = ctx
@@ -153,7 +166,7 @@ class BoardContainer extends Component {
     const developmentTwo = [dev20, dev21, dev22, dev23]
     const developmentThree = [dev30, dev31, dev32, dev33]
 
-    const { hand, token } = fields[`player${currentPlayer}`]
+    const { hand, tokenAssets } = fields[`player${currentPlayer}`]
 
     const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
 
@@ -231,7 +244,7 @@ class BoardContainer extends Component {
                 message="가져올 토큰을 선택하세요"
                 tokens={hand.tokens}
                 confirmable={confirmable}
-                deselectToken={this.deselectToken}
+                onTokenClick={this.deselectToken}
                 confirmSelectedToken={this.confirmSelectedToken}
                 onClose={this.cancelSelectedToken} />
               : null}
@@ -242,11 +255,11 @@ class BoardContainer extends Component {
               reserveSelectedDevelopment={this.reserveSelectedDevelopment}
               development={focusedDevelopment.development} />}
             {tokenOverloaded
-              ? <TokenReturnController
+              ? <TokenController
                 message="초과한 토큰을 반납하세요"
-                tokens={token}
-                confirmable={Object.values(token).reduce((a, t) => a + t) <= 10}
+                tokens={tokenAssets}
                 deselectToken={this.deselectToken}
+                onTokenClick={this.returnToken}
                 confirmSelectedToken={this.confirmSelectedToken}
                 onClose={this.cancelSelectedToken} />
               : null}

@@ -99,8 +99,8 @@ const VictoryPoint = styled.div`
 const TokenCount = styled.div``
 
 const FieldSummary = ({ active, field }) => {
-  const { developments, token, victoryPoints } = field
-  const totalTokenCount = Object.values(token).reduce((total, count) => total + count, 0)
+  const { developments, tokenAssets, victoryPoints } = field
+  const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
 
   return (
     <StyledFieldSummary active={active}>
@@ -113,12 +113,12 @@ const FieldSummary = ({ active, field }) => {
       </Development.Wrapper>
       {victoryPoints ? <VictoryPoint>{victoryPoints}</VictoryPoint> : null}
       <Token.Wrapper>
-        <Token value="white" amount={token.white} />
-        <Token value="blue" amount={token.blue} />
-        <Token value="red" amount={token.red} />
-        <Token value="green" amount={token.green} />
-        <Token value="black" amount={token.black} />
-        {token.yellow ? <Token value="yellow" amount={token.yellow} /> : null}
+        <Token value="white" amount={tokenAssets.white} />
+        <Token value="blue" amount={tokenAssets.blue} />
+        <Token value="red" amount={tokenAssets.red} />
+        <Token value="green" amount={tokenAssets.green} />
+        <Token value="black" amount={tokenAssets.black} />
+        {tokenAssets.yellow ? <Token value="yellow" amount={tokenAssets.yellow} /> : null}
         {totalTokenCount ? <TokenCount>{totalTokenCount}</TokenCount> : null}
       </Token.Wrapper>
     </StyledFieldSummary>

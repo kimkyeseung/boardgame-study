@@ -65,7 +65,7 @@ const game = (playerNames) => {
         fields[`player${i}`] = {
           name: playerNames[i],
           developments: { ...defaultValues },
-          token: { ...defaultValues },
+          tokenAssets: { ...defaultValues },
           reservedDevs: [],
           hand: {
             tokens: [],
@@ -126,35 +126,36 @@ const game = (playerNames) => {
           tokenStore
         } = G
         const currentPlayer = fields[`player${ctx.currentPlayer}`]
-        const { developments, victoryPoints, token, hand } = currentPlayer
+        const { developments, victoryPoints, tokenAssets, hand } = currentPlayer
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
         const { value, valueAmount, victoryPoint, cost } = targetDevelopment
 
-        const lackAmount = getLackAmount({ developments, token }, cost)
-        const buyable = token.yellow >= lackAmount
+        const lackAmount = getLackAmount({ developments, token: tokenAssets }, cost)
+        const buyable = tokenAssets.yellow >= lackAmount
 
         if (buyable) {
-          const lack = Object.keys(token).reduce((diff, color) => {
+          const lack = Object.keys(tokenAssets).reduce((diff, color) => {
             const individualCost = cost[color] || 0
             const discountedIndividualCost = individualCost > developments[color] ? individualCost - developments[color] : 0
-            if (discountedIndividualCost > token[color]) {
-              const toPay = discountedIndividualCost - token[color]
-              diff += toPay
-              token[color] -= toPay
-              tokenStore[color] += toPay
+            if (discountedIndividualCost > tokenAssets[color]) {
+              const toPay = discountedIndividualCost - tokenAssets[color]
+              const payable = tokenAssets[color]
+              diff += (toPay - payable)
+              tokenAssets[color] -= payable
+              tokenStore[color] += payable
             } else {
-              token[color] -= discountedIndividualCost
+              tokenAssets[color] -= discountedIndividualCost
               tokenStore[color] += discountedIndividualCost
             }
 
             return diff
           }, 0)
-          token.yellow -= lack
+          tokenAssets.yellow -= lack
           tokenStore.yellow += lack
 
           developments[value] += valueAmount
-          fields[`player${ctx.currentPlayer}`].victoryPoints = victoryPoints + victoryPoint
+          currentPlayer.victoryPoints += victoryPoint
 
           const deck = {
             '1': developOneDeck,
@@ -181,7 +182,7 @@ const game = (playerNames) => {
           board,
           tokenStore
         } = G
-        const { reservedDevs, token, hand } = fields[`player${ctx.currentPlayer}`]
+        const { reservedDevs, tokenAssets, hand } = fields[`player${ctx.currentPlayer}`]
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
 
@@ -189,7 +190,7 @@ const game = (playerNames) => {
         if (able) {
           if (tokenStore.yellow) {
             tokenStore.yellow--
-            token.yellow++
+            tokenAssets.yellow++
           }
           reservedDevs.push(targetDevelopment.id)
 
@@ -202,8 +203,15 @@ const game = (playerNames) => {
           board[`dev${grade}${index}`] = deck[grade].pop()
           hand.development = null
 
-          cb()
-          ctx.events.endTurn()
+          const tokenLimit = 10
+          const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
+          if (tokenCount > tokenLimit) {
+            ctx.events.setStage('returnTokens')
+            cb(tokenCount - tokenLimit)
+          } else {
+            cb()
+            ctx.events.endTurn()
+          }
         } else {
           alert('더 이상 예약할 수 없습니다.')
         }
@@ -241,14 +249,14 @@ const game = (playerNames) => {
 
       getTokens(G, ctx, cb) {
         const { fields } = G
-        const { hand, token } = fields[`player${ctx.currentPlayer}`]
-        hand.tokens.forEach(t => {
-          token[t]++
+        const { hand, tokenAssets } = fields[`player${ctx.currentPlayer}`]
+        hand.tokens.forEach(token => {
+          tokenAssets[token]++
         })
         hand.tokens = []
 
         const tokenLimit = 10
-        const tokenCount = Object.values(token).reduce((count, t) => count + t)
+        const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
         if (tokenCount > tokenLimit) {
           ctx.events.setStage('returnTokens')
           cb(tokenCount - tokenLimit)
@@ -264,8 +272,17 @@ const game = (playerNames) => {
       stages: {
         returnTokens: {
           moves: {
-            returnTokens(over) {
-              console.log('return token')
+            returnTokens(G, ctx, token, cb = () => { }) {
+              const { fields, tokenStore } = G
+              const { tokenAssets } = fields[`player${ctx.currentPlayer}`]
+              tokenAssets[token]--
+              tokenStore[token]++
+              const tokenCount = Object.values(tokenAssets).reduce((a, t) => a + t)
+              const tokenLimit = 10
+              if (tokenCount <= tokenLimit) {
+                cb()
+                ctx.events.endTurn()
+              }
             }
           }
         }

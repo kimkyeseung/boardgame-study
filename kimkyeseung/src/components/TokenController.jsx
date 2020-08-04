@@ -25,7 +25,7 @@ const Message = styled.div`
 
 `
 
-const TokenController = ({ message, onClose, tokens = [], deselectToken, confirmSelectedToken, confirmable }) => {
+const TokenController = ({ message, onClose, tokens = [], onTokenClick, confirmSelectedToken, confirmable }) => {
   return (
     <Controller>
       <Message>{message}</Message>
@@ -36,13 +36,17 @@ const TokenController = ({ message, onClose, tokens = [], deselectToken, confirm
               ? tokens.map((token, i) => (
                 <Token
                   onClick={() => {
-                    deselectToken(i)
+                    onTokenClick(i)
                   }}
                   color={token}
-                  key={i} />))
-              : Object.keys(tokens).map((token, i) => {
-                return <Token onClick={() => { }} color={token} count={tokens[token]} />
-              })}
+                  key={token + i} />))
+              : Object.keys(tokens).map((token, i) => (
+                tokens[token]
+                  ? <Token key={token} onClick={() => {
+                    onTokenClick(token)
+                  }} color={token} count={tokens[token]} />
+                  : null
+              ))}
           </Flex>
         </TokenWrapper>
         <button disabled={!confirmable} onClick={ev => {
