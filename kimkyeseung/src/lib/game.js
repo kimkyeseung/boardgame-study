@@ -1,4 +1,5 @@
 import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
+import NOBLES from '../../assets/nobles.json'
 import {
   getTokenValidator,
   tokenLimitValidator,
@@ -75,13 +76,17 @@ const game = (playerNames) => {
         }
       })
 
+      const nobleLimit = numPlayers + 1
+      const nobleTiles = random.Shuffle(Object.keys(NOBLES)).slice(0, nobleLimit)
+
       return {
         fields,
         board,
         tokenStore,
         developOneDeck,
         developTwoDeck,
-        developThreeDeck
+        developThreeDeck,
+        nobleTiles
       }
     },
 

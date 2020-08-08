@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from '../components/Card'
+import Noble from '../components/Noble'
 import Token from '../components/Token'
 import Layout from '../components/Layout'
 import BoardLayout from '../components/BoardLayout'
@@ -154,9 +155,9 @@ class BoardContainer extends Component {
   render() {
     const { G, ctx } = this.props
     const { currentPlayer } = ctx
-    const { board, tokenStore, selectedTokens, fields } = G
+    const { board, tokenStore, selectedTokens, fields, nobleTiles } = G
     const { confirmable, focusedDevelopment, tokenOverloaded } = this.state
-
+    console.log({ nobleTiles })
     const {
       dev10, dev11, dev12, dev13,
       dev20, dev21, dev22, dev23,
@@ -233,7 +234,11 @@ class BoardContainer extends Component {
                 </Token.Wrapper>
               }
               Nobles={
-                <div>Noble~</div>
+                <Noble.Wrapper>
+                  {nobleTiles.map(noble => (
+                    <Noble key={noble} noble={noble} onClick={() => { }} />
+                  ))}
+                </Noble.Wrapper>
               }
             />
           }

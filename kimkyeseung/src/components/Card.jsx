@@ -45,8 +45,6 @@ const Space = styled.div`
   ${({ empty }) => empty ? emptyStyle : normalStyle};
 `
 
-
-
 export default ({ dev, onClick }) => {
   if (!dev) {
     return <Space empty></Space>
