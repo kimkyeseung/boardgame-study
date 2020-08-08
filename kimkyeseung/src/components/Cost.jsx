@@ -19,10 +19,23 @@ colors.black = css`
   background-color: black;
 `
 
-const StyledCost = styled.div`
-  width: 16px; height: 16px;
+const solidShape = css`
+  width: 8px; height: 12px;
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem 0.6rem;
+  margin: 0.2rem auto;
+  padding-top: 0.2rem auto;
+`
+
+const roundShape = css`
+  width: 24px; height: 24px;
   border-radius: 100%;
-  padding: 0.4rem;
+  box-sizing: border-box;
+  padding-top: 0.2rem;
+`
+
+const StyledCost = styled.div`
+  ${({ solid }) => solid ? solidShape : roundShape};
   ${({ value }) => value && colors[value]};
   color: white;
   font-size: 1.2em;
@@ -36,11 +49,13 @@ const Cost = ({ amount, ...props }) => <StyledCost {...props}>{amount}</StyledCo
 
 Cost.propTypes = {
   value: PropTypes.string,
-  amount: PropTypes.number
+  amount: PropTypes.number,
+  solid: PropTypes.bool
 }
 
 Cost.defaultProps = {
-  amount: 0
+  amount: 0,
+  solid: false
 }
 
 export default Cost

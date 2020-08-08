@@ -1,23 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import Card from '../components/Card'
-import Noble from '../components/Noble'
-import Token from '../components/Token'
-import Layout from '../components/Layout'
-import BoardLayout from '../components/BoardLayout'
-import TokenController from '../components/TokenController'
-import DevelopmentController from '../components/DevelopmentController'
-import Player from './Player'
-import { Link } from '../../../lib/utils'
-
-const Header = styled.header``
-
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  max-width: 900px;
-`
+import Board from '../components/Board'
 
 class BoardContainer extends Component {
   static propTypes = {
@@ -154,122 +137,24 @@ class BoardContainer extends Component {
 
   render() {
     const { G, ctx } = this.props
-    const { currentPlayer } = ctx
-    const { board, tokenStore, selectedTokens, fields, nobleTiles } = G
-    const { confirmable, focusedDevelopment, tokenOverloaded } = this.state
-    console.log({ nobleTiles })
-    const {
-      dev10, dev11, dev12, dev13,
-      dev20, dev21, dev22, dev23,
-      dev30, dev31, dev32, dev33
-    } = board
-    const developmentOne = [dev10, dev11, dev12, dev13]
-    const developmentTwo = [dev20, dev21, dev22, dev23]
-    const developmentThree = [dev30, dev31, dev32, dev33]
-
-    const { hand, tokenAssets } = fields[`player${currentPlayer}`]
-
-    const tokenIndex = ['yellow', 'black', 'red', 'green', 'blue', 'white']
+    const tokenIndex = ['white', 'blue', 'green', 'red', 'black', 'yellow']
 
     return (
-      <>
-        <Layout
-          Header={
-            <Header>
-              <Link to="/">HOME</Link>
-              <Link to="/kimkyeseung">로비</Link>
-            </Header>
-          }
-          LeftPanel={
-            <div>
-              {Object.keys(G.fields).map(player => (
-                <Player
-                  key={player}
-                  field={G.fields[player]}
-                  G={G}
-                  selectedTokens={selectedTokens}
-                  player={player}
-                  ctx={ctx} />
-              ))}
-            </div>
-          }
-          Main={
-            <BoardLayout
-              Developments={
-                <>
-                  <Row>
-                    {developmentThree.map((dev, index) => (
-                      <Card key={dev} onClick={ev => {
-                        this.handleSpaceClick(dev, index, 3)
-                      }} grade={3} dev={dev} />
-                    ))}
-                  </Row>
-                  <Row>
-                    {developmentTwo.map((dev, index) => (
-                      <Card key={dev} onClick={ev => {
-                        this.handleSpaceClick(dev, index, 2)
-                      }} grade={2} dev={dev} />
-                    ))}
-                  </Row>
-                  <Row>
-                    {developmentOne.map((dev, index) => (
-                      <Card key={dev} onClick={ev => {
-                        this.handleSpaceClick(dev, index, 1)
-                      }} grade={1} dev={dev} />
-                    ))}
-                  </Row>
-                </>
-              }
-              Tokens={
-                <Token.Wrapper>
-                  {tokenIndex.map(token => (
-                    <Token
-                      key={token}
-                      color={token}
-                      count={tokenStore[token]}
-                      onClick={() => {
-                        this.handleTokenClick(token)
-                      }} />
-                  ))}
-                </Token.Wrapper>
-              }
-              Nobles={
-                <Noble.Wrapper>
-                  {nobleTiles.map(noble => (
-                    <Noble key={noble} noble={noble} onClick={() => { }} />
-                  ))}
-                </Noble.Wrapper>
-              }
-            />
-          }
-          RightPanel={<div>Right</div>}
-          Footer={<div className="hand">
-            {hand.tokens.length
-              ? <TokenController
-                message="가져올 토큰을 선택하세요"
-                tokens={hand.tokens}
-                confirmable={confirmable}
-                onTokenClick={this.deselectToken}
-                confirmSelectedToken={this.confirmSelectedToken}
-                onClose={this.cancelSelectedToken} />
-              : null}
-            {focusedDevelopment && <DevelopmentController
-              message="개발카드를 어떻게 하시겠습니까?"
-              deselectDevelopment={this.deselectDevelopment}
-              buySelectedDevelopment={this.buySelectedDevelopment}
-              reserveSelectedDevelopment={this.reserveSelectedDevelopment}
-              development={focusedDevelopment.development} />}
-            {tokenOverloaded
-              ? <TokenController
-                message="초과한 토큰을 반납하세요"
-                tokens={tokenAssets}
-                deselectToken={this.deselectToken}
-                onTokenClick={this.returnToken}
-                confirmSelectedToken={this.confirmSelectedToken}
-                onClose={this.cancelSelectedToken} />
-              : null}
-          </div>} />
-      </>
+      <Board
+        G={G}
+        ctx={ctx}
+        tokenIndex={tokenIndex}
+        handleSpaceClick={this.handleSpaceClick}
+        deselectDevelopment={this.deselectDevelopment}
+        buySelectedDevelopment={this.buySelectedDevelopment}
+        reserveSelectedDevelopment={this.reserveSelectedDevelopment}
+        handleTokenClick={this.handleTokenClick}
+        confirmSelectedToken={this.confirmSelectedToken}
+        cancelSelectedToken={this.cancelSelectedToken}
+        deselectToken={this.deselectToken}
+        returnToken={this.returnToken}
+        {...this.state}
+      />
     )
   }
 }

@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+const tokenSize = 90
+
 const StyledToken = styled.div`
   display: flex;
   justify-content: space-between;
   & > .tokenBundle {
     position: relative;
-    width: 120px; height: 120px;
+    width: 105px; height: 105px;
   } 
   & > .count {
 
@@ -16,7 +18,8 @@ const StyledToken = styled.div`
 
 const One = styled.div`
   position: absolute;
-  width: 100px; height: 100px;
+  width: ${tokenSize}px;
+  height: ${tokenSize}px;
   border-radius: 100%;
   border: 12px solid ${({ color }) => color};
   box-sizing: border-box;
@@ -24,8 +27,8 @@ const One = styled.div`
   -webkit-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.75);
-  top: ${({ index }) => `${index * 4}px`};
-  left: ${({ index }) => `${index * 4}px`};
+  top: ${({ index }) => `${index * 3}px`};
+  left: ${({ index }) => `${index * 3}px`};
 `
 
 const Token = ({ color, count, ...props }) => (
@@ -38,7 +41,8 @@ const Token = ({ color, count, ...props }) => (
 )
 
 Token.Wrapper = styled.div`
-
+  display: flex;
+  flex-direction: column-reverse;
 `
 
 Token.propTypes = {

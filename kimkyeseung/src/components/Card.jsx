@@ -36,7 +36,7 @@ const emptyStyle = css`
 `
 
 const Space = styled.div`
-  height: 200px;
+  height: 180px;
   width: 150px;
   border-radius: 12px;
   margin: 0.4rem;
@@ -45,7 +45,7 @@ const Space = styled.div`
   ${({ empty }) => empty ? emptyStyle : normalStyle};
 `
 
-export default ({ dev, onClick }) => {
+const Card = ({ dev, onClick }) => {
   if (!dev) {
     return <Space empty></Space>
   }
@@ -62,3 +62,16 @@ export default ({ dev, onClick }) => {
     </Space>
   )
 }
+
+Card.propTypes = {
+  dev: PropTypes.oneOf(Object.keys(DEVELOPMENT_CARDS)),
+  onClick: PropTypes.func
+}
+
+Card.Row = styled.section`
+  display: flex;
+  justify-content: space-between;
+  max-width: 900px;
+`
+
+export default Card
