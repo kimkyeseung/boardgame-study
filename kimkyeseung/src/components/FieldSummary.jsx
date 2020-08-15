@@ -1,5 +1,8 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import config from '../../config'
+
+const { theme } = config
 
 const StyledFieldSummary = styled.div`
   padding: 0.4rem;
@@ -13,27 +16,6 @@ const activeCSs = css`
   border: 2px solid red;
 `
 
-const color = {
-  red: css`
-    background: red;
-  `,
-  blue: css`
-    background: blue;
-  `,
-  green: css`
-    background: green;
-  `,
-  white: css`
-    background: white;
-  `,
-  black: css`
-    background: black;
-  `,
-  yellow: css`
-    background: yellow;
-  `
-}
-
 const StyledDevelopment = styled.div`
   border: 1px solid gray;
   height: 40px; width: 24px;
@@ -45,7 +27,7 @@ const StyledDevelopment = styled.div`
   line-height: 40px;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  ${({ value }) => color[value]};
+  ${({ value }) => theme.basic[value]};
 `
 
 const StyledToken = styled.div`
@@ -60,7 +42,7 @@ const StyledToken = styled.div`
   font-size: 1.4em;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  ${({ value }) => color[value]};
+  ${({ value }) => theme.basic[value]};
 `
 
 const Development = ({ value, amount }) => (

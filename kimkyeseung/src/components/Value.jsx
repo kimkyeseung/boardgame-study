@@ -1,23 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
+import config from '../../config'
 
-const colors = {}
-colors.red = css`
-  background-color: red;
-`
-colors.white = css`
-  background-color: white;
-`
-colors.blue = css`
-  background-color: blue;
-`
-colors.green = css`
-  background-color: green;
-`
-colors.black = css`
-  background-color: black;
-`
+const { theme } = config
 
 const cases = {}
 
@@ -31,7 +17,8 @@ cases.development = css`
 
 const StyledValue = styled.div`
   width: 30px; height: 30px;
-  ${({ value }) => value && colors[value]};
+  border: 1px solid;
+  ${({ value }) => value && theme.basic[value]};
   ${({ type }) => type && cases[type]};
 `
 

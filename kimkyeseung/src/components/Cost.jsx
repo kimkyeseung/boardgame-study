@@ -1,23 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
+import config from '../../config'
 
-const colors = {}
-colors.red = css`
-  background-color: red;
-`
-colors.white = css`
-  background-color: white;
-`
-colors.blue = css`
-  background-color: blue;
-`
-colors.green = css`
-  background-color: green;
-`
-colors.black = css`
-  background-color: black;
-`
+const { theme } = config
 
 const solidShape = css`
   width: 8px; height: 12px;
@@ -35,14 +21,15 @@ const roundShape = css`
 `
 
 const StyledCost = styled.div`
-  ${({ solid }) => solid ? solidShape : roundShape};
-  ${({ value }) => value && colors[value]};
   color: white;
+  border: 1px solid;
   font-size: 1.2em;
   text-align: center;
   margin: 0.2rem;
   -webkit-text-stroke-width: .6px;
   -webkit-text-stroke-color: black;
+  ${({ solid }) => solid ? solidShape : roundShape};
+  ${({ value }) => value && theme.basic[value]};
 `
 
 const Cost = ({ amount, ...props }) => <StyledCost {...props}>{amount}</StyledCost>

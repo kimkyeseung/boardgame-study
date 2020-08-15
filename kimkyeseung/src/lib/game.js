@@ -131,7 +131,7 @@ const game = (playerNames) => {
           tokenStore
         } = G
         const currentPlayer = fields[`player${ctx.currentPlayer}`]
-        const { developments, victoryPoints, tokenAssets, hand } = currentPlayer
+        const { developments, tokenAssets, hand } = currentPlayer
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
         const { value, valueAmount, victoryPoint, cost } = targetDevelopment
