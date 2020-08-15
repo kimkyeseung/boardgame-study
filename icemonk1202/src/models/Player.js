@@ -1,5 +1,5 @@
 import { COLOR } from "../lib/constant"
-import { sum, get } from "../lib/util"
+import { sum, get, keys } from "../lib/util"
 
 let playerId = 0
 export default class Player {
@@ -25,6 +25,13 @@ export default class Player {
     return sum(this.boughtCards.map(get("score")))
   }
 
+  get tokenCount() {
+    return keys(COLOR).reduce((acc, color) => {
+      acc[color] ? acc[color]++ : (acc[color] = 1)
+      return acc
+    }, {})
+  }
+
   get donation() {
     return this.boughtCards
       .map((card) => card.validDonation)
@@ -34,30 +41,30 @@ export default class Player {
       }, {})
   }
 
-  get whiteToken() {
+  get whiteTokenCount() {
     return this.tokens[COLOR.white].filter(
       (token) => token.color === COLOR.white
     ).length
   }
-  get blueToken() {
+  get blueTokenCount() {
     return this.tokens[COLOR.blue].filter((token) => token.color === COLOR.blue)
       .length
   }
-  get greenToken() {
+  get greenTokenCount() {
     return this.tokens[COLOR.green].filter(
       (token) => token.color === COLOR.green
     ).length
   }
-  get redToken() {
+  get redTokenCount() {
     return this.tokens[COLOR.red].filter((token) => token.color === COLOR.red)
       .length
   }
-  get blackToken() {
+  get blackTokenCount() {
     return this.tokens[COLOR.black].filter(
       (token) => token.color === COLOR.black
     ).length
   }
-  get yellowToken() {
+  get yellowTokenCount() {
     return this.tokens[COLOR.yellow].filter(
       (token) => token.color === COLOR.yellow
     ).length
@@ -65,12 +72,12 @@ export default class Player {
 
   get totalTokenCount() {
     return (
-      this.whiteToken +
-      this.blueToken +
-      this.greenToken +
-      this.redToken +
-      this.blackToken +
-      this.yellowToken
+      this.whiteTokenCount +
+      this.blueTokenCount +
+      this.greenTokenCount +
+      this.redTokenCount +
+      this.blackTokenCount +
+      this.yellowTokenCount
     )
   }
 

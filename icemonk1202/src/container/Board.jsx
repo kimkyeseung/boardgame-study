@@ -167,7 +167,7 @@ class Board extends Component {
     return this.props.ctx.playOrder.map((id) => this.props.G.players[id])
   }
 
-  get currentPlayer() {
+  get player() {
     return this.props.G.players?.[this.props.ctx.currentPlayer]
   }
 
@@ -220,27 +220,22 @@ class Board extends Component {
 
           {/* 토큰 */}
           <TokenBoard
-            currentPlayer={this.currentPlayer}
-            tokens={this.props.G.boardTokens}
-            drawTokens={this.drawTokens}
+            G={this.props.G}
+            ctx={this.props.ctx}
+            moves={this.props.moves}
           ></TokenBoard>
         </BoardCover>
 
         {/* 플레이어 상황판 */}
-        <PlayerBoard
-          currentPlayer={this.currentPlayer}
-          players={this.players}
-        ></PlayerBoard>
+        <PlayerBoard player={this.player} players={this.players}></PlayerBoard>
 
         {/* 카드 선택 시 모달 */}
-        {this.state.actionModalShow && (
-          <Modal close={this.closeActionModal}>
-            {!this.state.isDeckClicked && (
-              <ActionButton onClick={this.buyCard}>Buy</ActionButton>
-            )}
-            <ActionButton onClick={this.keepCard}>Keep</ActionButton>
-          </Modal>
-        )}
+        <Modal value={this.state.actionModalShow} close={this.closeActionModal}>
+          {!this.state.isDeckClicked && (
+            <ActionButton onClick={this.buyCard}>Buy</ActionButton>
+          )}
+          <ActionButton onClick={this.keepCard}>Keep</ActionButton>
+        </Modal>
       </>
     )
   }

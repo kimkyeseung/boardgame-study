@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import Token from "../components/Token"
 import ReturnTokenModal from "./ReturnTokenModal"
 
-import { getId } from "../lib/util"
+import { getId, entries } from "../lib/util"
 
 import styled from "styled-components"
 import { COLOR } from "../lib/constant"
@@ -53,19 +53,14 @@ class TokenBoard extends Component {
   }
 
   static propTypes = {
-    currentPlayer: PropTypes.object.isRequired,
-    drawTokens: PropTypes.func,
-    tokens: PropTypes.array.isRequired,
-  }
-  static defaultProps = {
-    currentPlayer: () => ({}),
-    drawTokens: () => {},
-    tokens: () => [],
+    G: PropTypes.any,
+    ctx: PropTypes.any,
+    moves: PropTypes.any,
   }
 
   state = {
     returnTokenModalShow: false,
-    selectedTokens: {
+    changeTokenCount: {
       white: 0,
       blue: 0,
       green: 0,
@@ -76,16 +71,16 @@ class TokenBoard extends Component {
 
   get hasDoubleToken() {
     return (
-      this.state.selectedTokens.white > 1 ||
-      this.state.selectedTokens.blue > 1 ||
-      this.state.selectedTokens.green > 1 ||
-      this.state.selectedTokens.red > 1 ||
-      this.state.selectedTokens.black > 1
+      this.state.changeTokenCount.white > 1 ||
+      this.state.changeTokenCount.blue > 1 ||
+      this.state.changeTokenCount.green > 1 ||
+      this.state.changeTokenCount.red > 1 ||
+      this.state.changeTokenCount.black > 1
     )
   }
 
   get selectedTotalCount() {
-    return sum(values(this.state.selectedTokens))
+    return sum(values(this.state.changeTokenCount))
   }
 
   get canDrawTokens() {
@@ -94,9 +89,18 @@ class TokenBoard extends Component {
       : this.selectedTotalCount === 3
   }
 
-  resetTokens() {
+  get returnCount() {
+    return Math.max(
+      this.props.G.players[this.props.ctx.currentPlayer].totalTokenCount +
+        this.selectedTotalCount -
+        MAX_TOKEN_COUNT,
+      0
+    )
+  }
+
+  resetTokenCount() {
     this.setState({
-      selectedTokens: {
+      changeTokenCount: {
         white: 0,
         blue: 0,
         green: 0,
@@ -108,21 +112,22 @@ class TokenBoard extends Component {
 
   onClickToken = (color) => {
     const {
-      state: { selectedTokens },
-      props: { tokens },
+      state: { changeTokenCount },
+      props: {
+        G: { boardTokens },
+      },
     } = this
-    const existColorCount = tokens.filter((token) => token.color === color)
-      .length
+    const existColorCount = boardTokens[color].length
     if (!existColorCount) return
-    if (existColorCount <= selectedTokens[color]) return
+    if (existColorCount <= changeTokenCount[color]) return
 
     this.setState({
-      selectedTokens: {
-        ...selectedTokens,
+      changeTokenCount: {
+        ...changeTokenCount,
         [color]:
-          selectedTokens[color] === 0
+          changeTokenCount[color] === 0
             ? 1
-            : selectedTokens[color] === 1
+            : changeTokenCount[color] === 1
             ? existColorCount < 4
               ? 0
               : 2
@@ -133,46 +138,44 @@ class TokenBoard extends Component {
 
   onChangeToken(event, color) {
     const {
-      state: { selectedTokens },
-      props: { tokens },
+      state: { changeTokenCount },
+      props: {
+        G: { boardTokens },
+      },
     } = this
-    const existColorCount = tokens.filter((token) => token.color === color)
-      .length
+    const existColorCount = boardTokens[color].length
     const newValue = event.target.value
 
     if (newValue > 2 || newValue < 0) return
     if (existColorCount < 4 && newValue > 1) return
     if (existColorCount < newValue) return
 
-    this.setState({ selectedTokens: { ...selectedTokens, [color]: +newValue } })
+    this.setState({
+      changeTokenCount: { ...changeTokenCount, [color]: +newValue },
+    })
   }
 
-  onConfirmReturnToken = async (returnTokens) => {
+  onConfirmReturnToken = async (returnTokenCount) => {
     await this.setState({
-      selectedTokens: {
-        white: this.state.selectedTokens.white - returnTokens.white,
-        blue: this.state.selectedTokens.blue - returnTokens.blue,
-        green: this.state.selectedTokens.green - returnTokens.green,
-        red: this.state.selectedTokens.red - returnTokens.red,
-        black: this.state.selectedTokens.black - returnTokens.black,
+      changeTokenCount: {
+        white: this.state.changeTokenCount.white - returnTokenCount.white,
+        blue: this.state.changeTokenCount.blue - returnTokenCount.blue,
+        green: this.state.changeTokenCount.green - returnTokenCount.green,
+        red: this.state.changeTokenCount.red - returnTokenCount.red,
+        black: this.state.changeTokenCount.black - returnTokenCount.black,
       },
     })
 
-    this.props.drawTokens(this.state.selectedTokens)
-    this.resetTokens()
+    this.drawTokens()
+  }
+
+  drawTokens = () => {
+    this.props.moves.drawTokens(this.state.changeTokenCount)
+    this.resetTokenCount()
   }
 
   closeReturnModal = () => {
     this.setState({ returnTokenModalShow: false })
-  }
-
-  get returnCount() {
-    return Math.max(
-      this.props.currentPlayer.totalTokenCount +
-        this.selectedTotalCount -
-        MAX_TOKEN_COUNT,
-      0
-    )
   }
 
   onTokenConfirm = () => {
@@ -183,8 +186,7 @@ class TokenBoard extends Component {
       return
     }
 
-    this.props.drawTokens(this.state.selectedTokens)
-    this.resetTokens()
+    this.drawTokens()
   }
 
   render() {
@@ -197,15 +199,12 @@ class TokenBoard extends Component {
               <div key={`token-${getId()}`} style={{ display: "flex" }}>
                 <Token
                   onClick={this.onClickToken}
-                  selected={this.state.selectedTokens[color]}
-                  count={
-                    this.props.tokens.filter((token) => token.color === color)
-                      .length
-                  }
+                  selected={this.state.changeTokenCount[color]}
+                  count={this.props.G.boardTokens[color].length}
                   color={color}
                 />
                 <TokenInput
-                  value={this.state.selectedTokens[color]}
+                  value={this.state.changeTokenCount[color]}
                   onChange={(event) => this.onChangeToken(event, color)}
                   type="number"
                   min="0"
@@ -214,10 +213,7 @@ class TokenBoard extends Component {
               </div>
             ))}
           <Token
-            count={
-              this.props.tokens.filter((token) => token.color === COLOR.yellow)
-                .length
-            }
+            count={this.props.G.boardTokens[COLOR.yellow].length}
             color="yellow"
           />
         </TokenArea>
@@ -231,8 +227,8 @@ class TokenBoard extends Component {
 
         {this.state.returnTokenModalShow && (
           <ReturnTokenModal
-            player={this.props.currentPlayer}
-            tempTokens={this.state.selectedTokens}
+            player={this.props.G.players[this.props.ctx.currentPlayer]}
+            tempTokens={this.state.changeTokenCount}
             count={this.returnCount}
             close={this.closeReturnModal}
             submit={this.onConfirmReturnToken}
