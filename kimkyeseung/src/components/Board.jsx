@@ -15,7 +15,6 @@ const Header = styled.header``
 
 const Board = ({
   G, ctx,
-  tokenIndex,
   confirmable,
   focusedDevelopment,
   tokenOverloaded,
@@ -43,6 +42,7 @@ const Board = ({
   const developmentThree = [dev30, dev31, dev32, dev33]
 
   const { hand, tokenAssets } = fields[`player${currentPlayer}`]
+  const tokenIndex = ['white', 'blue', 'green', 'red', 'black', 'yellow']
 
   return (
     <>

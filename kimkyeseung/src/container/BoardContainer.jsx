@@ -144,13 +144,11 @@ class BoardContainer extends Component {
 
   render() {
     const { G, ctx } = this.props
-    const tokenIndex = ['white', 'blue', 'green', 'red', 'black', 'yellow']
 
     return (
       <Board
         G={G}
         ctx={ctx}
-        tokenIndex={tokenIndex}
         handleSpaceClick={this.handleSpaceClick}
         deselectDevelopment={this.deselectDevelopment}
         buySelectedDevelopment={this.buySelectedDevelopment}

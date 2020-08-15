@@ -74,7 +74,8 @@ const game = (playerNames) => {
             development: null,
             gettableNobles: []
           },
-          victoryPoints: 0
+          victoryPoints: 0,
+          done: true
         }
       })
 
@@ -176,7 +177,8 @@ const game = (playerNames) => {
 
 
         cb()
-        ctx.events.endTurn()
+        currentPlayer.done = true
+        // ctx.events.endTurn()
 
         } else {
           alert('비용이 모자랍니다.')
@@ -192,7 +194,8 @@ const game = (playerNames) => {
           board,
           tokenStore
         } = G
-        const { reservedDevs, tokenAssets, hand } = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const { reservedDevs, tokenAssets, hand } = currentPlayer
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
 
@@ -220,7 +223,8 @@ const game = (playerNames) => {
             cb(tokenCount - tokenLimit)
           } else {
             cb()
-            ctx.events.endTurn()
+            currentPlayer.done = true
+            // ctx.events.endTurn()
           }
         } else {
           alert('더 이상 예약할 수 없습니다.')
@@ -259,7 +263,8 @@ const game = (playerNames) => {
 
       getTokens(G, ctx, cb) {
         const { fields } = G
-        const { hand, tokenAssets } = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const { hand, tokenAssets } = currentPlayer
         hand.tokens.forEach(token => {
           tokenAssets[token]++
         })
@@ -272,6 +277,7 @@ const game = (playerNames) => {
           cb(tokenCount - tokenLimit)
         } else {
           cb()
+          currentPlayer.done = true
           // ctx.events.endTurn()
         }
       }
@@ -279,10 +285,19 @@ const game = (playerNames) => {
 
     turn: {
       // endIf: (G, ctx) => ({ next: '3' }),
+      onBegin: (G, ctx) => {
+        const { fields } = G
+        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        currentPlayer.done = false
+      },
+
       onMove: (G, ctx) => {
         const { fields, nobleTiles } = G
         const currentPlayer = fields[`player${ctx.currentPlayer}`]
-        const { developments, tokenAssets, hand } = currentPlayer
+        const { developments, tokenAssets, hand, done } = currentPlayer
+        if (!done) {
+          return
+        }
 
         const gettableNobles = nobleTiles.filter(
           noble => Object.keys(NOBLES[noble].condition)
