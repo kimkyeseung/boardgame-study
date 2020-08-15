@@ -68,9 +68,11 @@ const game = (playerNames) => {
           developments: { ...defaultValues },
           tokenAssets: { ...defaultValues },
           reservedDevs: [],
+          nobles: [],
           hand: {
             tokens: [],
-            development: null
+            development: null,
+            gettableNobles: []
           },
           victoryPoints: 0
         }
@@ -128,7 +130,8 @@ const game = (playerNames) => {
           developTwoDeck,
           developThreeDeck,
           board,
-          tokenStore
+          tokenStore,
+          nobleTiles
         } = G
         const currentPlayer = fields[`player${ctx.currentPlayer}`]
         const { developments, tokenAssets, hand } = currentPlayer
@@ -159,20 +162,22 @@ const game = (playerNames) => {
           tokenAssets.yellow -= lack
           tokenStore.yellow += lack
 
-          developments[value] += valueAmount
-          currentPlayer.victoryPoints += victoryPoint
+        developments[value] += valueAmount
+        currentPlayer.victoryPoints += victoryPoint
 
-          const deck = {
-            '1': developOneDeck,
-            '2': developTwoDeck,
-            '3': developThreeDeck
-          }
-          const { grade, index } = current
-          board[`dev${grade}${index}`] = deck[grade].pop()
-          hand.development = null
+        const deck = {
+          '1': developOneDeck,
+          '2': developTwoDeck,
+          '3': developThreeDeck
+        }
+        const { grade, index } = current
+        board[`dev${grade}${index}`] = deck[grade].pop()
+        hand.development = null
 
-          cb()
-          ctx.events.endTurn()
+
+        cb()
+        ctx.events.endTurn()
+
         } else {
           alert('비용이 모자랍니다.')
         }
@@ -267,13 +272,33 @@ const game = (playerNames) => {
           cb(tokenCount - tokenLimit)
         } else {
           cb()
-          ctx.events.endTurn()
+          // ctx.events.endTurn()
         }
       }
     },
 
     turn: {
       // endIf: (G, ctx) => ({ next: '3' }),
+      onMove: (G, ctx) => {
+        const { fields, nobleTiles } = G
+        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const { developments, tokenAssets, hand } = currentPlayer
+
+        const gettableNobles = nobleTiles.filter(
+          noble => Object.keys(NOBLES[noble].condition)
+            .every(color => developments[color] >= NOBLES[noble].condition[color])
+        )
+
+        if (gettableNobles.length) {
+          hand.gettableNobles = gettableNobles
+          ctx.events.setStage('getNoble')
+        } else if (hand.tokens.length !== 0 || hand.development) {
+          console.log('still hand')
+        } else {
+          console.log('nope')
+          ctx.events.endTurn()
+        }
+      },
       stages: {
         returnTokens: {
           moves: {
@@ -288,6 +313,22 @@ const game = (playerNames) => {
                 cb()
                 ctx.events.endTurn()
               }
+            }
+          }
+        },
+        getNoble: {
+          moves: {
+            selectGetNoble(G, ctx, noble, cb = () => { }) {
+              const { fields, nobleTiles } = G
+              const currentPlayer = fields[`player${ctx.currentPlayer}`]
+              const { hand, nobles } = currentPlayer
+              nobles.push(noble)
+              hand.gettableNobles = []
+              const targetIndex = nobleTiles.findIndex(n => n === noble)
+              nobleTiles.splice(targetIndex, 1)
+              currentPlayer.victoryPoints += NOBLES[noble].victoryPoint
+
+              ctx.events.endTurn()
             }
           }
         }

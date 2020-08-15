@@ -28,6 +28,7 @@ class BoardContainer extends Component {
     this.cancelSelectedToken = this.cancelSelectedToken.bind(this)
     this.deselectToken = this.deselectToken.bind(this)
     this.returnToken = this.returnToken.bind(this)
+    this.handleNobleClick = this.handleNobleClick.bind(this)
   }
 
   componentDidUpdate({ G }) {
@@ -135,6 +136,12 @@ class BoardContainer extends Component {
     })
   }
 
+  handleNobleClick(noble) {
+    const { G, ctx, moves } = this.props
+    const { selectGetNoble } = moves
+    selectGetNoble(noble)
+  }
+
   render() {
     const { G, ctx } = this.props
     const tokenIndex = ['white', 'blue', 'green', 'red', 'black', 'yellow']
@@ -153,6 +160,7 @@ class BoardContainer extends Component {
         cancelSelectedToken={this.cancelSelectedToken}
         deselectToken={this.deselectToken}
         returnToken={this.returnToken}
+        handleNobleClick={this.handleNobleClick}
         {...this.state}
       />
     )

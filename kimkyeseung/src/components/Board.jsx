@@ -7,6 +7,7 @@ import Layout from './Layout'
 import BoardLayout from './BoardLayout'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
+import NobleController from './NobleController'
 import Player from '../container/Player'
 import { Link } from '../../../lib/utils'
 
@@ -26,7 +27,8 @@ const Board = ({
   confirmSelectedToken,
   cancelSelectedToken,
   deselectToken,
-  returnToken
+  returnToken,
+  handleNobleClick
 }) => {
   const { currentPlayer } = ctx
   const { board, tokenStore, selectedTokens, fields, nobleTiles } = G
@@ -138,6 +140,13 @@ const Board = ({
               onTokenClick={returnToken}
               confirmSelectedToken={confirmSelectedToken}
               onClose={cancelSelectedToken} />
+            : null}
+          {hand.gettableNobles && hand.gettableNobles.length
+            ? <NobleController
+              message="가져올 귀족 타일을 선택하세요"
+              nobles={hand.gettableNobles}
+              onNobleClick={handleNobleClick}
+            />
             : null}
         </div>} />
     </>

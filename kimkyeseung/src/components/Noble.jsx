@@ -55,16 +55,18 @@ const Tile = styled.div`
   ${normalStyle}
 `
 
-const Noble = ({ noble }) => {
+const Noble = ({ noble, handler }) => {
   const { condition, id, victoryPoint } = NOBLES[noble]
 
   return (
-    <Tile className={id}>
+    <Tile className={id} onClick={ev => {
+      handler(noble)
+    }}>
       <header>
         <p className="vp">{victoryPoint}</p>
         <div className="condition">
           {Object.keys(condition).map((color, i) => (
-            <Cost key={i} value={color} amount={condition[color]} solid/>
+            <Cost key={i} value={color} amount={condition[color]} solid />
           ))}
         </div>
       </header>
@@ -74,6 +76,10 @@ const Noble = ({ noble }) => {
 
 Noble.propTypes = {
   noble: PropTypes.oneOf(Object.keys(NOBLES)).isRequired
+}
+
+Noble.defaultProps = {
+  handler: () => { }
 }
 
 Noble.Wrapper = styled.div`
