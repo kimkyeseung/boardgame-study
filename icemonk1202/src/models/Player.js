@@ -1,5 +1,5 @@
 import { COLOR } from "../lib/constant"
-import { sum, get } from "../lib/util"
+import { sum, get, keys } from "../lib/util"
 
 let playerId = 0
 export default class Player {
@@ -23,6 +23,13 @@ export default class Player {
 
   get score() {
     return sum(this.boughtCards.map(get("score")))
+  }
+
+  get tokenCount() {
+    return keys(COLOR).reduce((acc, color) => {
+      acc[color] ? acc[color]++ : (acc[color] = 1)
+      return acc
+    }, {})
   }
 
   get donation() {

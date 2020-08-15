@@ -6,6 +6,13 @@ export const COLOR = {
   black: "black",
   yellow: "yellow",
 }
+export const COLOR_NORMAL = {
+  white: "white",
+  blue: "blue",
+  green: "green",
+  red: "red",
+  black: "black",
+}
 
 export const LEVEL = {
   I: "I",

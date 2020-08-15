@@ -1,9 +1,9 @@
 import { INVALID_MOVE } from "boardgame.io/core"
 import { getCardData, getTokenData } from "./data"
-import { LEVEL, COLOR } from "./constant"
+import { LEVEL, COLOR, COLOR_NORMAL } from "./constant"
 import DeckModel from "../models/Deck"
 import PlayerModel from "../models/Player"
-import { pipe, go, range, last } from "./util"
+import { pipe, go, range, last, keys, sum } from "./util"
 
 const cards = getCardData()
 const buildDeckByLevel = (level) =>
@@ -17,15 +17,38 @@ const buildPlayers = (playOrder) =>
     return acc
   }, {})
 
-const countLack = (player, card) => {
-  let totalLackCount = 0
+const canBuyCard = (player, card) => {
+  const diffArr = keys(COLOR_NORMAL).reduce((acc, color) => {
+    acc.push(
+      player.tokenCount[color] +
+        (player.donation[color] || 0) -
+        card.costs[color]
+    )
+    return acc
+  }, [])
 
-  for (const color of Object.keys(COLOR)) {
-    const realCost = card.costs[color] - player[color + "Donation"]
-    totalLackCount += Math.max(realCost - player[color + "TokenCount"], 0)
+  const canBuy = diffArr.every((diff) => diff >= 0)
+
+  // 노랑 토큰 없이 구매가능
+  if (canBuy)
+    return {
+      canBuy,
+      needYellowToken: false,
+    }
+
+  const lackCount = sum(diffArr.filter((diff) => diff < 0))
+
+  // 노랑토큰으로 구매 가능
+  if (lackCount > player.yellowTokenCount)
+    return {
+      canBuy: true,
+      needYellowToken: true,
+    }
+
+  return {
+    canBuy: false,
+    needYellowToken: false,
   }
-
-  return totalLackCount
 }
 
 const Splendor = {
@@ -84,10 +107,12 @@ const Splendor = {
     buyCard(G, ctx, card) {
       const player = G.players[ctx.currentPlayer]
 
-      const lackCount = countLack(player, card)
       // 토큰이 부족하거나 황금토큰 사용 안할 시 행동 취소
+      const { canBuy, needYellowToken } = canBuyCard(player, card)
+      if (!canBuy) return INVALID_MOVE
       if (
-        (lackCount && player.yellowTokenCount < lackCount) ||
+        canBuy &&
+        needYellowToken &&
         !confirm("황금토큰을 사용하여 구매하시겠습니까?")
       ) {
         return INVALID_MOVE
